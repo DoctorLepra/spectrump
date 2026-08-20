@@ -2,7 +2,7 @@
 
 import React from "react";
 import { FadeContent } from "@/components/react-bits/fade-content";
-import { AccordionGallery, AccordionGalleryItem } from "@/components/react-bits/accordion-gallery";
+import { AccordionGallery, type AccordionGalleryItem } from "@/components/react-bits/accordion-gallery";
 
 const ECONECTA_ITEMS: AccordionGalleryItem[] = [
   {
