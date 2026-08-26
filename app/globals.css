@@ -4,43 +4,43 @@
 
 @layer base {
   :root {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
     
-    --card: 0 0% 6.7%;
-    --card-foreground: 0 0% 100%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
     
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
     
-    --primary: 216 100% 50%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 217 100% 40%;
+    --primary-foreground: 210 40% 98%;
     
-    --secondary: 0 0% 8.6%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
     
-    --muted: 0 0% 7.8%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
     
-    --accent: 191 100% 50%;
-    --accent-foreground: 0 0% 0%;
+    --accent: 142 76% 36%;
+    --accent-foreground: 0 0% 100%;
     
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive-foreground: 210 40% 98%;
     
-    --border: 0 0% 11.8%;
-    --input: 0 0% 13.3%;
-    --ring: 191 100% 50%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 217 100% 40%;
     
     --radius: 0.75rem;
 
-    /* Custom Design System Tokens */
-    --color-pure-black: #000000;
-    --color-surface-base: #0a0a0a;
-    --color-card-dark: #111111;
-    --color-border-subtle: #222222;
-    --color-electric-blue: #0066FF;
-    --color-electric-cyan: #00D4FF;
+    /* Custom Design System Tokens (Light Corporate Theme) */
+    --color-primary-blue: #0052CC;
+    --color-econecta-green: #16A34A;
+    --color-navy-dark: #0A192F;
+    --color-surface-light: #F8FAFC;
+    --color-surface-white: #FFFFFF;
+    --color-border-light: #E2E8F0;
   }
 }
 
@@ -51,122 +51,73 @@
   }
   
   html {
-    color-scheme: dark;
+    color-scheme: light;
     scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
   }
   
   body {
     @apply bg-background text-foreground antialiased min-h-screen font-sans;
-    background-color: #000000;
-    color: #ffffff;
+    background-color: #ffffff;
+    color: #0f172a;
     overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
   }
 
   ::selection {
-    background-color: rgba(0, 212, 255, 0.25);
-    color: #00D4FF;
+    background-color: rgba(0, 82, 204, 0.15);
+    color: #0052CC;
   }
 
-  /* Custom Modern Dark Scrollbar */
+  /* Custom Clean Light Scrollbar */
   ::-webkit-scrollbar {
-    width: 7px;
-    height: 7px;
+    width: 8px;
+    height: 8px;
   }
 
   ::-webkit-scrollbar-track {
-    background: #000000;
+    background: #f1f5f9;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #222222;
+    background: #cbd5e1;
     border-radius: 9999px;
-    border: 1px solid #141414;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #00D4FF;
-    box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+    background: #0052CC;
   }
 }
 
 @layer utilities {
   /* Gradient Text Utilities */
   .text-gradient-electric {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#0066FF] to-[#00D4FF];
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#0052CC] to-[#0088FF];
   }
 
-  .text-gradient-solar {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#FB8500] to-[#FFB703];
+  .text-gradient-econecta {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#16A34A] to-[#22C55E];
   }
 
-  .text-gradient-white {
-    @apply bg-clip-text text-transparent bg-gradient-to-b from-white via-zinc-200 to-zinc-400;
+  /* Custom Shadows */
+  .shadow-soft {
+    box-shadow: 0 4px 20px -2px rgba(0, 82, 204, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
   }
 
-  /* Background Gradient Utilities */
-  .bg-gradient-electric {
-    background: linear-gradient(135deg, #0066FF 0%, #00D4FF 100%);
+  .shadow-card-hover {
+    box-shadow: 0 12px 30px -4px rgba(0, 82, 204, 0.12), 0 4px 10px -2px rgba(0, 0, 0, 0.06);
   }
 
-  .bg-gradient-solar {
-    background: linear-gradient(135deg, #FB8500 0%, #FFB703 100%);
-  }
-
-  /* Glow Effects */
-  .glow-cyan-sm {
-    box-shadow: 0 0 15px rgba(0, 212, 255, 0.25);
-  }
-
-  .glow-cyan-md {
-    box-shadow: 0 0 30px rgba(0, 212, 255, 0.35);
-  }
-
-  .glow-cyan-lg {
-    box-shadow: 0 0 50px rgba(0, 212, 255, 0.50);
-  }
-
-  .glow-electric {
-    box-shadow: 0 0 40px rgba(0, 102, 255, 0.30);
-  }
-
-  /* Glassmorphism Panels */
-  .glass-panel {
-    background: rgba(10, 10, 10, 0.75);
+  /* Glassmorphism Light */
+  .glass-nav {
+    background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-  }
-
-  .glass-navbar {
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  }
-
-  /* Minimalist Cards */
-  .card-minimal {
-    background-color: #111111;
-    border: 1px solid #222222;
-    border-radius: 0.75rem;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .card-minimal:hover {
-    border-color: rgba(0, 212, 255, 0.4);
-    box-shadow: 0 0 25px rgba(0, 212, 255, 0.12);
-  }
-
-  /* Monospace Badge Helpers */
-  .badge-mono {
-    font-family: var(--font-mono), monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    padding: 0.25rem 0.625rem;
-    border-radius: 9999px;
-    border: 1px solid rgba(0, 212, 255, 0.3);
-    background: rgba(0, 212, 255, 0.08);
-    color: #00D4FF;
   }
 }

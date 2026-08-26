@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import "./globals.css";
@@ -11,31 +11,30 @@ const fontSans = Inter({
   weight: ["300", "400", "500", "600", "700", "800"],
 });
 
-const fontMono = JetBrains_Mono({
+const fontMono = Inter({
   subsets: ["latin"],
   variable: "--font-mono",
   display: "swap",
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "SPRECTRUMP COLOMBIA | Conectividad y Energía para el Futuro",
-    template: "%s | SPRECTRUMP COLOMBIA",
+    default: "SPECTRUMP COLOMBIA SAS | Tecnología que conecta, energía que transforma",
+    template: "%s | SPECTRUMP COLOMBIA",
   },
   description:
-    "Empresa colombiana de telecomunicaciones especializada en venta de internet por licitación para el sector empresarial y gubernamental, e instalaciones de sistemas de energía solar.",
+    "Soluciones integrales de ingeniería, conectividad, energía y tecnología para proyectos que generan impacto y construyen un futuro más sostenible en Colombia.",
   keywords: [
     "Telecomunicaciones Colombia",
-    "Internet por Licitación",
-    "Energía Solar",
-    "SPRECTRUMP COLOMBIA",
-    "SECOP II",
-    "Conectividad Empresarial",
-    "MINTIC",
-    "Energías Renovables",
+    "SPECTRUMP COLOMBIA SAS",
+    "Energía Solar Fotovoltaica",
+    "Infraestructura Inteligente",
+    "ECONECTA",
+    "Conectividad Rural",
+    "Proyectos de Ingeniería",
   ],
-  authors: [{ name: "SPRECTRUMP COLOMBIA S.A.S. E.S.P." }],
+  authors: [{ name: "SPECTRUMP COLOMBIA S.A.S." }],
 };
 
 export default function RootLayout({
@@ -46,10 +45,10 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${fontSans.variable} ${fontMono.variable} dark`}
+      className={`${fontSans.variable} ${fontMono.variable}`}
       suppressHydrationWarning
     >
-      <body className="bg-black text-white antialiased min-h-screen font-sans flex flex-col selection:bg-[#00D4FF]/25 selection:text-[#00D4FF]">
+      <body className="bg-white text-slate-900 antialiased min-h-screen font-sans flex flex-col">
         <Navbar />
         <main className="flex-1 flex flex-col">{children}</main>
         <Footer />

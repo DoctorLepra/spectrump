@@ -1,88 +1,114 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
+import {
+  Sun,
+  Wifi,
+  ShieldCheck,
+  Monitor,
+  Leaf,
+  ArrowRight,
+} from "lucide-react";
 import { FadeContent } from "@/components/react-bits/fade-content";
-import { AccordionGallery, type AccordionGalleryItem } from "@/components/react-bits/accordion-gallery";
 
-const ECONECTA_ITEMS: AccordionGalleryItem[] = [
+const ECONECTA_PILLARS = [
   {
-    label: "ESSENTIAL",
-    subtitle: "• Infraestructura Solar & Conectividad Base",
-    image: "https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=1200&q=80",
-    features: [
-      "Estructura solar + conectividad base",
-      "Paneles solares, baterías e inversor",
-      "Router MikroTik y Access Point WiFi",
-      "Iluminación LED, tomas AC y USB-C",
-      "Bancas y mesas · instalación y garantía",
-    ],
+    icon: <Sun className="w-5 h-5 text-[#38BDF8]" />,
+    label: "Energía Solar Fotovoltaica",
   },
   {
-    label: "Smart",
-    subtitle: "• Todo lo del ESSENTIAL, y además:",
-    image: "https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=1200&q=80",
-    features: [
-      "Cámaras IP y monitoreo remoto",
-      "Pantalla informativa y gabinete inteligente",
-      "Portal cautivo y sistema de administración",
-      "Analítica básica e integración con la nube",
-    ],
+    icon: <Wifi className="w-5 h-5 text-[#38BDF8]" />,
+    label: "Conectividad de Alta Calidad",
   },
   {
-    label: "CITY 1",
-    subtitle: "• Todo lo del Smart, y además:",
-    image: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=80",
-    features: [
-      "Inteligencia Artificial y analítica avanzada",
-      "Sensores ambientales y botón SOS",
-      "Megafonía IP y dashboard nacional",
-      "Gestión multiestación · listo para Smart City",
-    ],
+    icon: <ShieldCheck className="w-5 h-5 text-[#38BDF8]" />,
+    label: "Seguridad Integral",
   },
   {
-    label: "Urban Pro",
-    image: "https://images.unsplash.com/photo-1508873696983-2df515122519?auto=format&fit=crop&w=1200&q=80",
-    description:
-      "Integra conectividad, energía solar, videovigilancia, información digital e inteligencia artificial en una única plataforma diseñada para impulsar ciudades y territorios más seguros, sostenibles y conectados.",
+    icon: <Monitor className="w-5 h-5 text-[#38BDF8]" />,
+    label: "Tecnología y Servicios Digitales",
+  },
+  {
+    icon: <Leaf className="w-5 h-5 text-[#4ADE80]" />,
+    label: "Sostenibilidad e Impacto Social",
   },
 ];
 
 export function EconectaSection() {
   return (
-    <section className="py-24 bg-[#0a0a0a] border-y border-[#1e1e1e] relative overflow-hidden" id="econecta">
+    <section className="relative w-full py-24 sm:py-32 bg-slate-950 text-white overflow-hidden border-y border-slate-800" id="econecta">
+      {/* Background Video with Dark Overlay (100% Full Viewport Bleed) */}
+      <div className="absolute inset-0 w-full h-full z-0 overflow-hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover object-center scale-[1.02]"
+        >
+          <source src="/images/0824.mp4" type="video/mp4" />
+        </video>
+        {/* Dark Gradient Overlay for Maximum Text Contrast & Legibility */}
+        <div className="absolute inset-0 w-full h-full bg-slate-950/75 backdrop-blur-[2px]" />
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header */}
-        <FadeContent delay={0.1} duration={0.6}>
-          <div className="max-w-4xl mx-auto text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#FFB703]/30 bg-[#FFB703]/10 text-[#FFB703] font-mono text-xs mb-6 uppercase tracking-wider">
-              <span className="w-2 h-2 rounded-full bg-[#FFB703] animate-pulse" />
-              <span>Plataforma Tecnológica Unificada</span>
+        <FadeContent delay={0.1} duration={0.8}>
+          <div className="max-w-4xl space-y-7 text-left">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#16A34A]/20 border border-[#22C55E]/40 text-[#4ADE80] font-sans text-xs font-bold uppercase tracking-wider backdrop-blur-md">
+              <Leaf className="w-4 h-4 text-[#4ADE80]" />
+              <span>NUESTRA SOLUCIÓN DESTACADA</span>
             </div>
 
-            <h2 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white font-sans leading-tight">
-              ECONECTA<span className="text-[#FFB703] text-3xl sm:text-4xl align-top ml-0.5">®</span>
-            </h2>
+            {/* Brand Title */}
+            <div>
+              <h2 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold font-sans tracking-tight leading-none text-white">
+                <span className="text-[#4ADE80]">ECO</span>
+                <span className="text-white">NECTA</span>
+              </h2>
+              <p className="text-lg sm:text-2xl font-bold font-sans mt-2">
+                <span className="text-[#4ADE80]">Energía</span> +{" "}
+                <span className="text-[#38BDF8]">Conexión</span> +{" "}
+                <span className="text-white">Futuro</span>
+              </p>
+            </div>
 
-            <p className="mt-6 text-base sm:text-lg text-zinc-300 font-mono leading-relaxed">
-              Línea de soluciones de infraestructura inteligente creada para atender los desafíos de conectividad, transformación digital y sostenibilidad del sector público, privado y educativo. Integra múltiples disciplinas de ingeniería en una plataforma tecnológica unificada.
+            {/* Description */}
+            <p className="text-base sm:text-xl text-slate-200 font-sans leading-relaxed max-w-2xl">
+              <strong className="text-white">ECONECTA</strong> es una estructura inteligente que integra{" "}
+              <strong className="text-[#4ADE80]">energía solar</strong>, <strong className="text-[#38BDF8]">conectividad</strong>,{" "}
+              <strong>seguridad</strong>, <strong>tecnología</strong> y servicios digitales para llevar soluciones sostenibles a comunidades y espacios que necesitan estar conectados.
             </p>
-          </div>
-        </FadeContent>
 
-        {/* React Bits Accordion Gallery Component */}
-        <FadeContent delay={0.2} duration={0.8}>
-          <div className="w-full">
-            <AccordionGallery
-              items={ECONECTA_ITEMS}
-              defaultIndex={0}
-              height={500}
-              expandRatio={0.55}
-              gap={14}
-              radius={20}
-              trigger="hover"
-              accentColor="#FFB703"
-              textColor="#ffffff"
-            />
+            {/* Action Button */}
+            <div className="pt-2">
+              <Link
+                href="/contacto?asunto=econecta"
+                className="inline-flex items-center gap-2 bg-[#16A34A] hover:bg-[#15803D] text-white font-sans text-xs sm:text-sm font-bold uppercase tracking-wider px-8 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all"
+              >
+                <span>CONOCER ECONECTA</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            {/* 5 Attribute Badges Row */}
+            <div className="pt-8 border-t border-slate-800/80 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+              {ECONECTA_PILLARS.map((pillar, idx) => (
+                <div
+                  key={idx}
+                  className="flex flex-col items-center text-center p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800 backdrop-blur-md hover:border-[#22C55E]/50 transition-colors shadow-md"
+                >
+                  <div className="mb-2 p-2 rounded-xl bg-slate-800/80 border border-slate-700">
+                    {pillar.icon}
+                  </div>
+                  <span className="text-xs font-bold text-slate-200 font-sans leading-snug">
+                    {pillar.label}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </FadeContent>
       </div>

@@ -4,21 +4,20 @@ import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X, ArrowRight, Radio } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/shared/Button";
 
 interface NavItem {
   label: string;
   href: string;
+  isGreen?: boolean;
 }
 
 const NAV_ITEMS: NavItem[] = [
   { label: "Inicio", href: "/" },
-  { label: "Nosotros", href: "/nosotros" },
-  { label: "Normativa", href: "/normativa" },
-  { label: "Protección Infantil", href: "/proteccion-infantil" },
-  { label: "Equipo", href: "/equipo" },
+  { label: "Nosotros", href: "/#historia" },
+  { label: "Servicios", href: "/#servicios" },
+  { label: "Econecta", href: "/#econecta", isGreen: true },
 ];
 
 export function Navbar() {
@@ -31,7 +30,7 @@ export function Navbar() {
     setIsOpen(false);
   }, [pathname]);
 
-  // Handle scroll detection for glassmorphic elevation
+  // Handle scroll detection for subtle shadow elevation
   React.useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -53,31 +52,12 @@ export function Navbar() {
     };
   }, [isOpen]);
 
-  // Handle escape key to close menu
-  React.useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isOpen) {
-        setIsOpen(false);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen]);
-
-  // Handle window resize (auto close mobile menu on desktop breakpoint)
-  React.useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1024 && isOpen) {
-        setIsOpen(false);
-      }
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [isOpen]);
-
   const isActive = (href: string) => {
     if (href === "/") {
       return pathname === "/";
+    }
+    if (href.startsWith("/#")) {
+      return false;
     }
     return pathname === href || pathname.startsWith(`${href}/`);
   };
@@ -87,30 +67,32 @@ export function Navbar() {
       {/* Floating Glassmorphic Pill Navbar */}
       <div
         className={cn(
-          "pointer-events-auto transition-all duration-300 ease-in-out",
-          "rounded-full px-4 sm:px-6 py-2.5 flex items-center justify-between",
-          "backdrop-blur-xl bg-black/65 border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.6)]"
+          "relative pointer-events-auto transition-all duration-300 ease-in-out",
+          "rounded-full px-6 py-1 flex items-center justify-between min-h-[50px]",
+          "backdrop-blur-xl bg-white/70 border border-slate-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.08)]",
+          isScrolled && "bg-white/85 shadow-[0_12px_35px_rgb(0,82,204,0.12)] border-slate-300/80"
         )}
       >
-        {/* Logo & Brand Identity */}
+        {/* Brand Logo */}
         <Link
           href="/"
-          className="flex items-center group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4FF] rounded-full px-1 py-0.5"
-          aria-label="SPRECTRUMP COLOMBIA - Inicio"
+          className="flex items-center gap-2 group focus:outline-none rounded-full py-0.5"
+          aria-label="SPECTRUMP COLOMBIA SAS - Inicio"
         >
-          <Image
-            src="/logo.png"
-            alt="SPRECTRUMP COLOMBIA"
-            width={180}
-            height={44}
-            className="h-8 sm:h-9 w-auto object-contain transition-transform group-hover:scale-[1.03]"
-            priority
-          />
+          <div className="relative h-10 sm:h-11 w-52 sm:w-60 transform scale-125 sm:scale-135 origin-left">
+            <Image
+              src="/logo.png"
+              alt="SPECTRUMP COLOMBIA SAS"
+              fill
+              className="object-contain object-left"
+              priority
+            />
+          </div>
         </Link>
 
-        {/* Desktop Navigation Links (Monospace) */}
+        {/* Desktop Navigation Links (Centrado Geométrico Perfecto) */}
         <nav
-          className="hidden lg:flex items-center gap-1 xl:gap-1.5"
+          className="hidden lg:flex items-center justify-center gap-8 absolute left-1/2 -translate-x-1/2 pointer-events-auto"
           aria-label="Navegación principal"
         >
           {NAV_ITEMS.map((item) => {
@@ -120,64 +102,49 @@ export function Navbar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "px-3.5 py-1.5 font-mono text-xs tracking-wide transition-colors duration-200",
-                  active
-                    ? "text-[#00D4FF] font-bold drop-shadow-[0_0_10px_rgba(0,212,255,0.4)]"
-                    : "text-zinc-400 hover:text-[#00D4FF]"
+                  "font-sans text-xs sm:text-sm font-semibold transition-colors flex items-center gap-1 relative py-1 px-1",
+                  item.isGreen
+                    ? "text-[#16A34A] hover:text-[#15803D] font-extrabold uppercase"
+                    : active
+                    ? "text-[#0052CC] font-bold"
+                    : "text-slate-700 hover:text-[#0052CC]"
                 )}
-                aria-current={active ? "page" : undefined}
               >
-                {item.label}
+                <span>{item.label}</span>
+                {active && !item.isGreen && (
+                  <span className="absolute bottom-0 inset-x-0 h-0.5 bg-[#0052CC] rounded-full" />
+                )}
               </Link>
             );
           })}
         </nav>
 
-        {/* Desktop CTA Action Button */}
+        {/* Desktop Action CTA Button */}
         <div className="hidden lg:flex items-center">
-          <Button
-            href="/contacto"
-            variant="gradient"
-            size="sm"
-            className="rounded-full px-5 py-2 font-mono text-xs uppercase tracking-wider font-semibold shadow-glow-cyan-sm"
-            rightIcon={<ArrowRight className="w-3.5 h-3.5 ml-1" />}
+          <Link
+            href="/#contacto"
+            className="bg-[#0052CC] hover:bg-[#0040A8] text-white font-sans text-xs font-bold uppercase tracking-wider px-6 py-2.5 rounded-full shadow-sm hover:shadow-md transition-all active:scale-95"
           >
             Contacto
-          </Button>
+          </Link>
         </div>
 
-        {/* Mobile Menu Hamburger Button */}
-        <div className="flex items-center lg:hidden">
-          <button
-            type="button"
-            onClick={() => setIsOpen(!isOpen)}
-            className={cn(
-              "p-2 rounded-full border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4FF]",
-              isOpen
-                ? "border-[#00D4FF]/60 bg-[#00D4FF]/10 text-[#00D4FF] shadow-[0_0_15px_rgba(0,212,255,0.3)]"
-                : "border-white/15 bg-white/5 text-zinc-300 hover:text-white hover:border-zinc-500"
-            )}
-            aria-controls="mobile-menu"
-            aria-expanded={isOpen}
-            aria-label={isOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
-          >
-            {isOpen ? (
-              <X className="w-5 h-5" aria-hidden="true" />
-            ) : (
-              <Menu className="w-5 h-5" aria-hidden="true" />
-            )}
-          </button>
-        </div>
+        {/* Mobile Hamburger Toggle Button */}
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          className="lg:hidden p-2 rounded-full text-slate-700 hover:text-[#0052CC] hover:bg-slate-100/80 transition-colors focus:outline-none"
+          aria-expanded={isOpen}
+          aria-label="Abrir menú de navegación"
+        >
+          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
       </div>
 
-      {/* Mobile Drawer / Overlay Navigation */}
+      {/* Mobile Glassmorphic Drawer Menu */}
       {isOpen && (
-        <div
-          id="mobile-menu"
-          className="pointer-events-auto lg:hidden mt-3 rounded-2xl border border-white/15 bg-black/90 backdrop-blur-2xl shadow-2xl animate-in slide-in-from-top-4 duration-200 p-4 space-y-4"
-        >
-          {/* Route Links List */}
-          <nav className="flex flex-col space-y-1" aria-label="Navegación móvil">
+        <div className="pointer-events-auto lg:hidden fixed inset-x-4 top-20 bg-white/95 backdrop-blur-xl border border-slate-200/90 shadow-2xl rounded-3xl p-6 flex flex-col gap-4 animate-in slide-in-from-top-2 duration-200 z-50">
+          <nav className="flex flex-col gap-2">
             {NAV_ITEMS.map((item) => {
               const active = isActive(item.href);
               return (
@@ -186,36 +153,28 @@ export function Navbar() {
                   href={item.href}
                   onClick={() => setIsOpen(false)}
                   className={cn(
-                    "flex items-center justify-between px-4 py-2.5 font-mono text-sm tracking-wide transition-colors",
-                    active
-                      ? "text-[#00D4FF] font-bold"
-                      : "text-zinc-400 hover:text-[#00D4FF]"
+                    "font-sans text-base font-semibold py-2.5 px-4 rounded-2xl transition-colors flex items-center justify-between",
+                    item.isGreen
+                      ? "text-[#16A34A] bg-emerald-50/80 font-extrabold"
+                      : active
+                      ? "text-[#0052CC] bg-blue-50/80 font-bold"
+                      : "text-slate-700 hover:bg-slate-100/80"
                   )}
-                  aria-current={active ? "page" : undefined}
                 >
                   <span>{item.label}</span>
-                  {active ? (
-                    <span className="w-2 h-2 rounded-full bg-[#00D4FF] shadow-[0_0_8px_#00D4FF]" />
-                  ) : (
-                    <ArrowRight className="w-4 h-4 text-zinc-600" />
-                  )}
                 </Link>
               );
             })}
           </nav>
 
-          {/* Quick Action Section */}
-          <div className="pt-3 border-t border-white/10">
-            <Button
-              href="/contacto"
-              variant="gradient"
-              size="md"
-              className="w-full justify-center rounded-xl font-mono text-xs uppercase tracking-wider font-semibold shadow-glow-cyan-sm"
+          <div className="pt-3 border-t border-slate-100">
+            <Link
+              href="/#contacto"
               onClick={() => setIsOpen(false)}
-              rightIcon={<ArrowRight className="w-4 h-4 ml-1" />}
+              className="w-full bg-[#0052CC] hover:bg-[#0040A8] text-white font-sans text-xs font-bold uppercase tracking-wider py-3 rounded-full flex items-center justify-center shadow-md text-center"
             >
               Contacto
-            </Button>
+            </Link>
           </div>
         </div>
       )}
