@@ -6,55 +6,56 @@ import {
   PUBLIC_SECTOR_POINTS,
   ENTERPRISE_SECTOR_POINTS,
 } from "@/lib/data/nosotrosData";
-import { Badge } from "@/components/shared/Badge";
-import { SectionHeader } from "@/components/shared/SectionHeader";
-import { SpotlightCard } from "@/components/react-bits/spotlight-card";
 import { FadeContent } from "@/components/react-bits/fade-content";
 
 export function SectorFocus() {
   return (
-    <section className="py-24 bg-[#0a0a0a] relative overflow-hidden border-t border-[#1e1e1e]">
+    <section className="py-20 sm:py-24 bg-white relative overflow-hidden border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeContent delay={0.1} duration={0.6}>
-          <SectionHeader
-            badge="// CAPACIDAD Y ESPECIALIZACIÓN"
-            badgeVariant="cyan"
-            title="Enfoque Integral por Sectores de Mercado"
-            subtitle="Diseñamos propuestas técnicas y modelos de negocio adaptados a las particularidades jurídicas y operativas de cada segmento."
-            align="center"
-          />
+          <div className="text-center max-w-3xl mx-auto space-y-3 mb-16">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0052CC] font-sans text-xs font-bold uppercase tracking-wider">
+              CAPACIDAD Y ESPECIALIZACIÓN
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 font-sans tracking-tight">
+              Enfoque Integral por Sectores de Mercado
+            </h2>
+            <p className="text-base sm:text-lg text-slate-600 font-sans leading-relaxed">
+              Diseñamos propuestas técnicas y modelos de negocio adaptados a las particularidades jurídicas y operativas de cada segmento.
+            </p>
+          </div>
         </FadeContent>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Public Sector Column */}
           <FadeContent delay={0.15} duration={0.6}>
-            <SpotlightCard className="p-8 sm:p-10 flex flex-col justify-between h-full">
+            <div className="bg-white border border-slate-200/90 rounded-2xl p-8 sm:p-10 shadow-sm hover:shadow-md transition-all flex flex-col justify-between h-full">
               <div>
                 <div className="flex items-center justify-between mb-6">
-                  <Badge variant="cyan" size="sm" dot>
+                  <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-[#0052CC] font-sans text-xs font-bold uppercase tracking-wider">
                     SECTOR GUBERNAMENTAL
-                  </Badge>
-                  <div className="w-12 h-12 rounded-xl bg-[#0066FF]/10 border border-[#00D4FF]/30 flex items-center justify-center text-[#00D4FF]">
+                  </span>
+                  <div className="w-12 h-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-[#0052CC]">
                     <Landmark className="w-6 h-6" />
                   </div>
                 </div>
 
-                <h3 className="text-2xl font-bold font-sans text-white mb-3">
+                <h3 className="text-2xl font-extrabold font-sans text-slate-900 mb-3">
                   Sector Público & Educativo
                 </h3>
-                <p className="text-sm text-zinc-400 font-sans leading-relaxed mb-8">
+                <p className="text-sm text-slate-600 font-sans leading-relaxed mb-8">
                   Despliegue e integración de redes de alta disponibilidad y soluciones de energía limpia adaptadas a las necesidades operativas de instituciones gubernamentales y académicas.
                 </p>
 
-                <div className="space-y-4 pt-4 border-t border-[#1e1e1e]">
+                <div className="space-y-4 pt-6 border-t border-slate-100">
                   {PUBLIC_SECTOR_POINTS.map((pt, idx) => (
                     <div key={idx} className="flex items-start gap-3">
-                      <CheckCircle2 className="w-4 h-4 text-[#00D4FF] flex-shrink-0 mt-1" />
+                      <CheckCircle2 className="w-5 h-5 text-[#0052CC] flex-shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="text-sm font-semibold font-sans text-zinc-200">
+                        <h4 className="text-sm font-bold font-sans text-slate-900">
                           {pt.title}
                         </h4>
-                        <p className="text-xs text-zinc-400 font-sans mt-0.5 leading-relaxed">
+                        <p className="text-xs text-slate-600 font-sans mt-0.5 leading-relaxed">
                           {pt.description}
                         </p>
                       </div>
@@ -62,46 +63,38 @@ export function SectorFocus() {
                   ))}
                 </div>
               </div>
-
-              <div className="mt-8 pt-4 border-t border-[#1e1e1e] flex items-center justify-between font-mono text-xs text-zinc-500">
-                <span>Habilitación Registro TIC</span>
-                <span className="text-[#00D4FF]">Estándares MinTIC</span>
-              </div>
-            </SpotlightCard>
+            </div>
           </FadeContent>
 
           {/* Enterprise Sector Column */}
           <FadeContent delay={0.25} duration={0.6}>
-            <SpotlightCard
-              spotlightColor="rgba(255, 183, 3, 0.15)"
-              className="p-8 sm:p-10 flex flex-col justify-between h-full"
-            >
+            <div className="bg-white border border-slate-200/90 rounded-2xl p-8 sm:p-10 shadow-sm hover:shadow-md transition-all flex flex-col justify-between h-full">
               <div>
                 <div className="flex items-center justify-between mb-6">
-                  <Badge variant="solar" size="sm" dot>
-                    SECTOR EMPRESARIAL
-                  </Badge>
-                  <div className="w-12 h-12 rounded-xl bg-[#FB8500]/10 border border-[#FFB703]/30 flex items-center justify-center text-[#FFB703]">
+                  <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[#16A34A] font-sans text-xs font-bold uppercase tracking-wider">
+                    SECTOR PRIVADO Y CORPORATIVO
+                  </span>
+                  <div className="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-[#16A34A]">
                     <Building2 className="w-6 h-6" />
                   </div>
                 </div>
 
-                <h3 className="text-2xl font-bold font-sans text-white mb-3">
-                  Corporaciones & Parques Industriales
+                <h3 className="text-2xl font-extrabold font-sans text-slate-900 mb-3">
+                  Sector Empresarial e Industrial
                 </h3>
-                <p className="text-sm text-zinc-400 font-sans leading-relaxed mb-8">
-                  Soluciones de ultra-alta velocidad simétrica para Data Centers, sedes corporativas y matrices de autogeneración solar con respaldo de almacenamiento de energía BESS.
+                <p className="text-sm text-slate-600 font-sans leading-relaxed mb-8">
+                  Conectividad dedicada 1:1, seguridad electrónica avanzada y parques solares corporativos diseñados para maximizar la continuidad operativa y la eficiencia CAPEX.
                 </p>
 
-                <div className="space-y-4 pt-4 border-t border-[#1e1e1e]">
+                <div className="space-y-4 pt-6 border-t border-slate-100">
                   {ENTERPRISE_SECTOR_POINTS.map((pt, idx) => (
                     <div key={idx} className="flex items-start gap-3">
-                      <CheckCircle2 className="w-4 h-4 text-[#FFB703] flex-shrink-0 mt-1" />
+                      <CheckCircle2 className="w-5 h-5 text-[#16A34A] flex-shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="text-sm font-semibold font-sans text-zinc-200">
+                        <h4 className="text-sm font-bold font-sans text-slate-900">
                           {pt.title}
                         </h4>
-                        <p className="text-xs text-zinc-400 font-sans mt-0.5 leading-relaxed">
+                        <p className="text-xs text-slate-600 font-sans mt-0.5 leading-relaxed">
                           {pt.description}
                         </p>
                       </div>
@@ -109,12 +102,7 @@ export function SectorFocus() {
                   ))}
                 </div>
               </div>
-
-              <div className="mt-8 pt-4 border-t border-[#1e1e1e] flex items-center justify-between font-mono text-xs text-zinc-500">
-                <span>Eficiencia CAPEX / OPEX</span>
-                <span className="text-[#FFB703]">Incentivos Ley 1715</span>
-              </div>
-            </SpotlightCard>
+            </div>
           </FadeContent>
         </div>
       </div>

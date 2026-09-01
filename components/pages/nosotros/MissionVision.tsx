@@ -1,139 +1,157 @@
 "use client";
 
 import React from "react";
-import { Target, Compass, FileCheck2, Award, Leaf, Headphones } from "lucide-react";
-import {
-  COMPANY_MISSION,
-  COMPANY_VISION,
-  CORPORATE_VALUES,
-} from "@/lib/data/nosotrosData";
-import { Badge } from "@/components/shared/Badge";
-import { SectionHeader } from "@/components/shared/SectionHeader";
-import { SpotlightCard } from "@/components/react-bits/spotlight-card";
+import { Target, Compass, ShieldCheck, Award, TrendingUp, Headphones, Lightbulb } from "lucide-react";
+import { COMPANY_VISION } from "@/lib/data/nosotrosData";
 import { FadeContent } from "@/components/react-bits/fade-content";
 
-const valueIcons = {
-  FileCheck2: FileCheck2,
-  Award: Award,
-  Leaf: Leaf,
-  Headphones: Headphones,
-};
+const NEW_CORPORATE_VALUES = [
+  {
+    id: "calidad",
+    title: "Calidad",
+    description:
+      "Mantenemos los más altos estándares técnicos y normativos en la ejecución de cada proyecto, garantizando durabilidad, precisión y excelencia en nuestros entregables.",
+    icon: <Award className="w-6 h-6 text-[#0052CC]" />,
+  },
+  {
+    id: "competitividad",
+    title: "Competitividad",
+    description:
+      "Optimizamos recursos e inversiones mediante modelos eficientes y costos altamente rentables que maximizan el retorno y valor para nuestros clientes.",
+    icon: <TrendingUp className="w-6 h-6 text-[#0052CC]" />,
+  },
+  {
+    id: "servicio",
+    title: "Servicio",
+    description:
+      "Ofrecemos acompañamiento integral, atención personalizada y soporte continuo, priorizando la satisfacción y las necesidades de cada organización.",
+    icon: <Headphones className="w-6 h-6 text-[#0052CC]" />,
+  },
+  {
+    id: "innovacion",
+    title: "Innovación",
+    description:
+      "Integramos tecnologías de vanguardia en telecomunicaciones y energías renovables para desarrollar soluciones eficientes, inteligentes y de futuro.",
+    icon: <Lightbulb className="w-6 h-6 text-[#16A34A]" />,
+  },
+];
 
 export function MissionVision() {
   return (
-    <section className="py-20 bg-[#0a0a0a] relative overflow-hidden border-t border-[#1e1e1e]">
+    <section className="py-20 sm:py-24 bg-white relative overflow-hidden border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Mission & Vision 2-Column Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
-          {/* Misión Card */}
+        {/* Mission, Vision & Policy 3-Column Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+          {/* Card 1: Nuestra Misión */}
           <FadeContent delay={0.1} duration={0.6}>
-            <SpotlightCard className="p-8 sm:p-10 flex flex-col justify-between h-full">
+            <div className="bg-white border border-slate-200/90 rounded-2xl p-7 sm:p-8 shadow-sm hover:shadow-md transition-all flex flex-col justify-between h-full">
               <div>
                 <div className="flex items-center justify-between mb-6">
-                  <Badge variant="cyan" size="sm" dot>
-                    {COMPANY_MISSION.tag}
-                  </Badge>
-                  <div className="w-12 h-12 rounded-xl bg-[#0066FF]/10 border border-[#00D4FF]/30 flex items-center justify-center text-[#00D4FF]">
+                  <div className="w-12 h-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-[#0052CC]">
                     <Target className="w-6 h-6" />
                   </div>
                 </div>
 
-                <h2 className="text-2xl sm:text-3xl font-bold font-sans text-white mb-4">
+                <h2 className="text-2xl font-extrabold font-sans text-slate-900 mb-4">
                   Nuestra Misión
                 </h2>
 
-                <p className="text-sm sm:text-base text-zinc-300 font-sans leading-relaxed">
-                  {COMPANY_MISSION.content}
+                <p className="text-sm sm:text-base text-slate-600 font-sans leading-relaxed">
+                  Diseñar, fabricar e implementar soluciones de infraestructura tecnológica que integren conectividad, energía renovable, seguridad electrónica y servicios digitales, contribuyendo al desarrollo sostenible de las comunidades.
                 </p>
               </div>
 
-              <div className="mt-8 pt-4 border-t border-[#1e1e1e] flex items-center justify-between font-mono text-xs text-zinc-500">
-                <span>Propósito Fundacional</span>
-                <span className="text-[#00D4FF]">Impacto Nacional</span>
+              <div className="mt-8 pt-4 border-t border-slate-100 flex items-center justify-between font-sans text-xs font-bold text-slate-500">
+                <span>Infraestructura Sostenible</span>
+                <span className="text-[#0052CC]">Desarrollo Comunitario</span>
               </div>
-            </SpotlightCard>
+            </div>
           </FadeContent>
 
-          {/* Visión Card */}
+          {/* Card 2: Nuestra Visión */}
           <FadeContent delay={0.2} duration={0.6}>
-            <SpotlightCard
-              spotlightColor="rgba(255, 183, 3, 0.15)"
-              className="p-8 sm:p-10 flex flex-col justify-between h-full"
-            >
+            <div className="bg-white border border-slate-200/90 rounded-2xl p-7 sm:p-8 shadow-sm hover:shadow-md transition-all flex flex-col justify-between h-full">
               <div>
                 <div className="flex items-center justify-between mb-6">
-                  <Badge variant="solar" size="sm" dot>
-                    {COMPANY_VISION.tag}
-                  </Badge>
-                  <div className="w-12 h-12 rounded-xl bg-[#FB8500]/10 border border-[#FFB703]/30 flex items-center justify-center text-[#FFB703]">
+                  <div className="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-[#16A34A]">
                     <Compass className="w-6 h-6" />
                   </div>
                 </div>
 
-                <h2 className="text-2xl sm:text-3xl font-bold font-sans text-white mb-4">
+                <h2 className="text-2xl font-extrabold font-sans text-slate-900 mb-4">
                   Nuestra Visión
                 </h2>
 
-                <p className="text-sm sm:text-base text-zinc-300 font-sans leading-relaxed">
+                <p className="text-sm sm:text-base text-slate-600 font-sans leading-relaxed">
                   {COMPANY_VISION.content}
                 </p>
               </div>
 
-              <div className="mt-8 pt-4 border-t border-[#1e1e1e] flex items-center justify-between font-mono text-xs text-zinc-500">
+              <div className="mt-8 pt-4 border-t border-slate-100 flex items-center justify-between font-sans text-xs font-bold text-slate-500">
                 <span>Meta Estratégica 2030</span>
-                <span className="text-[#FFB703]">Transición Energética</span>
+                <span className="text-[#16A34A]">Transición Energética</span>
               </div>
-            </SpotlightCard>
+            </div>
+          </FadeContent>
+
+          {/* Card 3: Nuestra Política */}
+          <FadeContent delay={0.3} duration={0.6}>
+            <div className="bg-white border border-slate-200/90 rounded-2xl p-7 sm:p-8 shadow-sm hover:shadow-md transition-all flex flex-col justify-between h-full">
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-12 h-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-[#0052CC]">
+                    <ShieldCheck className="w-6 h-6" />
+                  </div>
+                </div>
+
+                <h2 className="text-2xl font-extrabold font-sans text-slate-900 mb-4">
+                  Nuestra Política
+                </h2>
+
+                <p className="text-sm sm:text-base text-slate-600 font-sans leading-relaxed">
+                  Prestar y ofrecer servicios de diseño, construcción y mantenimiento en las áreas de Ingeniería, Telecomunicaciones y Energías Renovables, óptima en el cumplimiento del tiempo, normas vigentes, satisfaciendo eficazmente los requerimientos y necesidades de nuestros clientes garantizando la entrega de un servicio de calidad.
+                </p>
+              </div>
+
+              <div className="mt-8 pt-4 border-t border-slate-100 flex items-center justify-between font-sans text-xs font-bold text-slate-500">
+                <span>Calidad Certificada</span>
+                <span className="text-[#0052CC]">Cumplimiento Garantizado</span>
+              </div>
+            </div>
           </FadeContent>
         </div>
 
         {/* Corporate Values Section */}
         <div>
           <FadeContent delay={0.1} duration={0.6}>
-            <SectionHeader
-              badge="// PILARES CORPORATIVOS"
-              badgeVariant="cyan"
-              title="Valores que Guían Nuestra Operación Diaria"
-              subtitle="Principios éticos, técnicos y ambientales que rigen nuestras relaciones contractuales con el Estado colombiano y el sector privado."
-              align="center"
-            />
+            <div className="text-center max-w-3xl mx-auto space-y-3 mb-14">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 font-sans tracking-tight">
+                Valores que guían nuestra operación diaria
+              </h2>
+              <p className="text-base text-slate-600 font-sans leading-relaxed">
+                Principios éticos, técnicos y ambientales que rigen nuestras relaciones contractuales con el Estado colombiano y el sector privado.
+              </p>
+            </div>
           </FadeContent>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {CORPORATE_VALUES.map((val, idx) => {
-              const IconComp =
-                valueIcons[val.iconName as keyof typeof valueIcons] || Award;
-              return (
-                <FadeContent key={val.id} delay={0.1 + idx * 0.08} duration={0.5}>
-                  <SpotlightCard
-                    className="p-6 sm:p-7 flex flex-col justify-between h-full"
-                  >
-                    <div>
-                      <div className="flex items-center justify-between mb-4">
-                        <span className="font-mono text-xl font-extrabold text-[#00D4FF]">
-                          {val.number}
-                        </span>
-                        <div className="w-9 h-9 rounded-lg bg-white/[0.04] border border-white/10 flex items-center justify-center text-zinc-300">
-                          <IconComp className="w-4 h-4 text-[#00D4FF]" />
-                        </div>
-                      </div>
-
-                      <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-wider block mb-2">
-                        {val.tag}
-                      </span>
-
-                      <h3 className="text-base font-bold font-sans text-white mb-3">
-                        {val.title}
-                      </h3>
-
-                      <p className="text-xs sm:text-sm text-zinc-400 font-sans leading-relaxed">
-                        {val.description}
-                      </p>
+            {NEW_CORPORATE_VALUES.map((val, idx) => (
+              <FadeContent key={val.id} delay={0.1 * idx} duration={0.6}>
+                <div className="bg-slate-50/70 border border-slate-200/90 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between h-full group">
+                  <div>
+                    <div className="mb-4 p-3 rounded-xl bg-white border border-slate-200/80 w-fit">
+                      {val.icon}
                     </div>
-                  </SpotlightCard>
-                </FadeContent>
-              );
-            })}
+                    <h3 className="text-lg font-extrabold text-slate-900 font-sans mb-2 group-hover:text-[#0052CC] transition-colors">
+                      {val.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-slate-600 font-sans leading-relaxed">
+                      {val.description}
+                    </p>
+                  </div>
+                </div>
+              </FadeContent>
+            ))}
           </div>
         </div>
       </div>

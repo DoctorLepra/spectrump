@@ -15,7 +15,7 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { label: "Inicio", href: "/" },
-  { label: "Nosotros", href: "/#historia" },
+  { label: "Nosotros", href: "/nosotros" },
   { label: "Servicios", href: "/#servicios" },
   { label: "Econecta", href: "/#econecta", isGreen: true },
 ];

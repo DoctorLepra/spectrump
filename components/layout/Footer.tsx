@@ -38,12 +38,12 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/normativa" className="hover:text-white transition-colors">
+                <Link href="/nosotros#normativa-mapa" className="hover:text-white transition-colors">
                   Normativa
                 </Link>
               </li>
               <li>
-                <Link href="/proteccion-infantil" className="hover:text-white transition-colors">
+                <Link href="/nosotros#proteccion-infantil" className="hover:text-white transition-colors">
                   Protección infantil
                 </Link>
               </li>

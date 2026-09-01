@@ -1,60 +1,60 @@
 "use client";
 
 import React from "react";
-import { Calendar, CheckCircle2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import { TIMELINE_MILESTONES } from "@/lib/data/nosotrosData";
-import { SectionHeader } from "@/components/shared/SectionHeader";
-import { SpotlightCard } from "@/components/react-bits/spotlight-card";
 import { FadeContent } from "@/components/react-bits/fade-content";
 
 export function Timeline() {
   return (
-    <section className="py-24 bg-black relative overflow-hidden border-t border-[#1e1e1e]">
+    <section className="py-20 sm:py-24 bg-slate-50/70 relative overflow-hidden border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeContent delay={0.1} duration={0.6}>
-          <SectionHeader
-            badge="// EVOLUCIÓN HISTÓRICA"
-            badgeVariant="cyan"
-            title="Trayectoria y Madurez en el Mercado Colombiano"
-            subtitle="Una década de crecimiento continuo, innovación en redes de transporte óptico e incursión en energías renovables."
-            align="center"
-          />
+          <div className="text-center max-w-3xl mx-auto space-y-3 mb-16">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0052CC] font-sans text-xs font-bold uppercase tracking-wider">
+              EVOLUCIÓN HISTÓRICA
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 font-sans tracking-tight">
+              Trayectoria y Madurez en el Mercado Colombiano
+            </h2>
+            <p className="text-base sm:text-lg text-slate-600 font-sans leading-relaxed">
+              Una década de crecimiento continuo, innovación en redes de transporte óptico e incursión en energías renovables.
+            </p>
+          </div>
         </FadeContent>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
           {TIMELINE_MILESTONES.map((item, idx) => (
             <FadeContent key={item.year} delay={0.1 + idx * 0.08} duration={0.5}>
-              <SpotlightCard
-                className="p-6 rounded-xl bg-[#111111] border border-[#222222] hover:border-[#00D4FF]/40 transition-all flex flex-col justify-between group h-full"
-              >
+              <div className="p-6 sm:p-7 rounded-2xl bg-white border border-slate-200/90 hover:border-blue-300 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group h-full">
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="font-mono text-3xl font-extrabold text-[#00D4FF]">
+                    <span className="font-sans text-3xl font-extrabold text-[#0052CC]">
                       {item.year}
                     </span>
-                    <span className="font-mono text-[10px] text-zinc-400 uppercase px-2 py-0.5 rounded bg-[#00D4FF]/10 border border-[#00D4FF]/20">
+                    <span className="font-sans text-[10px] font-bold text-[#0052CC] uppercase px-2.5 py-1 rounded-md bg-blue-50 border border-blue-100">
                       {item.tag}
                     </span>
                   </div>
 
-                  <div className="text-xs font-mono text-zinc-500 mb-2">
+                  <div className="text-xs font-sans font-semibold text-slate-400 mb-2 uppercase tracking-wider">
                     {item.period}
                   </div>
 
-                  <h3 className="text-base font-bold font-sans text-white mb-3 group-hover:text-[#00D4FF] transition-colors">
+                  <h3 className="text-base sm:text-lg font-extrabold font-sans text-slate-900 mb-3 group-hover:text-[#0052CC] transition-colors">
                     {item.title}
                   </h3>
 
-                  <p className="text-xs sm:text-sm text-zinc-400 font-sans leading-relaxed">
+                  <p className="text-xs sm:text-sm text-slate-600 font-sans leading-relaxed">
                     {item.description}
                   </p>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-[#1e1e1e] flex items-center justify-between font-mono text-xs text-[#00D4FF]">
+                <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between font-sans text-xs font-bold text-[#0052CC]">
                   <span>{item.highlightMetric}</span>
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  <CheckCircle2 className="w-4 h-4 text-[#16A34A]" />
                 </div>
-              </SpotlightCard>
+              </div>
             </FadeContent>
           ))}
         </div>
