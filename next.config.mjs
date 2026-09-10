@@ -41,6 +41,11 @@ const nextConfig = {
         hostname: 'images.pexels.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'improinde.com',
+        pathname: '/**',
+      },
     ],
   },
 };

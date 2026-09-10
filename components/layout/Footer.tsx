@@ -11,7 +11,7 @@ export function Footer() {
           {/* Column 1: Brand Logo & Short Intro */}
           <div className="lg:col-span-4 space-y-4">
             <Link href="/" className="inline-block focus:outline-none">
-              <div className="relative h-20 sm:h-24 w-80 sm:w-[400px]">
+              <div className="relative h-[60px] sm:h-[72px] w-[240px] sm:w-[300px]">
                 <Image
                   src="/logo.png"
                   alt="SPECTRUMP COLOMBIA SAS"
@@ -38,6 +38,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/productos" className="hover:text-white transition-colors">
+                  Productos
+                </Link>
+              </li>
+              <li>
                 <Link href="/nosotros#normativa-mapa" className="hover:text-white transition-colors">
                   Normativa
                 </Link>
@@ -57,17 +62,17 @@ export function Footer() {
             </h4>
             <ul className="space-y-2 text-xs font-sans text-slate-400">
               <li>
-                <Link href="/#servicios" className="hover:text-white transition-colors">
+                <Link href="/servicios" className="hover:text-white transition-colors">
                   Conectividad
                 </Link>
               </li>
               <li>
-                <Link href="/#servicios" className="hover:text-white transition-colors">
+                <Link href="/servicios" className="hover:text-white transition-colors">
                   Energía Solar
                 </Link>
               </li>
               <li>
-                <Link href="/#servicios" className="hover:text-white transition-colors">
+                <Link href="/servicios" className="hover:text-white transition-colors">
                   Ingeniería Aplicada
                 </Link>
               </li>

@@ -4,30 +4,75 @@ import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, ArrowUpRight, Wifi, Sun, Cpu, Zap, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { gsap } from "gsap";
 
 interface NavItem {
   label: string;
   href: string;
   isGreen?: boolean;
+  hasDropdown?: boolean;
 }
 
 const NAV_ITEMS: NavItem[] = [
   { label: "Inicio", href: "/" },
   { label: "Nosotros", href: "/nosotros" },
-  { label: "Servicios", href: "/#servicios" },
+  { label: "Servicios", href: "/servicios" },
+  { label: "Productos", href: "/productos", hasDropdown: true },
   { label: "Econecta", href: "/#econecta", isGreen: true },
+];
+
+const PRODUCT_CARDS = [
+  {
+    title: "01. Generación & Conversión",
+    route: "/productos?cat=paneles-solares",
+    bgColor: "#061325",
+    textColor: "#FFFFFF",
+    icon: Sun,
+    links: [
+      { label: "Paneles solares", href: "/productos?cat=paneles-solares" },
+      { label: "Inversores", href: "/productos?cat=inversores" },
+      { label: "Controladores", href: "/productos?cat=controladores" },
+    ],
+  },
+  {
+    title: "02. Almacenamiento & Montaje",
+    route: "/productos?cat=baterias",
+    bgColor: "#091E42",
+    textColor: "#FFFFFF",
+    icon: Zap,
+    links: [
+      { label: "Baterías", href: "/productos?cat=baterias" },
+      { label: "Estructuras", href: "/productos?cat=estructuras" },
+    ],
+  },
+  {
+    title: "03. Protección & Portátiles",
+    route: "/productos?cat=proteccion-y-accesorios",
+    bgColor: "#0F172A",
+    textColor: "#FFFFFF",
+    icon: ShieldCheck,
+    links: [
+      { label: "Protección y accesorios", href: "/productos?cat=proteccion-y-accesorios" },
+      { label: "Equipos portátiles", href: "/productos?cat=equipos-portatiles" },
+    ],
+  },
 ];
 
 export function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [isScrolled, setIsScrolled] = React.useState<boolean>(false);
+  const [isProductsOpen, setIsProductsOpen] = React.useState<boolean>(false);
 
-  // Close mobile drawer on route change
+  const dropdownRef = React.useRef<HTMLDivElement | null>(null);
+  const cardsContainerRef = React.useRef<HTMLDivElement | null>(null);
+
+  // Close mobile drawer and dropdown on route change
   React.useEffect(() => {
     setIsOpen(false);
+    setIsProductsOpen(false);
   }, [pathname]);
 
   // Handle scroll detection for subtle shadow elevation
@@ -40,17 +85,35 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Lock body scroll when mobile menu is open
+  // GSAP animation for the Products CardNav dropdown panel
   React.useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
+    if (!dropdownRef.current || !cardsContainerRef.current) return;
+
+    if (isProductsOpen) {
+      gsap.to(dropdownRef.current, {
+        height: "auto",
+        opacity: 1,
+        duration: 0.35,
+        ease: "power3.out",
+        display: "block",
+      });
+      gsap.fromTo(
+        cardsContainerRef.current.children,
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.35, ease: "power3.out", stagger: 0.08, delay: 0.05 }
+      );
     } else {
-      document.body.style.overflow = "";
+      gsap.to(dropdownRef.current, {
+        height: 0,
+        opacity: 0,
+        duration: 0.25,
+        ease: "power3.in",
+        onComplete: () => {
+          if (dropdownRef.current) dropdownRef.current.style.display = "none";
+        },
+      });
     }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
+  }, [isProductsOpen]);
 
   const isActive = (href: string) => {
     if (href === "/") {
@@ -60,6 +123,11 @@ export function Navbar() {
       return false;
     }
     return pathname === href || pathname.startsWith(`${href}/`);
+  };
+
+  const toggleProducts = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsProductsOpen((prev) => !prev);
   };
 
   return (
@@ -90,13 +158,43 @@ export function Navbar() {
           </div>
         </Link>
 
-        {/* Desktop Navigation Links (Centrado Geométrico Perfecto) */}
+        {/* Desktop Navigation Links */}
         <nav
           className="hidden lg:flex items-center justify-center gap-8 absolute left-1/2 -translate-x-1/2 pointer-events-auto"
           aria-label="Navegación principal"
         >
           {NAV_ITEMS.map((item) => {
             const active = isActive(item.href);
+
+            if (item.hasDropdown) {
+              return (
+                <div key={item.label} className="relative">
+                  <button
+                    type="button"
+                    onClick={toggleProducts}
+                    className={cn(
+                      "font-sans text-xs sm:text-sm font-semibold transition-colors flex items-center gap-1 relative py-1 px-1 focus:outline-none cursor-pointer",
+                      isProductsOpen || active
+                        ? "text-[#0052CC] font-bold"
+                        : "text-slate-700 hover:text-[#0052CC]"
+                    )}
+                    aria-expanded={isProductsOpen}
+                  >
+                    <span>{item.label}</span>
+                    <ChevronDown
+                      className={cn(
+                        "w-3.5 h-3.5 transition-transform duration-300",
+                        isProductsOpen && "rotate-180 text-[#0052CC]"
+                      )}
+                    />
+                    {(active || isProductsOpen) && (
+                      <span className="absolute bottom-0 inset-x-0 h-0.5 bg-[#0052CC] rounded-full" />
+                    )}
+                  </button>
+                </div>
+              );
+            }
+
             return (
               <Link
                 key={item.href}
@@ -141,12 +239,120 @@ export function Navbar() {
         </button>
       </div>
 
+      {/* Desktop React Bits <CardNav /> Floating Submenu Panel for 'Productos' */}
+      <div
+        ref={dropdownRef}
+        className="hidden lg:block pointer-events-auto mt-3 overflow-hidden h-0 opacity-0 transition-all"
+        style={{ display: "none" }}
+      >
+        <div className="bg-slate-950/95 backdrop-blur-2xl border border-slate-800 rounded-3xl p-5 shadow-2xl max-w-5xl mx-auto">
+          <div ref={cardsContainerRef} className="grid grid-cols-3 gap-4">
+            {PRODUCT_CARDS.map((card, idx) => {
+              const CardIcon = card.icon;
+              return (
+                <div
+                  key={idx}
+                  className="rounded-2xl p-4 flex flex-col justify-between border border-white/10 shadow-lg group hover:border-amber-400/50 transition-all"
+                  style={{ backgroundColor: card.bgColor, color: card.textColor }}
+                >
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <Link
+                        href={card.route}
+                        onClick={() => setIsProductsOpen(false)}
+                        className="font-extrabold text-sm font-sans tracking-tight hover:text-amber-400 transition-colors flex items-center gap-1 group/title"
+                      >
+                        <span>{card.title}</span>
+                        <ArrowUpRight className="w-3.5 h-3.5 opacity-60 group-hover/title:opacity-100 group-hover/title:translate-x-0.5 group-hover/title:-translate-y-0.5 transition-all" />
+                      </Link>
+                      <CardIcon className="w-4 h-4 text-amber-400 opacity-80" />
+                    </div>
+
+                    <div className="space-y-1.5 pt-2 border-t border-white/10">
+                      {card.links.map((lnk, lIdx) => (
+                        <Link
+                          key={lIdx}
+                          href={lnk.href}
+                          onClick={() => setIsProductsOpen(false)}
+                          className="flex items-center gap-1.5 text-xs text-slate-300 hover:text-amber-400 transition-colors group/lnk font-sans"
+                        >
+                          <ArrowUpRight className="w-3 h-3 text-amber-400 opacity-70 group-hover/lnk:translate-x-0.5 group-hover/lnk:-translate-y-0.5 transition-transform" />
+                          <span>{lnk.label}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
       {/* Mobile Glassmorphic Drawer Menu */}
       {isOpen && (
-        <div className="pointer-events-auto lg:hidden fixed inset-x-4 top-20 bg-white/95 backdrop-blur-xl border border-slate-200/90 shadow-2xl rounded-3xl p-6 flex flex-col gap-4 animate-in slide-in-from-top-2 duration-200 z-50">
+        <div className="pointer-events-auto lg:hidden fixed inset-x-4 top-20 bg-white/95 backdrop-blur-xl border border-slate-200/90 shadow-2xl rounded-3xl p-6 flex flex-col gap-4 animate-in slide-in-from-top-2 duration-200 z-50 max-h-[85vh] overflow-y-auto">
           <nav className="flex flex-col gap-2">
             {NAV_ITEMS.map((item) => {
               const active = isActive(item.href);
+
+              if (item.hasDropdown) {
+                return (
+                  <div key={item.label} className="flex flex-col gap-1">
+                    <button
+                      type="button"
+                      onClick={() => setIsProductsOpen(!isProductsOpen)}
+                      className={cn(
+                        "font-sans text-base font-semibold py-2.5 px-4 rounded-2xl transition-colors flex items-center justify-between w-full text-left",
+                        active || isProductsOpen
+                          ? "text-[#0052CC] bg-blue-50/80 font-bold"
+                          : "text-slate-700 hover:bg-slate-100/80"
+                      )}
+                    >
+                      <span>{item.label}</span>
+                      <ChevronDown
+                        className={cn(
+                          "w-4 h-4 transition-transform",
+                          isProductsOpen && "rotate-180"
+                        )}
+                      />
+                    </button>
+
+                    {isProductsOpen && (
+                      <div className="pl-4 py-2 space-y-2 border-l-2 border-blue-500 ml-4">
+                        {PRODUCT_CARDS.map((pCard, pIdx) => (
+                          <div key={pIdx} className="space-y-1">
+                            <Link
+                              href={pCard.route}
+                              onClick={() => {
+                                setIsOpen(false);
+                                setIsProductsOpen(false);
+                              }}
+                              className="text-xs font-bold text-slate-900 hover:text-[#0052CC] block py-0.5"
+                            >
+                              {pCard.title} →
+                            </Link>
+                            {pCard.links.map((pLnk, plIdx) => (
+                              <Link
+                                key={plIdx}
+                                href={pLnk.href}
+                                onClick={() => {
+                                  setIsOpen(false);
+                                  setIsProductsOpen(false);
+                                }}
+                                className="text-xs text-slate-600 hover:text-[#0052CC] block py-0.5"
+                              >
+                                • {pLnk.label}
+                              </Link>
+                            ))}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
               return (
                 <Link
                   key={item.href}

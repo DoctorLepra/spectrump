@@ -20,7 +20,7 @@ export function HistoriaSection() {
 
             {/* Right Column: Párrafo Informativo */}
             <div className="lg:col-span-7 text-left">
-              <p className="text-base sm:text-lg text-slate-600 font-sans leading-relaxed">
+              <p className="text-base sm:text-lg text-slate-600 font-sans leading-relaxed text-justify">
                 En <strong>SPECTRUMP COLOMBIA S.A.S.</strong> transformamos los territorios mediante la implementación de redes de alta velocidad y sistemas de energía solar de alta confiabilidad. Contamos con amplia trayectoria ejecutando proyectos de conectividad de gran envergadura en zonas apartadas, cerrando la brecha digital y mejorando la calidad de vida de las comunidades.
               </p>
             </div>

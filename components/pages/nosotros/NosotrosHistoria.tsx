@@ -25,7 +25,7 @@ export function NosotrosHistoria() {
 
             {/* Right Column: Paragraph Text */}
             <div className="lg:col-span-7 text-left">
-              <p className="text-base sm:text-lg text-slate-700 font-sans leading-relaxed">
+              <p className="text-base sm:text-lg text-slate-700 font-sans leading-relaxed text-justify">
                 Somos una empresa privada que está conformada por un grupo de ingenieros y especialistas en <strong>Telecomunicaciones y Energías renovables</strong>, brindando los mejores estándares de calidad y servicios. Ofrecemos soluciones a nivel corporativo y gubernamental, consolidándonos como un <strong>aliado estratégico</strong> en el sector de la ingeniería, las comunicaciones y energía solar.
               </p>
             </div>
