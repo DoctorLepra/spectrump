@@ -4,9 +4,8 @@ import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X, ChevronDown, ArrowUpRight, Wifi, Sun, Cpu, Zap, ShieldCheck } from "lucide-react";
+import { Menu, X, ChevronDown, ArrowUpRight, Sun, Zap, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { gsap } from "gsap";
 
 interface NavItem {
   label: string;
@@ -20,7 +19,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Nosotros", href: "/nosotros" },
   { label: "Servicios", href: "/servicios" },
   { label: "Productos", href: "/productos", hasDropdown: true },
-  { label: "Econecta", href: "/#econecta", isGreen: true },
+  { label: "Econecta", href: "/econecta", isGreen: true },
 ];
 
 const PRODUCT_CARDS = [
@@ -66,8 +65,8 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = React.useState<boolean>(false);
   const [isProductsOpen, setIsProductsOpen] = React.useState<boolean>(false);
 
-  const dropdownRef = React.useRef<HTMLDivElement | null>(null);
-  const cardsContainerRef = React.useRef<HTMLDivElement | null>(null);
+  const headerRef = React.useRef<HTMLElement | null>(null);
+  const closeTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
   // Close mobile drawer and dropdown on route change
   React.useEffect(() => {
@@ -85,35 +84,34 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // GSAP animation for the Products CardNav dropdown panel
+  // Close dropdown when clicking outside
   React.useEffect(() => {
-    if (!dropdownRef.current || !cardsContainerRef.current) return;
+    const handleClickOutside = (event: MouseEvent) => {
+      if (headerRef.current && !headerRef.current.contains(event.target as Node)) {
+        setIsProductsOpen(false);
+      }
+    };
 
-    if (isProductsOpen) {
-      gsap.to(dropdownRef.current, {
-        height: "auto",
-        opacity: 1,
-        duration: 0.35,
-        ease: "power3.out",
-        display: "block",
-      });
-      gsap.fromTo(
-        cardsContainerRef.current.children,
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.35, ease: "power3.out", stagger: 0.08, delay: 0.05 }
-      );
-    } else {
-      gsap.to(dropdownRef.current, {
-        height: 0,
-        opacity: 0,
-        duration: 0.25,
-        ease: "power3.in",
-        onComplete: () => {
-          if (dropdownRef.current) dropdownRef.current.style.display = "none";
-        },
-      });
-    }
-  }, [isProductsOpen]);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleMouseEnter = () => {
+    if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+    setIsProductsOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    closeTimeoutRef.current = setTimeout(() => {
+      setIsProductsOpen(false);
+    }, 200);
+  };
+
+  const toggleProducts = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+    setIsProductsOpen((prev) => !prev);
+  };
 
   const isActive = (href: string) => {
     if (href === "/") {
@@ -125,13 +123,11 @@ export function Navbar() {
     return pathname === href || pathname.startsWith(`${href}/`);
   };
 
-  const toggleProducts = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsProductsOpen((prev) => !prev);
-  };
-
   return (
-    <header className="fixed top-4 inset-x-0 z-50 px-3 sm:px-6 max-w-7xl mx-auto pointer-events-none">
+    <header
+      ref={headerRef}
+      className="fixed top-4 inset-x-0 z-50 px-3 sm:px-6 max-w-7xl mx-auto pointer-events-none"
+    >
       {/* Floating Glassmorphic Pill Navbar */}
       <div
         className={cn(
@@ -168,7 +164,12 @@ export function Navbar() {
 
             if (item.hasDropdown) {
               return (
-                <div key={item.label} className="relative">
+                <div
+                  key={item.label}
+                  className="relative py-2"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
                   <button
                     type="button"
                     onClick={toggleProducts}
@@ -239,14 +240,19 @@ export function Navbar() {
         </button>
       </div>
 
-      {/* Desktop React Bits <CardNav /> Floating Submenu Panel for 'Productos' */}
+      {/* Desktop Floating Submenu Panel for 'Productos' */}
       <div
-        ref={dropdownRef}
-        className="hidden lg:block pointer-events-auto mt-3 overflow-hidden h-0 opacity-0 transition-all"
-        style={{ display: "none" }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        className={cn(
+          "hidden lg:block pointer-events-auto mt-3 transition-all duration-300 ease-out origin-top",
+          isProductsOpen
+            ? "opacity-100 translate-y-0 scale-100 visible"
+            : "opacity-0 -translate-y-3 scale-98 invisible pointer-events-none"
+        )}
       >
         <div className="bg-slate-950/95 backdrop-blur-2xl border border-slate-800 rounded-3xl p-5 shadow-2xl max-w-5xl mx-auto">
-          <div ref={cardsContainerRef} className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             {PRODUCT_CARDS.map((card, idx) => {
               const CardIcon = card.icon;
               return (
@@ -303,7 +309,7 @@ export function Navbar() {
                       type="button"
                       onClick={() => setIsProductsOpen(!isProductsOpen)}
                       className={cn(
-                        "font-sans text-base font-semibold py-2.5 px-4 rounded-2xl transition-colors flex items-center justify-between w-full text-left",
+                        "font-sans text-base font-semibold py-2.5 px-4 rounded-2xl transition-colors flex items-center justify-between w-full text-left cursor-pointer",
                         active || isProductsOpen
                           ? "text-[#0052CC] bg-blue-50/80 font-bold"
                           : "text-slate-700 hover:bg-slate-100/80"
@@ -312,16 +318,16 @@ export function Navbar() {
                       <span>{item.label}</span>
                       <ChevronDown
                         className={cn(
-                          "w-4 h-4 transition-transform",
+                          "w-4 h-4 transition-transform duration-200",
                           isProductsOpen && "rotate-180"
                         )}
                       />
                     </button>
 
                     {isProductsOpen && (
-                      <div className="pl-4 py-2 space-y-2 border-l-2 border-blue-500 ml-4">
+                      <div className="pl-4 py-2 space-y-3 border-l-2 border-blue-500 ml-4">
                         {PRODUCT_CARDS.map((pCard, pIdx) => (
-                          <div key={pIdx} className="space-y-1">
+                          <div key={pIdx} className="space-y-1.5">
                             <Link
                               href={pCard.route}
                               onClick={() => {
@@ -340,7 +346,7 @@ export function Navbar() {
                                   setIsOpen(false);
                                   setIsProductsOpen(false);
                                 }}
-                                className="text-xs text-slate-600 hover:text-[#0052CC] block py-0.5"
+                                className="text-xs text-slate-600 hover:text-[#0052CC] block py-0.5 pl-2"
                               >
                                 • {pLnk.label}
                               </Link>

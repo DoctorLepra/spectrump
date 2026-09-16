@@ -86,12 +86,12 @@ export function Footer() {
             </h4>
             <ul className="space-y-2 text-xs font-sans text-slate-400">
               <li>
-                <Link href="/#econecta" className="hover:text-white transition-colors">
+                <Link href="/econecta" className="hover:text-white transition-colors">
                   Información
                 </Link>
               </li>
               <li>
-                <Link href="/#econecta" className="hover:text-white transition-colors">
+                <Link href="/econecta" className="hover:text-white transition-colors">
                   Modelos
                 </Link>
               </li>

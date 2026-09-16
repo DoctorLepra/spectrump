@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   Sun,
@@ -62,17 +63,16 @@ export function EconectaSection() {
               <span>NUESTRA SOLUCIÓN DESTACADA</span>
             </div>
 
-            {/* Brand Title */}
-            <div>
-              <h2 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold font-sans tracking-tight leading-none text-white">
-                <span className="text-[#4ADE80]">ECO</span>
-                <span className="text-white">NECTA</span>
-              </h2>
-              <p className="text-lg sm:text-2xl font-bold font-sans mt-2">
-                <span className="text-[#4ADE80]">Energía</span> +{" "}
-                <span className="text-[#38BDF8]">Conexión</span> +{" "}
-                <span className="text-white">Futuro</span>
-              </p>
+            {/* Brand Logo */}
+            <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md flex items-center justify-start py-2">
+              <Image
+                src="/econecta.png"
+                alt="ECONECTA®"
+                width={480}
+                height={130}
+                priority
+                className="object-contain w-auto h-auto max-h-20 sm:max-h-28 md:max-h-36 drop-shadow-[0_10px_30px_rgba(0,0,0,0.6)]"
+              />
             </div>
 
             {/* Description */}
@@ -85,7 +85,7 @@ export function EconectaSection() {
             {/* Action Button */}
             <div className="pt-2">
               <Link
-                href="/contacto?asunto=econecta"
+                href="/econecta"
                 className="inline-flex items-center gap-2 bg-[#16A34A] hover:bg-[#15803D] text-white font-sans text-xs sm:text-sm font-bold uppercase tracking-wider px-8 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all"
               >
                 <span>CONOCER ECONECTA</span>

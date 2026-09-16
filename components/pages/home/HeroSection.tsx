@@ -63,7 +63,7 @@ export function HeroSection() {
               </Link>
 
               <Link
-                href="/#econecta"
+                href="/econecta"
                 className="border-2 border-[#22C55E] bg-slate-950/40 hover:bg-[#16A34A]/20 text-white font-sans text-xs sm:text-sm font-bold uppercase tracking-wider px-7 py-4 rounded-lg backdrop-blur-sm transition-all"
               >
                 CONOCE ECONECTA
