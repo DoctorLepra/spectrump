@@ -101,17 +101,24 @@ export function Footer() {
           {/* Column 5: Contacto */}
           <div className="lg:col-span-2 space-y-3">
             <h4 className="font-sans text-sm font-bold text-white uppercase tracking-wider">
-              Contacto
+              <Link href="/contacto" className="hover:text-blue-400 transition-colors">
+                Contacto
+              </Link>
             </h4>
             <ul className="space-y-2 text-xs font-sans text-slate-400">
               <li>
-                <a href="mailto:info@spectrump.com" className="hover:text-white transition-colors">
-                  info@spectrump.com
+                <Link href="/contacto" className="hover:text-white transition-colors text-[#38BDF8]">
+                  Formulario de Atención →
+                </Link>
+              </li>
+              <li>
+                <a href="mailto:contacto@spectrump.com.co" className="hover:text-white transition-colors">
+                  contacto@spectrump.com.co
                 </a>
               </li>
               <li>
-                <a href="tel:+573101234567" className="hover:text-white transition-colors">
-                  +57 310 123 4567
+                <a href="tel:+576017458900" className="hover:text-white transition-colors">
+                  +57 (601) 745-8900
                 </a>
               </li>
               <li className="text-slate-400">Colombia</li>

@@ -221,8 +221,13 @@ export function Navbar() {
         {/* Desktop Action CTA Button */}
         <div className="hidden lg:flex items-center">
           <Link
-            href="/#contacto"
-            className="bg-[#0052CC] hover:bg-[#0040A8] text-white font-sans text-xs font-bold uppercase tracking-wider px-6 py-2.5 rounded-full shadow-sm hover:shadow-md transition-all active:scale-95"
+            href="/contacto"
+            className={cn(
+              "font-sans text-xs font-bold uppercase tracking-wider px-6 py-2.5 rounded-full shadow-sm hover:shadow-md transition-all active:scale-95",
+              isActive("/contacto")
+                ? "bg-[#0040A8] text-white ring-2 ring-blue-400/50"
+                : "bg-[#0052CC] hover:bg-[#0040A8] text-white"
+            )}
           >
             Contacto
           </Link>
@@ -381,7 +386,7 @@ export function Navbar() {
 
           <div className="pt-3 border-t border-slate-100">
             <Link
-              href="/#contacto"
+              href="/contacto"
               onClick={() => setIsOpen(false)}
               className="w-full bg-[#0052CC] hover:bg-[#0040A8] text-white font-sans text-xs font-bold uppercase tracking-wider py-3 rounded-full flex items-center justify-center shadow-md text-center"
             >

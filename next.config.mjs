@@ -9,6 +9,24 @@ const nextConfig = {
   // Enable HTTP response compression (Gzip / Brotli)
   compress: true,
 
+  // Keep pages and chunks in dev server buffer longer to prevent ChunkLoadError after idle
+  onDemandEntries: {
+    // Keep compiled entries in memory for up to 2 hours of inactivity (default was 60s)
+    maxInactiveAge: 1000 * 60 * 60 * 2,
+    // Keep up to 50 compiled pages/chunks simultaneously without disposing
+    pagesBufferLength: 50,
+  },
+
+  // Webpack chunk loading optimization
+  webpack: (config, { dev }) => {
+    if (dev) {
+      config.output = config.output || {};
+      // Increase chunk loading timeout in dev mode to 300 seconds (prevents premature ChunkLoadError timeout)
+      config.output.chunkLoadTimeout = 300000;
+    }
+    return config;
+  },
+
   // Image Optimization Configuration
   images: {
     // Prioritize high-efficiency modern image formats
