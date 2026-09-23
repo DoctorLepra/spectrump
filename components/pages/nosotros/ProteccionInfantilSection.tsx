@@ -11,7 +11,14 @@ import {
 } from "lucide-react";
 import { FadeContent } from "@/components/react-bits/fade-content";
 
-export function ProteccionInfantilSection() {
+export function ProteccionInfantilSection({ data }: { data?: any }) {
+  const title = data?.title || "Protección Infantil y Seguridad Digital";
+  const subtitle = data?.subtitle || "En SPECTRUMP COLOMBIA S.A.S. asumimos un compromiso ético y legal estricto en la prevención y erradicación de la explotación, pornografía y abuso sexual de menores en redes de internet.";
+  const backgroundImageUrl = data?.image_url || "/proteccion-infantil.jpg";
+  const leftTitle = data?.left_title || "Marco Legal y Preventivo";
+  const leftSubtitle = data?.left_subtitle || "Ley 679 de 2001 | Decreto 1524 de 2002 | Decreto 67 de 2003";
+  const leftParagraphHtml = data?.left_paragraph || `Dando cumplimiento al marco normativo colombiano (Ley 679 de 2001, Decreto 1524 de 2002 y Resoluciones de la CRC), <strong class="text-white font-bold">SPECTRUMP COLOMBIA S.A.S.</strong> despliega mecanismos de protección técnica y protocolos de bloqueo para prevenir que las redes de telecomunicaciones sean utilizadas para la difusión de contenidos ilícitos que atenten contra niños, niñas y adolescentes.`;
+
   return (
     <section className="py-20 sm:py-24 bg-white relative overflow-hidden border-b border-slate-200/80" id="proteccion-infantil">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -20,10 +27,10 @@ export function ProteccionInfantilSection() {
         <FadeContent delay={0.1} duration={0.8}>
           <div className="text-center max-w-3xl mx-auto space-y-3 mb-16">
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 font-sans tracking-tight">
-              Protección Infantil y Seguridad Digital
+              {title}
             </h2>
             <p className="text-base sm:text-lg text-slate-600 font-sans leading-relaxed">
-              En SPECTRUMP COLOMBIA S.A.S. asumimos un compromiso ético y legal estricto en la prevención y erradicación de la explotación, pornografía y abuso sexual de menores en redes de internet.
+              {subtitle}
             </p>
           </div>
         </FadeContent>
@@ -37,7 +44,7 @@ export function ProteccionInfantilSection() {
               {/* Background Image */}
               <div 
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                style={{ backgroundImage: "url('/proteccion-infantil.jpg')" }}
+                style={{ backgroundImage: `url('${backgroundImageUrl}')` }}
               />
               {/* Dark Gradient Overlay for Maximum Text Contrast */}
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/85 to-slate-950/70" />
@@ -50,17 +57,18 @@ export function ProteccionInfantilSection() {
                   </div>
                   <div>
                     <h3 className="text-xl sm:text-2xl font-extrabold font-sans">
-                      Marco Legal y Preventivo
+                      {leftTitle}
                     </h3>
                     <span className="text-xs text-emerald-400 font-mono font-bold">
-                      Ley 679 de 2001 | Decreto 1524 de 2002 | Decreto 67 de 2003
+                      {leftSubtitle}
                     </span>
                   </div>
                 </div>
 
-                <p className="text-slate-200 text-sm sm:text-base font-sans leading-relaxed font-normal">
-                  Dando cumplimiento al marco normativo colombiano (Ley 679 de 2001, Decreto 1524 de 2002 y Resoluciones de la CRC), <strong className="text-white font-bold">SPECTRUMP COLOMBIA S.A.S.</strong> despliega mecanismos de protección técnica y protocolos de bloqueo para prevenir que las redes de telecomunicaciones sean utilizadas para la difusión de contenidos ilícitos que atenten contra niños, niñas y adolescentes.
-                </p>
+                <p 
+                  className="text-slate-200 text-sm sm:text-base font-sans leading-relaxed font-normal"
+                  dangerouslySetInnerHTML={{ __html: leftParagraphHtml }}
+                />
 
                 {/* Technical Obligations List */}
                 <div className="space-y-3 pt-2 font-sans">

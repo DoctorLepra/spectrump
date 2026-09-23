@@ -28,8 +28,12 @@ const FAQS = [
   },
 ];
 
-export function ContactoFAQSection() {
+export function ContactoFAQSection({ data, items }: { data?: any, items?: any[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  const title = data?.title || "Respuestas Rápidas para tus Proyectos";
+  const subtitle = data?.subtitle || "Resolvemos tus dudas sobre contratación, plazos de entrega y soluciones tecnológicas.";
+  const displayItems = items && items.length > 0 ? items : FAQS;
 
   const toggle = (idx: number) => {
     setOpenIndex((current) => (current === idx ? null : idx));
@@ -41,18 +45,22 @@ export function ContactoFAQSection() {
         <FadeContent delay={0.1} duration={0.8}>
           <div className="text-center space-y-3 mb-12">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-sans tracking-tight">
-              Respuestas Rápidas para tus Proyectos
+              {title}
             </h2>
             <p className="text-sm sm:text-base text-slate-600 font-sans">
-              Resolvemos tus dudas sobre contratación, plazos de entrega y soluciones tecnológicas.
+              {subtitle}
             </p>
           </div>
         </FadeContent>
 
         <FadeContent delay={0.2} duration={0.8}>
           <div className="space-y-4">
-            {FAQS.map((faq, idx) => {
+            {displayItems.map((faq, idx) => {
               const isOpen = openIndex === idx;
+              const isDbItem = 'title' in faq;
+              const question = isDbItem ? faq.title : faq.question;
+              const answer = isDbItem ? faq.description : faq.answer;
+              
               return (
                 <div
                   key={idx}
@@ -63,7 +71,7 @@ export function ContactoFAQSection() {
                     onClick={() => toggle(idx)}
                     className="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 font-sans font-bold text-slate-900 text-sm sm:text-base hover:text-[#0052CC] transition-colors focus:outline-none cursor-pointer"
                   >
-                    <span>{faq.question}</span>
+                    <span>{question}</span>
                     <ChevronDown
                       className={cn(
                         "w-5 h-5 text-slate-400 transition-transform duration-300 flex-shrink-0",
@@ -74,7 +82,7 @@ export function ContactoFAQSection() {
 
                   {isOpen && (
                     <div className="px-5 sm:px-6 pb-6 text-sm text-slate-600 font-sans leading-relaxed border-t border-slate-100 pt-4 animate-in fade-in duration-200">
-                      <p>{faq.answer}</p>
+                      <p>{answer}</p>
                     </div>
                   )}
                 </div>

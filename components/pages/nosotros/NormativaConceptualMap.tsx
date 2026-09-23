@@ -23,7 +23,11 @@ import {
 } from "lucide-react";
 import { FadeContent } from "@/components/react-bits/fade-content";
 
-export function NormativaConceptualMap() {
+export function NormativaConceptualMap({ data, items }: { data?: any, items?: any[] }) {
+  const badgeText = data?.badge_text || "MARCO DE COMPLIANCE & REGULACIÓN";
+  const title = data?.title || "Protección al Usuario y Normativa TIC";
+  const subtitle = data?.subtitle || "Consulta completa de los 21 ejes normativos, régimen de protección al usuario y decretos de regulación del sector en Colombia.";
+
   return (
     <section className="py-20 sm:py-24 bg-slate-50 border-b border-slate-200/80 relative overflow-hidden" id="normativa-mapa">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -32,13 +36,13 @@ export function NormativaConceptualMap() {
         <FadeContent delay={0.1} duration={0.8}>
           <div className="text-center max-w-3xl mx-auto space-y-3 mb-12">
             <span className="px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0052CC] font-sans text-xs font-bold uppercase tracking-wider inline-block">
-              MARCO DE COMPLIANCE & REGULACIÓN
+              {badgeText}
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 font-sans tracking-tight">
-              Protección al Usuario y Normativa TIC
+              {title}
             </h2>
             <p className="text-base sm:text-lg text-slate-600 font-sans leading-relaxed">
-              Consulta completa de los 21 ejes normativos, régimen de protección al usuario y decretos de regulación del sector en Colombia.
+              {subtitle}
             </p>
           </div>
         </FadeContent>

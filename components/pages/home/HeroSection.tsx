@@ -6,7 +6,14 @@ import { ChevronDown } from "lucide-react";
 import { FadeContent } from "@/components/react-bits/fade-content";
 import { ShinyText } from "@/components/react-bits/shiny-text";
 
-export function HeroSection() {
+export function HeroSection({ data }: { data?: any }) {
+  const videoUrl = data?.video_url || "/images/herpsection.mp4";
+  const titlePart1 = data?.title_part_1 || "Tecnología que";
+  const titlePart2 = data?.title_part_2 || "energía que";
+  const shiny1 = data?.shiny_1 || "conecta,";
+  const shiny2 = data?.shiny_2 || "transforma.";
+  const description = data?.description || "Soluciones integrales de ingeniería, conectividad, energía y tecnología para proyectos que generan impacto y construyen un futuro más sostenible.";
+
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden pt-28 pb-24 bg-slate-950">
       {/* Background Video with Dark Overlay (100% Full Viewport Bleed) */}
@@ -18,7 +25,7 @@ export function HeroSection() {
           playsInline
           className="w-full h-full object-cover object-center scale-[1.02]"
         >
-          <source src="/images/herpsection.mp4" type="video/mp4" />
+          <source src={videoUrl} type="video/mp4" />
         </video>
         {/* Centered Dark Overlay for Readability */}
         <div className="absolute inset-0 w-full h-full bg-slate-950/75 backdrop-blur-[1px]" />
@@ -29,18 +36,18 @@ export function HeroSection() {
           <div className="max-w-4xl mx-auto text-center flex flex-col items-center space-y-6">
             {/* Hero Main Heading (2 Lines Centered with React Bits ShinyText) */}
             <h1 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight text-white font-sans leading-[1.15] text-center">
-              Tecnología que{" "}
+              {titlePart1}{" "}
               <ShinyText
-                text="conecta,"
+                text={shiny1}
                 color="#0088FF"
                 shineColor="#FFFFFF"
                 speed={2.5}
                 spread={120}
               />
               <br className="hidden sm:block" />{" "}
-              energía que{" "}
+              {titlePart2}{" "}
               <ShinyText
-                text="transforma."
+                text={shiny2}
                 color="#38BDF8"
                 shineColor="#FFFFFF"
                 speed={2.5}
@@ -50,7 +57,7 @@ export function HeroSection() {
 
             {/* Subtitle Centered */}
             <p className="text-base sm:text-xl text-slate-200 font-sans leading-relaxed max-w-2xl mx-auto text-center">
-              Soluciones integrales de ingeniería, conectividad, energía y tecnología para proyectos que generan impacto y construyen un futuro más sostenible.
+              {description}
             </p>
 
             {/* Centered CTA Action Buttons */}

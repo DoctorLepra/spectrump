@@ -79,7 +79,18 @@ const MODELOS = [
   },
 ];
 
-export function EconectaModelos() {
+const ICON_MAP: Record<string, React.ElementType> = {
+  Zap,
+  Cpu,
+  Radio,
+  Sparkles,
+};
+
+export function EconectaModelos({ data, items }: { data?: any, items?: any[] }) {
+  const displayItems = items && items.length > 0 ? items : MODELOS;
+  const titleHtml = data?.title || `Conoce nuestros modelos de <span class="text-[#16A34A]">ECONECTA®</span>`;
+  const subtitle = data?.subtitle || "Modelos para todo tipo de entornos y circunstancias";
+  
   return (
     <section id="modelos" className="scroll-mt-24 py-20 sm:py-28 bg-white border-b border-slate-200/80 w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -87,21 +98,35 @@ export function EconectaModelos() {
         {/* Section Header */}
         <FadeContent delay={0.1} duration={0.6}>
           <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-18 space-y-3">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 font-sans tracking-tight">
-              Conoce nuestros modelos de <span className="text-[#16A34A]">ECONECTA®</span>
-            </h2>
+            <h2 
+              className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 font-sans tracking-tight"
+              dangerouslySetInnerHTML={{ __html: titleHtml }}
+            />
             <div className="w-16 h-1.5 bg-[#16A34A] mx-auto rounded-full" />
             <p className="text-base sm:text-lg text-slate-600 font-sans pt-2">
-              Modelos para todo tipo de entornos y circunstancias
+              {subtitle}
             </p>
           </div>
         </FadeContent>
 
         {/* Models Cards Grid (2 Columns Desktop, 1 Column Mobile) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {MODELOS.map((modelo, idx) => {
+          {displayItems.map((modelo, idx) => {
+            const isDbItem = 'title' in modelo && !('icon' in modelo && typeof modelo.icon !== 'string');
+            const modelName = isDbItem ? modelo.title : modelo.name;
+            const modelImage = isDbItem && modelo.metadata?.image_url ? modelo.metadata.image_url : modelo.image;
+            const modelBadge = isDbItem ? modelo.metadata?.badge : modelo.badge;
+            const modelDesc = isDbItem ? modelo.description : modelo.description;
+            const modelHighlights = isDbItem ? (modelo.metadata?.features || []) : modelo.highlights;
+            const IconComp = isDbItem && modelo.metadata?.icon ? (ICON_MAP[modelo.metadata.icon] || Zap) : null;
+
+            let iconColor = "text-[#16A34A]";
+            if (isDbItem && modelo.metadata?.icon === 'Cpu') iconColor = "text-[#0052CC]";
+            if (isDbItem && modelo.metadata?.icon === 'Radio') iconColor = "text-[#0088FF]";
+            if (isDbItem && modelo.metadata?.icon === 'Sparkles') iconColor = "text-[#D97706]";
+
             const whatsappUrl = `https://wa.me/573209325989?text=${encodeURIComponent(
-              `Hola SPECTRUMP, quisiera solicitar información técnica y cotización del modelo ${modelo.name}.`
+              `Hola SPECTRUMP, quisiera solicitar información técnica y cotización del modelo ${modelName}.`
             )}`;
 
             return (
@@ -111,8 +136,8 @@ export function EconectaModelos() {
                   {/* Left Column: Image (25% Width, Full Height Flush to Left Border) */}
                   <div className="relative w-full sm:w-1/4 min-h-[220px] sm:min-h-full bg-slate-900 shrink-0 overflow-hidden">
                     <Image
-                      src={modelo.image}
-                      alt={modelo.name}
+                      src={modelImage}
+                      alt={modelName}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 25vw, 15vw"
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -127,26 +152,26 @@ export function EconectaModelos() {
                       {/* Top: Icon & Badge */}
                       <div className="flex items-center justify-between gap-2">
                         <div className="p-2.5 rounded-xl bg-white border border-slate-200 shadow-xs group-hover:scale-105 transition-transform shrink-0">
-                          {modelo.icon}
+                          {isDbItem && IconComp ? <IconComp className={`w-5 h-5 ${iconColor}`} /> : modelo.icon}
                         </div>
                         <span className="text-[10px] sm:text-[11px] font-mono font-bold text-slate-600 bg-white border border-slate-200/80 px-2.5 py-1 rounded-full uppercase tracking-wider text-right truncate">
-                          {modelo.badge}
+                          {modelBadge}
                         </span>
                       </div>
 
                       {/* Title & Description */}
                       <div className="space-y-1.5">
                         <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 font-sans group-hover:text-[#16A34A] transition-colors">
-                          {modelo.name}
+                          {modelName}
                         </h3>
                         <p className="text-xs sm:text-sm text-slate-600 font-sans leading-relaxed">
-                          {modelo.description}
+                          {modelDesc}
                         </p>
                       </div>
 
                       {/* Features List */}
                       <ul className="space-y-2 pt-2 border-t border-slate-200/80">
-                        {modelo.highlights.map((item, hIdx) => (
+                        {modelHighlights.map((item: string, hIdx: number) => (
                           <li key={hIdx} className="flex items-start gap-2 text-xs text-slate-700 font-sans">
                             <CheckCircle2 className="w-3.5 h-3.5 text-[#16A34A] shrink-0 mt-0.5" />
                             <span>{item}</span>
@@ -158,25 +183,22 @@ export function EconectaModelos() {
                     {/* CTA Button with WhatsApp Icon */}
                     <div className="pt-4 border-t border-slate-200/80">
                       <a
-                        href={whatsappUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full bg-[#16A34A] hover:bg-[#15803D] text-white font-sans text-xs sm:text-sm font-bold uppercase tracking-wider py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-xs hover:shadow-md active:scale-95"
-                      >
-                        <WhatsAppIcon className="w-4 h-4 fill-white" />
-                        <span>Cotizar este Modelo</span>
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                      </a>
+                         href={whatsappUrl}
+                         target="_blank"
+                         rel="noopener noreferrer"
+                         className="w-full bg-[#16A34A] hover:bg-[#15803D] text-white font-sans text-xs sm:text-sm font-bold uppercase tracking-wider py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-xs hover:shadow-md active:scale-95"
+                       >
+                         <WhatsAppIcon className="w-4 h-4 fill-white" />
+                         <span>Cotizar este Modelo</span>
+                         <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                       </a>
                     </div>
-
                   </div>
-
                 </div>
               </FadeContent>
             );
           })}
         </div>
-
       </div>
     </section>
   );

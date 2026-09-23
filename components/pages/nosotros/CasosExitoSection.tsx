@@ -48,7 +48,24 @@ const CASOS_EXITO_ITEMS: AccordionGalleryItem[] = [
   },
 ];
 
-export function CasosExitoSection() {
+export function CasosExitoSection({ data, items }: { data?: any, items?: any[] }) {
+  const displayItems = items && items.length > 0 
+    ? items.map(item => {
+        const isDbItem = 'title' in item;
+        return {
+          image: isDbItem ? (item.metadata?.image_url || item.image) : item.image,
+          label: isDbItem ? (item.metadata?.badge || item.label) : item.label,
+          subtitle: isDbItem ? item.title : item.subtitle,
+          description: isDbItem ? item.description : item.description,
+          features: isDbItem ? (item.metadata?.features || []) : item.features,
+        };
+      })
+    : CASOS_EXITO_ITEMS;
+
+  const badgeText = data?.badge_text || "CASOS DE ÉXITO Y EXPERIENCIA";
+  const title = data?.title || "Proyectos Realizados que Impulsan el Desarrollo";
+  const subtitle = data?.subtitle || "Conoce nuestras ejecuciones más destacadas en conectividad, energía solar e infraestructura inteligente en Colombia.";
+
   return (
     <section className="py-20 sm:py-24 bg-slate-950 text-white relative overflow-hidden border-b border-slate-800" id="experiencia">
       {/* Interactive DotField Background from React Bits */}
@@ -70,13 +87,13 @@ export function CasosExitoSection() {
         <FadeContent delay={0.1} duration={0.8}>
           <div className="text-center max-w-3xl mx-auto space-y-3 mb-14">
             <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/20 border border-blue-400/30 text-[#38BDF8] font-sans text-xs font-bold uppercase tracking-wider backdrop-blur-md">
-              CASOS DE ÉXITO Y EXPERIENCIA
+              {badgeText}
             </span>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white font-sans tracking-tight">
-              Proyectos Realizados que Impulsan el Desarrollo
+              {title}
             </h2>
             <p className="text-base sm:text-lg text-slate-300 font-sans leading-relaxed">
-              Conoce nuestras ejecuciones más destacadas en conectividad, energía solar e infraestructura inteligente en Colombia.
+              {subtitle}
             </p>
           </div>
         </FadeContent>
@@ -84,7 +101,7 @@ export function CasosExitoSection() {
         <FadeContent delay={0.2} duration={0.8}>
           <div className="w-full">
             <AccordionGallery
-              items={CASOS_EXITO_ITEMS}
+              items={displayItems}
               accentColor="#0088FF"
               overlayColor="#020617"
               height={540}

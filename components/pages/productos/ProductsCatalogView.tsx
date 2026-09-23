@@ -18,7 +18,6 @@ import {
   Layers,
   Sparkles,
 } from "lucide-react";
-import { Product, PRODUCT_CATEGORIES, PRODUCTS_DATABASE } from "@/lib/data/products";
 import { FadeContent } from "@/components/react-bits/fade-content";
 import { cn } from "@/lib/utils";
 
@@ -33,7 +32,29 @@ const CATEGORY_ICONS: Record<string, React.ElementType> = {
   "equipos-portatiles": Package,
 };
 
-export function ProductsCatalogView() {
+export interface CatalogCategory {
+  id: string | number;
+  name: string;
+  slug: string;
+}
+
+export interface CatalogProduct {
+  id: string;
+  title: string;
+  slug: string;
+  brand: string;
+  category: string;
+  categorySlug: string;
+  imageUrl: string;
+  whatsappMsg: string;
+}
+
+interface ProductsCatalogViewProps {
+  categories: CatalogCategory[];
+  products: CatalogProduct[];
+}
+
+export function ProductsCatalogView({ categories, products }: ProductsCatalogViewProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -72,7 +93,7 @@ export function ProductsCatalogView() {
 
   // Filter products by category and search query
   const filteredProducts = useMemo(() => {
-    return PRODUCTS_DATABASE.filter((product) => {
+    return products.filter((product) => {
       const matchesCategory =
         selectedCategory === "todos" || product.categorySlug === selectedCategory;
 
@@ -88,9 +109,9 @@ export function ProductsCatalogView() {
 
   // Compute product count per category
   const categoryCounts = useMemo(() => {
-    const counts: Record<string, number> = { todos: PRODUCTS_DATABASE.length };
-    PRODUCT_CATEGORIES.forEach((cat) => {
-      counts[cat.slug] = PRODUCTS_DATABASE.filter((p) => p.categorySlug === cat.slug).length;
+    const counts: Record<string, number> = { todos: products.length };
+    categories.forEach((cat) => {
+      counts[cat.slug] = products.filter((p) => p.categorySlug === cat.slug).length;
     });
     return counts;
   }, []);
@@ -126,7 +147,7 @@ export function ProductsCatalogView() {
           {/* Product Count & Mobile Filter Trigger */}
           <div className="flex items-center justify-between sm:justify-end gap-3">
             <span className="text-xs font-mono text-slate-500 font-medium">
-              Mostrando <strong className="text-slate-900 font-bold">{filteredProducts.length}</strong> de {PRODUCTS_DATABASE.length} productos
+              Mostrando <strong className="text-slate-900 font-bold">{filteredProducts.length}</strong> de {products.length} productos
             </span>
 
             {/* Mobile Filter Trigger Button */}
@@ -186,7 +207,7 @@ export function ProductsCatalogView() {
                 </button>
 
                 {/* Specific Categories */}
-                {PRODUCT_CATEGORIES.map((cat) => {
+                {categories.map((cat) => {
                   const IconComp = CATEGORY_ICONS[cat.slug] || Sun;
                   const isSelected = selectedCategory === cat.slug;
                   return (
@@ -362,7 +383,7 @@ export function ProductsCatalogView() {
                   <span className="font-mono text-[11px] font-bold">{categoryCounts["todos"]}</span>
                 </button>
 
-                {PRODUCT_CATEGORIES.map((cat) => {
+                {categories.map((cat) => {
                   const isSelected = selectedCategory === cat.slug;
                   return (
                     <button

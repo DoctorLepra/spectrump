@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
 import { ChunkErrorHandler } from "@/components/shared/ChunkErrorHandler";
+import { ClientLayout } from "@/components/layout/ClientLayout";
 import "./globals.css";
 
 const fontSans = Inter({
@@ -51,9 +50,9 @@ export default function RootLayout({
     >
       <body className="bg-white text-slate-900 antialiased min-h-screen font-sans flex flex-col">
         <ChunkErrorHandler />
-        <Navbar />
-        <main className="flex-1 flex flex-col">{children}</main>
-        <Footer />
+        <ClientLayout>
+          {children}
+        </ClientLayout>
       </body>
     </html>
   );

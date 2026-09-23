@@ -5,7 +5,11 @@ import Link from "next/link";
 import { Users, ArrowRight } from "lucide-react";
 import { FadeContent } from "@/components/react-bits/fade-content";
 
-export function PreFooterBanner() {
+export function PreFooterBanner({ data }: { data?: any }) {
+  const title = data?.title || "Trabajamos juntos por un futuro más conectado y sostenible.";
+  const subtitle = data?.subtitle || "¿Listo para llevar conectividad, seguridad e infraestructura de energía solar a donde más se necesita?";
+  const buttonText = data?.button_text || "CONTÁCTANOS";
+  
   return (
     <section className="py-16 sm:py-20 bg-white relative overflow-hidden" id="contacto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -25,10 +29,10 @@ export function PreFooterBanner() {
               {/* Left Column Text */}
               <div className="max-w-2xl space-y-3">
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white font-sans tracking-tight leading-tight">
-                  Trabajamos juntos por un futuro más conectado y sostenible.
+                  {title}
                 </h2>
                 <p className="text-sm sm:text-base text-slate-300 font-sans leading-relaxed">
-                  ¿Listo para llevar conectividad, seguridad e infraestructura de energía solar a donde más se necesita?
+                  {subtitle}
                 </p>
               </div>
 
@@ -38,7 +42,7 @@ export function PreFooterBanner() {
                   href="/contacto"
                   className="inline-flex items-center gap-3 bg-[#0052CC] hover:bg-[#0040A8] text-white font-sans text-xs sm:text-sm font-bold uppercase tracking-wider px-9 py-4 rounded-full shadow-lg hover:shadow-xl transition-all group"
                 >
-                  <span>CONTÁCTANOS</span>
+                  <span>{buttonText}</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>

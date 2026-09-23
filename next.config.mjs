@@ -64,6 +64,11 @@ const nextConfig = {
         hostname: 'improinde.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        pathname: '/**',
+      },
     ],
   },
 };

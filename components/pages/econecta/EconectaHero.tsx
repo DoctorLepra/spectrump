@@ -19,7 +19,12 @@ function WhatsAppIcon({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
-export function EconectaHero() {
+export function EconectaHero({ data }: { data?: any }) {
+  const videoUrl = data?.video_url || "/images/0824.mp4";
+  const subtitleHtml = data?.subtitle || `La solución integral y autosostenible que fusiona <strong class="text-[#4ADE80]">energía solar</strong>, <strong class="text-[#38BDF8]">conectividad</strong>, <strong class="text-white">videovigilancia</strong> y <strong class="text-white">servicios digitales</strong> para comunidades y proyectos de alto impacto.`;
+  const primaryButtonText = data?.primary_button_text || "COTIZAR SOLUCIÓN ECONECTA";
+  const secondaryButtonText = data?.secondary_button_text || "CONOCER CARACTERÍSTICAS";
+
   const whatsappUrl = `https://wa.me/573209325989?text=${encodeURIComponent(
     "Hola SPECTRUMP, quisiera solicitar información técnica y cotizar una solución con ECONECTA®."
   )}`;
@@ -35,7 +40,7 @@ export function EconectaHero() {
           playsInline
           className="w-full h-full object-cover object-center scale-[1.02]"
         >
-          <source src="/images/0824.mp4" type="video/mp4" />
+          <source src={videoUrl} type="video/mp4" />
         </video>
         {/* Centered Dark Overlay for Readability */}
         <div className="absolute inset-0 w-full h-full bg-slate-950/75 backdrop-blur-[1px]" />
@@ -58,13 +63,10 @@ export function EconectaHero() {
             </div>
 
             {/* Subtitle Centered */}
-            <p className="text-base sm:text-xl text-slate-200 font-sans leading-relaxed max-w-2xl mx-auto text-center">
-              La solución integral y autosostenible que fusiona{" "}
-              <strong className="text-[#4ADE80]">energía solar</strong>,{" "}
-              <strong className="text-[#38BDF8]">conectividad</strong>,{" "}
-              <strong className="text-white">videovigilancia</strong> y{" "}
-              <strong className="text-white">servicios digitales</strong> para comunidades y proyectos de alto impacto.
-            </p>
+            <p 
+              className="text-base sm:text-xl text-slate-200 font-sans leading-relaxed max-w-2xl mx-auto text-center"
+              dangerouslySetInnerHTML={{ __html: subtitleHtml }}
+            />
 
             {/* Centered CTA Action Buttons */}
             <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
@@ -75,14 +77,14 @@ export function EconectaHero() {
                 className="bg-[#16A34A] hover:bg-[#15803D] text-white font-sans text-xs sm:text-sm font-bold uppercase tracking-wider px-7 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all flex items-center gap-2.5 active:scale-95"
               >
                 <WhatsAppIcon className="w-4 h-4 fill-white" />
-                <span>COTIZAR SOLUCIÓN ECONECTA</span>
+                <span>{primaryButtonText}</span>
               </a>
 
               <a
                 href="#caracteristicas"
                 className="border-2 border-[#0088FF] bg-slate-950/40 hover:bg-[#0088FF]/20 text-white font-sans text-xs sm:text-sm font-bold uppercase tracking-wider px-7 py-4 rounded-lg backdrop-blur-sm transition-all flex items-center gap-2 active:scale-95"
               >
-                <span>CONOCER CARACTERÍSTICAS</span>
+                <span>{secondaryButtonText}</span>
               </a>
             </div>
           </div>

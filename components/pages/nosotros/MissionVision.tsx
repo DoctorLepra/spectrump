@@ -36,7 +36,23 @@ const NEW_CORPORATE_VALUES = [
   },
 ];
 
-export function MissionVision() {
+const ICON_MAP: Record<string, React.ElementType> = {
+  Award,
+  TrendingUp,
+  Headphones,
+  Lightbulb,
+};
+
+export function MissionVision({ data, items }: { data?: any, items?: any[] }) {
+  const displayValues = items && items.length > 0 ? items : NEW_CORPORATE_VALUES;
+  
+  const misionText = data?.mision || "Diseñar, fabricar e implementar soluciones de infraestructura tecnológica que integren conectividad, energía renovable, seguridad electrónica y servicios digitales, contribuyendo al desarrollo sostenible de las comunidades.";
+  const visionText = data?.vision || COMPANY_VISION.content;
+  const politicaText = data?.politica || "Prestar y ofrecer servicios de diseño, construcción y mantenimiento en las áreas de Ingeniería, Telecomunicaciones y Energías Renovables, óptima en el cumplimiento del tiempo, normas vigentes, satisfaciendo eficazmente los requerimientos y necesidades de nuestros clientes garantizando la entrega de un servicio de calidad.";
+  
+  const valoresTitle = data?.valores_title || "Valores que guían nuestra operación diaria";
+  const valoresSubtitle = data?.valores_subtitle || "Principios éticos, técnicos y ambientales que rigen nuestras relaciones contractuales con el Estado colombiano y el sector privado.";
+
   return (
     <section className="py-20 sm:py-24 bg-white relative overflow-hidden border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -57,7 +73,7 @@ export function MissionVision() {
                 </h2>
 
                 <p className="text-sm sm:text-base text-slate-600 font-sans leading-relaxed">
-                  Diseñar, fabricar e implementar soluciones de infraestructura tecnológica que integren conectividad, energía renovable, seguridad electrónica y servicios digitales, contribuyendo al desarrollo sostenible de las comunidades.
+                  {misionText}
                 </p>
               </div>
 
@@ -83,7 +99,7 @@ export function MissionVision() {
                 </h2>
 
                 <p className="text-sm sm:text-base text-slate-600 font-sans leading-relaxed">
-                  {COMPANY_VISION.content}
+                  {visionText}
                 </p>
               </div>
 
@@ -109,7 +125,7 @@ export function MissionVision() {
                 </h2>
 
                 <p className="text-sm sm:text-base text-slate-600 font-sans leading-relaxed">
-                  Prestar y ofrecer servicios de diseño, construcción y mantenimiento en las áreas de Ingeniería, Telecomunicaciones y Energías Renovables, óptima en el cumplimiento del tiempo, normas vigentes, satisfaciendo eficazmente los requerimientos y necesidades de nuestros clientes garantizando la entrega de un servicio de calidad.
+                  {politicaText}
                 </p>
               </div>
 
@@ -126,32 +142,40 @@ export function MissionVision() {
           <FadeContent delay={0.1} duration={0.6}>
             <div className="text-center max-w-3xl mx-auto space-y-3 mb-14">
               <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 font-sans tracking-tight">
-                Valores que guían nuestra operación diaria
+                {valoresTitle}
               </h2>
               <p className="text-base text-slate-600 font-sans leading-relaxed">
-                Principios éticos, técnicos y ambientales que rigen nuestras relaciones contractuales con el Estado colombiano y el sector privado.
+                {valoresSubtitle}
               </p>
             </div>
           </FadeContent>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {NEW_CORPORATE_VALUES.map((val, idx) => (
-              <FadeContent key={val.id} delay={0.1 * idx} duration={0.6}>
-                <div className="bg-slate-50/70 border border-slate-200/90 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between h-full group">
-                  <div>
-                    <div className="mb-4 p-3 rounded-xl bg-white border border-slate-200/80 w-fit">
-                      {val.icon}
+            {displayValues.map((val, idx) => {
+              const isDbItem = 'title' in val && !('icon' in val && typeof val.icon !== 'string');
+              const IconComp = isDbItem && val.metadata?.icon ? (ICON_MAP[val.metadata.icon] || Award) : null;
+              const titleText = isDbItem ? val.title : val.title;
+              const descText = isDbItem ? val.description : val.description;
+              const iconColor = titleText.toLowerCase().includes('innov') ? 'text-[#16A34A]' : 'text-[#0052CC]';
+
+              return (
+                <FadeContent key={val.id} delay={0.1 * idx} duration={0.6}>
+                  <div className="bg-slate-50/70 border border-slate-200/90 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between h-full group">
+                    <div>
+                      <div className="mb-4 p-3 rounded-xl bg-white border border-slate-200/80 w-fit">
+                        {isDbItem && IconComp ? <IconComp className={`w-6 h-6 ${iconColor}`} /> : val.icon}
+                      </div>
+                      <h3 className="text-lg font-extrabold text-slate-900 font-sans mb-2 group-hover:text-[#0052CC] transition-colors">
+                        {titleText}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-slate-600 font-sans leading-relaxed">
+                        {descText}
+                      </p>
                     </div>
-                    <h3 className="text-lg font-extrabold text-slate-900 font-sans mb-2 group-hover:text-[#0052CC] transition-colors">
-                      {val.title}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-slate-600 font-sans leading-relaxed">
-                      {val.description}
-                    </p>
                   </div>
-                </div>
-              </FadeContent>
-            ))}
+                </FadeContent>
+              );
+            })}
           </div>
         </div>
       </div>

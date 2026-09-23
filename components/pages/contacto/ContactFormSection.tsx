@@ -34,7 +34,14 @@ function WhatsAppIcon({ className = "w-5 h-5" }: { className?: string }) {
   );
 }
 
-export function ContactFormSection() {
+export function ContactFormSection({ data }: { data?: any }) {
+  const whatsapp = data?.whatsapp || "+57 300 912 1798";
+  const whatsappClean = whatsapp.replace(/\D/g, "");
+  const pbx = data?.pbx || "+57 (601) 745-8900";
+  const pbxLink = pbx.replace(/[^\d+]/g, "");
+  const email = data?.email || "contacto@spectrump.com.co";
+  const hours = data?.hours || "Lunes a Viernes: 8:00 AM - 5:30 PM";
+
   const [formData, setFormData] = useState({
     nombre: "",
     email: "",
@@ -72,7 +79,7 @@ export function ContactFormSection() {
     const message = encodeURIComponent(
       `Hola SPECTRUMP COLOMBIA, me gustaría recibir asesoría sobre soluciones de conectividad, energía solar o ECONECTA®. Mi nombre es ${formData.nombre || "un interesado"}.`
     );
-    window.open(`https://wa.me/573009121798?text=${message}`, "_blank");
+    window.open(`https://wa.me/${whatsappClean}?text=${message}`, "_blank");
   };
 
   return (
@@ -106,7 +113,7 @@ export function ContactFormSection() {
                         WhatsApp Comercial
                       </strong>
                       <span className="text-base font-bold text-slate-900 leading-snug">
-                        +57 300 912 1798
+                        {whatsapp}
                       </span>
                       <span className="text-xs text-emerald-600 font-medium block">Respuesta Rápida</span>
                     </div>
@@ -130,10 +137,10 @@ export function ContactFormSection() {
                       Línea PBX Nacional
                     </strong>
                     <a
-                      href="tel:+576017458900"
+                      href={`tel:${pbxLink}`}
                       className="text-base font-bold text-slate-900 hover:text-[#0052CC] transition-colors leading-snug block"
                     >
-                      +57 (601) 745-8900
+                      {pbx}
                     </a>
                     <span className="text-xs text-slate-500">Atención telefónica empresarial</span>
                   </div>
@@ -149,10 +156,10 @@ export function ContactFormSection() {
                       Correo Electrónico
                     </strong>
                     <a
-                      href="mailto:contacto@spectrump.com.co"
+                      href={`mailto:${email}`}
                       className="text-base font-bold text-slate-900 hover:text-[#0052CC] transition-colors leading-snug block"
                     >
-                      contacto@spectrump.com.co
+                      {email}
                     </a>
                     <span className="text-xs text-slate-500">Licitaciones y requerimientos</span>
                   </div>
@@ -168,7 +175,7 @@ export function ContactFormSection() {
                       Horario de Atención
                     </strong>
                     <span className="text-sm font-bold text-slate-900 leading-snug block">
-                      Lunes a Viernes: 8:00 AM - 5:30 PM
+                      {hours}
                     </span>
                     <span className="text-xs text-slate-500">Hora Colombia (GMT-5)</span>
                   </div>

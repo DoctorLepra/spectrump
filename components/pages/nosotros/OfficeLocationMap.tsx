@@ -5,8 +5,15 @@ import { Map, MapControls, MapMarker } from "@/components/ui/map";
 import { MapPin, Phone, Mail, Clock, ExternalLink } from "lucide-react";
 import { FadeContent } from "@/components/react-bits/fade-content";
 
-export function OfficeLocationMap() {
-  // SPECTRUMP Office Coordinates: 6°11'25.9"N 67°29'37.4"W (lng: -67.493708, lat: 6.190538)
+export function OfficeLocationMap({ data }: { data?: any }) {
+  const title = data?.title || "Ubicación de Nuestras Oficinas";
+  const subtitle = data?.subtitle || "Encuentra la sede central de operaciones, centro de ingeniería y soporte de SPECTRUMP COLOMBIA S.A.S.";
+  const address = data?.address || "Carrera 15 # 93 - 60, Bogotá D.C.";
+  const phone = data?.phone || "+57 (601) 745-8900";
+  const email = data?.email || "contacto@spectrump.com.co";
+  const hours = data?.hours || "Lunes a Viernes: 8:00 AM - 5:30 PM";
+  
+  // SPECTRUMP Office Coordinates: 6°11'25.9"N 67°29'37.4"W (lng: -67.493708, lat: 6.190538) - used for map rendering
   const officeCoords: [number, number] = [-67.493708, 6.190538];
 
   return (
@@ -15,10 +22,10 @@ export function OfficeLocationMap() {
         <FadeContent delay={0.1} duration={0.8}>
           <div className="text-center max-w-3xl mx-auto space-y-3 mb-14">
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 font-sans tracking-tight">
-              Ubicación de Nuestras Oficinas
+              {title}
             </h2>
             <p className="text-base sm:text-lg text-slate-600 font-sans leading-relaxed">
-              Encuentra la sede central de operaciones, centro de ingeniería y soporte de SPECTRUMP COLOMBIA S.A.S.
+              {subtitle}
             </p>
           </div>
         </FadeContent>
@@ -47,7 +54,7 @@ export function OfficeLocationMap() {
                       Dirección de nuestras oficinas
                     </strong>
                     <span className="text-base font-bold text-slate-900 leading-snug block">
-                      6°11&apos;25.9&quot;N 67°29&apos;37.4&quot;W
+                      {address}
                     </span>
                     <span className="text-xs text-slate-500 font-sans">Colombia</span>
                   </div>
@@ -63,7 +70,7 @@ export function OfficeLocationMap() {
                       Número de contacto
                     </strong>
                     <span className="text-base font-bold text-slate-900 leading-snug block">
-                      +57 (601) 745-8900
+                      {phone}
                     </span>
                     <span className="text-xs text-slate-500 font-sans">Atención Inmediata</span>
                   </div>
@@ -79,7 +86,7 @@ export function OfficeLocationMap() {
                       Correo Institucional
                     </strong>
                     <span className="text-base font-bold text-slate-900 leading-snug block">
-                      contacto@spectrump.com.co
+                      {email}
                     </span>
                   </div>
                 </div>
@@ -94,7 +101,7 @@ export function OfficeLocationMap() {
                       Horario de Atención
                     </strong>
                     <span className="text-base font-bold text-slate-900 leading-snug block">
-                      Lunes a Viernes: 8:00 AM - 5:30 PM
+                      {hours}
                     </span>
                   </div>
                 </div>

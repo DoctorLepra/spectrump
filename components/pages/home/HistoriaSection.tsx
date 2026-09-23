@@ -3,7 +3,11 @@
 import React from "react";
 import { FadeContent } from "@/components/react-bits/fade-content";
 
-export function HistoriaSection() {
+export function HistoriaSection({ data }: { data?: any }) {
+  const subtitlePart1 = data?.subtitle_part_1 || "Infraestructura inteligente para ";
+  const subtitlePart2 = data?.subtitle_part_2 || "comunidades conectadas";
+  const paragraph = data?.paragraph || "En SPECTRUMP COLOMBIA S.A.S. transformamos los territorios mediante la implementación de redes de alta velocidad y sistemas de energía solar de alta confiabilidad. Contamos con amplia trayectoria ejecutando proyectos de conectividad de gran envergadura en zonas apartadas, cerrando la brecha digital y mejorando la calidad de vida de las comunidades.";
+
   return (
     <section className="py-16 sm:py-20 bg-white w-full relative overflow-hidden" id="historia">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -13,15 +17,15 @@ export function HistoriaSection() {
             {/* Left Column: Subtítulo con Texto Destacado */}
             <div className="lg:col-span-5 text-left">
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 font-sans tracking-tight leading-tight border-l-4 border-[#0052CC] pl-4">
-                Infraestructura inteligente para{" "}
-                <span className="text-[#0052CC]">comunidades conectadas</span>
+                {subtitlePart1}
+                <span className="text-[#0052CC]">{subtitlePart2}</span>
               </h2>
             </div>
 
             {/* Right Column: Párrafo Informativo */}
             <div className="lg:col-span-7 text-left">
-              <p className="text-base sm:text-lg text-slate-600 font-sans leading-relaxed text-justify">
-                En <strong>SPECTRUMP COLOMBIA S.A.S.</strong> transformamos los territorios mediante la implementación de redes de alta velocidad y sistemas de energía solar de alta confiabilidad. Contamos con amplia trayectoria ejecutando proyectos de conectividad de gran envergadura en zonas apartadas, cerrando la brecha digital y mejorando la calidad de vida de las comunidades.
+              <p className="text-base sm:text-lg text-slate-600 font-sans leading-relaxed text-justify whitespace-pre-line">
+                {paragraph}
               </p>
             </div>
           </div>
