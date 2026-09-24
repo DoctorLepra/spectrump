@@ -1,23 +1,37 @@
 "use client";
 
 import React from "react";
-import {
-  Baby,
-  ExternalLink,
-  PhoneCall,
-  AlertTriangle,
-  Lock,
-  CheckCircle2,
-} from "lucide-react";
+import * as LucideIcons from "lucide-react";
+import { Baby, PhoneCall, ExternalLink } from "lucide-react";
 import { FadeContent } from "@/components/react-bits/fade-content";
 
 export function ProteccionInfantilSection({ data }: { data?: any }) {
   const title = data?.title || "Protección Infantil y Seguridad Digital";
   const subtitle = data?.subtitle || "En SPECTRUMP COLOMBIA S.A.S. asumimos un compromiso ético y legal estricto en la prevención y erradicación de la explotación, pornografía y abuso sexual de menores en redes de internet.";
   const backgroundImageUrl = data?.image_url || "/proteccion-infantil.jpg";
-  const leftTitle = data?.left_title || "Marco Legal y Preventivo";
-  const leftSubtitle = data?.left_subtitle || "Ley 679 de 2001 | Decreto 1524 de 2002 | Decreto 67 de 2003";
-  const leftParagraphHtml = data?.left_paragraph || `Dando cumplimiento al marco normativo colombiano (Ley 679 de 2001, Decreto 1524 de 2002 y Resoluciones de la CRC), <strong class="text-white font-bold">SPECTRUMP COLOMBIA S.A.S.</strong> despliega mecanismos de protección técnica y protocolos de bloqueo para prevenir que las redes de telecomunicaciones sean utilizadas para la difusión de contenidos ilícitos que atenten contra niños, niñas y adolescentes.`;
+  const leftTitle = data?.marco_title || "Marco Legal y Preventivo";
+  const leftSubtitle = data?.marco_badge || "Ley 679 de 2001 | Decreto 1524 de 2002 | Decreto 67 de 2003";
+  const leftParagraphHtml = data?.marco_description || `Dando cumplimiento al marco normativo colombiano (Ley 679 de 2001, Decreto 1524 de 2002 y Resoluciones de la CRC), <strong class="text-white font-bold">SPECTRUMP COLOMBIA S.A.S.</strong> despliega mecanismos de protección técnica y protocolos de bloqueo para prevenir que las redes de telecomunicaciones sean utilizadas para la difusión de contenidos ilícitos que atenten contra niños, niñas y adolescentes.`;
+
+  const defaultFeatures = [
+    { icon: 'Lock', title: 'Filtrado Técnico DNS de Red', description: 'Bloqueo de dominios e IP notificadas en las listas oficiales del MinTIC y Policía Nacional.', colorClass: 'text-emerald-400' },
+    { icon: 'AlertTriangle', title: 'Reporte Obligatorio a Autoridades', description: 'Notificación inmediata a la Fiscalía y CAI Virtual ante cualquier detección de material ilegal.', colorClass: 'text-amber-400' },
+    { icon: 'CheckCircle2', title: 'Promoción del Control Parental', description: 'Recomendaciones activas de herramientas de filtrado y supervisión para padres y administradores.', colorClass: 'text-blue-400' }
+  ];
+  
+  const features = data?.marco_features && Array.isArray(data.marco_features) && data.marco_features.length > 0 ? data.marco_features : defaultFeatures;
+
+  const canalesTitle = data?.canales_title || "Canales Oficiales de Denuncia";
+  const canalesSubtitle = data?.canales_subtitle || "Líneas de atención inmediata en Colombia";
+  
+  const defaultCanales = [
+    { title: 'Te Protejo Colombia', description: 'Portal web oficial & App Te Protejo', url: 'https://teprotejo.org' },
+    { title: 'ICBF (Bienestar Familiar)', description: 'Línea Gratuita Nacional: 01 8000 918080', url: 'LÍNEA 141' },
+    { title: 'Policía Nacional - CAI Virtual', description: 'Línea Emergencias: 123', url: 'caivirtual.policia.gov.co' },
+    { title: 'Fiscalía General de la Nación', description: 'Línea Gratuita Nacional: 01 8000 919748', url: 'LÍNEA 122' }
+  ];
+  
+  const canales = data?.canales_list && Array.isArray(data.canales_list) && data.canales_list.length > 0 ? data.canales_list : defaultCanales;
 
   return (
     <section className="py-20 sm:py-24 bg-white relative overflow-hidden border-b border-slate-200/80" id="proteccion-infantil">
@@ -72,29 +86,20 @@ export function ProteccionInfantilSection({ data }: { data?: any }) {
 
                 {/* Technical Obligations List */}
                 <div className="space-y-3 pt-2 font-sans">
-                  <div className="flex items-start gap-3 bg-slate-950/80 backdrop-blur-md p-3.5 rounded-2xl border border-slate-700/60 shadow-md">
-                    <Lock className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                    <div>
-                      <strong className="block text-xs text-white font-bold mb-0.5">Filtrado Técnico DNS de Red</strong>
-                      <span className="text-xs text-slate-300">Bloqueo de dominios e IP notificadas en las listas oficiales del MinTIC y Policía Nacional.</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3 bg-slate-950/80 backdrop-blur-md p-3.5 rounded-2xl border border-slate-700/60 shadow-md">
-                    <AlertTriangle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
-                    <div>
-                      <strong className="block text-xs text-white font-bold mb-0.5">Reporte Obligatorio a Autoridades</strong>
-                      <span className="text-xs text-slate-300">Notificación inmediata a la Fiscalía y CAI Virtual ante cualquier detección de material ilegal.</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3 bg-slate-950/80 backdrop-blur-md p-3.5 rounded-2xl border border-slate-700/60 shadow-md">
-                    <CheckCircle2 className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
-                    <div>
-                      <strong className="block text-xs text-white font-bold mb-0.5">Promoción del Control Parental</strong>
-                      <span className="text-xs text-slate-300">Recomendaciones activas de herramientas de filtrado y supervisión para padres y administradores.</span>
-                    </div>
-                  </div>
+                  {features.map((feature: any, index: number) => {
+                    const Icon = (LucideIcons as any)[feature.icon] || LucideIcons.CheckCircle2;
+                    const colors = ['text-emerald-400', 'text-amber-400', 'text-blue-400'];
+                    const colorClass = feature.colorClass || colors[index % colors.length];
+                    return (
+                      <div key={index} className="flex items-start gap-3 bg-slate-950/80 backdrop-blur-md p-3.5 rounded-2xl border border-slate-700/60 shadow-md">
+                        <Icon className={`w-5 h-5 ${colorClass} flex-shrink-0 mt-0.5`} />
+                        <div>
+                          <strong className="block text-xs text-white font-bold mb-0.5">{feature.title}</strong>
+                          <span className="text-xs text-slate-300">{feature.description}</span>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -117,66 +122,56 @@ export function ProteccionInfantilSection({ data }: { data?: any }) {
                   </div>
                   <div>
                     <h3 className="text-xl font-extrabold text-slate-900 font-sans">
-                      Canales Oficiales de Denuncia
+                      {canalesTitle}
                     </h3>
-                    <span className="text-xs text-slate-500 font-sans">Líneas de atención inmediata en Colombia</span>
+                    <span className="text-xs text-slate-500 font-sans">{canalesSubtitle}</span>
                   </div>
                 </div>
 
                 <div className="space-y-4 text-xs font-sans">
-                  {/* Channel 1: TeProtejo */}
-                  <a
-                    href="https://teprotejo.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between p-4 rounded-2xl bg-white border border-slate-200 hover:border-emerald-500 shadow-xs hover:shadow-md transition-all group"
-                  >
-                    <div>
-                      <strong className="block text-slate-900 font-bold text-sm">Te Protejo Colombia</strong>
-                      <span className="text-slate-500">Portal web oficial & App Te Protejo</span>
-                    </div>
-                    <span className="text-[#0052CC] font-bold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                      teprotejo.org <ExternalLink className="w-3.5 h-3.5" />
-                    </span>
-                  </a>
+                  {canales.map((canal: any, index: number) => {
+                    const urlStr = canal.url || '';
+                    const isWebUrl = urlStr.startsWith('http') || urlStr.includes('.com') || urlStr.includes('.org') || urlStr.includes('.co') || urlStr.includes('www.');
+                    const isPhoneNum = !isNaN(Number(urlStr.replace(/\D/g, ''))) && urlStr.replace(/\D/g, '').length > 2 && !isWebUrl && !urlStr.toUpperCase().includes('LÍNEA') && !urlStr.toUpperCase().includes('LINEA');
+                    
+                    const cleanHref = isWebUrl 
+                      ? (urlStr.startsWith('http') ? urlStr : `https://${urlStr}`) 
+                      : (isPhoneNum ? `tel:${urlStr.replace(/\D/g, '')}` : undefined);
+                    
+                    const shortDisplayUrl = isWebUrl ? urlStr.replace(/^https?:\/\//, '').replace(/\/$/, '') : urlStr;
 
-                  {/* Channel 2: ICBF */}
-                  <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-1">
-                    <div className="flex items-center justify-between">
-                      <strong className="text-slate-900 font-bold text-sm">ICBF (Bienestar Familiar)</strong>
-                      <span className="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full font-extrabold text-[11px]">
-                        LÍNEA 141
-                      </span>
-                    </div>
-                    <span className="text-slate-500 block">Línea Gratuita Nacional: 01 8000 918080</span>
-                  </div>
-
-                  {/* Channel 3: Policía CAI Virtual */}
-                  <a
-                    href="https://caivirtual.policia.gov.co"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between p-4 rounded-2xl bg-white border border-slate-200 hover:border-blue-500 shadow-xs hover:shadow-md transition-all group"
-                  >
-                    <div>
-                      <strong className="block text-slate-900 font-bold text-sm">Policía Nacional - CAI Virtual</strong>
-                      <span className="text-slate-500">Línea Emergencias: 123</span>
-                    </div>
-                    <span className="text-[#0052CC] font-bold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                      caivirtual.policia.gov.co <ExternalLink className="w-3.5 h-3.5" />
-                    </span>
-                  </a>
-
-                  {/* Channel 4: Fiscalía General */}
-                  <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-1">
-                    <div className="flex items-center justify-between">
-                      <strong className="text-slate-900 font-bold text-sm">Fiscalía General de la Nación</strong>
-                      <span className="px-2.5 py-0.5 bg-blue-100 text-blue-800 rounded-full font-extrabold text-[11px]">
-                        LÍNEA 122
-                      </span>
-                    </div>
-                    <span className="text-slate-500 block">Línea Gratuita Nacional: 01 8000 919748</span>
-                  </div>
+                    if (cleanHref) {
+                      return (
+                        <a
+                          key={index}
+                          href={cleanHref}
+                          target={isWebUrl ? "_blank" : undefined}
+                          rel={isWebUrl ? "noopener noreferrer" : undefined}
+                          className="flex items-center justify-between p-4 rounded-2xl bg-white border border-slate-200 hover:border-emerald-500 shadow-xs hover:shadow-md transition-all group"
+                        >
+                          <div>
+                            <strong className="block text-slate-900 font-bold text-sm">{canal.title}</strong>
+                            <span className="text-slate-500">{canal.description}</span>
+                          </div>
+                          <span className="text-[#0052CC] font-bold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform text-right">
+                            {shortDisplayUrl} {isWebUrl ? <ExternalLink className="w-3.5 h-3.5" /> : <PhoneCall className="w-3.5 h-3.5" />}
+                          </span>
+                        </a>
+                      );
+                    } else {
+                      return (
+                        <div key={index} className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-1">
+                          <div className="flex items-center justify-between">
+                            <strong className="text-slate-900 font-bold text-sm">{canal.title}</strong>
+                            <span className="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full font-extrabold text-[11px] whitespace-nowrap ml-2">
+                              {shortDisplayUrl}
+                            </span>
+                          </div>
+                          <span className="text-slate-500 block">{canal.description}</span>
+                        </div>
+                      );
+                    }
+                  })}
                 </div>
               </div>
             </div>

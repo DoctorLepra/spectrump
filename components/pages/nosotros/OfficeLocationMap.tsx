@@ -7,14 +7,22 @@ import { FadeContent } from "@/components/react-bits/fade-content";
 
 export function OfficeLocationMap({ data }: { data?: any }) {
   const title = data?.title || "Ubicación de Nuestras Oficinas";
-  const subtitle = data?.subtitle || "Encuentra la sede central de operaciones, centro de ingeniería y soporte de SPECTRUMP COLOMBIA S.A.S.";
+  const description = data?.description || data?.subtitle || "Encuentra la sede central de operaciones, centro de ingeniería y soporte de SPECTRUMP COLOMBIA S.A.S.";
   const address = data?.address || "Carrera 15 # 93 - 60, Bogotá D.C.";
   const phone = data?.phone || "+57 (601) 745-8900";
   const email = data?.email || "contacto@spectrump.com.co";
   const hours = data?.hours || "Lunes a Viernes: 8:00 AM - 5:30 PM";
   
   // SPECTRUMP Office Coordinates: 6°11'25.9"N 67°29'37.4"W (lng: -67.493708, lat: 6.190538) - used for map rendering
-  const officeCoords: [number, number] = [-67.493708, 6.190538];
+  let officeCoords: [number, number] = [-67.493708, 6.190538];
+  
+  if (data?.coordinates) {
+    const parts = data.coordinates.split(',').map((s: string) => parseFloat(s.trim()));
+    if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+      // User inputs Lat, Lng. Map expects Lng, Lat
+      officeCoords = [parts[1], parts[0]];
+    }
+  }
 
   return (
     <section className="py-20 sm:py-24 bg-white relative overflow-hidden border-b border-slate-200/80" id="ubicacion">
@@ -25,7 +33,7 @@ export function OfficeLocationMap({ data }: { data?: any }) {
               {title}
             </h2>
             <p className="text-base sm:text-lg text-slate-600 font-sans leading-relaxed">
-              {subtitle}
+              {description}
             </p>
           </div>
         </FadeContent>
@@ -61,35 +69,35 @@ export function OfficeLocationMap({ data }: { data?: any }) {
                 </div>
 
                 {/* Item 2: Contacto */}
-                <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-xl bg-blue-50 border border-blue-100 text-[#0052CC] flex-shrink-0">
+                <a href={`https://wa.me/${phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 group cursor-pointer">
+                  <div className="p-3 rounded-xl bg-blue-50 border border-blue-100 text-[#0052CC] flex-shrink-0 group-hover:bg-[#0052CC] group-hover:text-white transition-colors">
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
-                    <strong className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-0.5">
+                    <strong className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-0.5 group-hover:text-blue-500 transition-colors">
                       Número de contacto
                     </strong>
-                    <span className="text-base font-bold text-slate-900 leading-snug block">
+                    <span className="text-base font-bold text-slate-900 leading-snug block group-hover:text-[#0052CC] transition-colors">
                       {phone}
                     </span>
-                    <span className="text-xs text-slate-500 font-sans">Atención Inmediata</span>
+                    <span className="text-xs text-slate-500 font-sans">WhatsApp disponible</span>
                   </div>
-                </div>
+                </a>
 
                 {/* Item 3: Correo */}
-                <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-xl bg-blue-50 border border-blue-100 text-[#0052CC] flex-shrink-0">
+                <a href={`mailto:${email}`} className="flex items-start gap-4 group cursor-pointer">
+                  <div className="p-3 rounded-xl bg-blue-50 border border-blue-100 text-[#0052CC] flex-shrink-0 group-hover:bg-[#0052CC] group-hover:text-white transition-colors">
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <strong className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-0.5">
+                    <strong className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-0.5 group-hover:text-blue-500 transition-colors">
                       Correo Institucional
                     </strong>
-                    <span className="text-base font-bold text-slate-900 leading-snug block">
+                    <span className="text-base font-bold text-slate-900 leading-snug block group-hover:text-[#0052CC] transition-colors break-all">
                       {email}
                     </span>
                   </div>
-                </div>
+                </a>
 
                 {/* Item 4: Horario */}
                 <div className="flex items-start gap-4">

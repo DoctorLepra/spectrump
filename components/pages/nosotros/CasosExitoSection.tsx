@@ -49,17 +49,26 @@ const CASOS_EXITO_ITEMS: AccordionGalleryItem[] = [
 ];
 
 export function CasosExitoSection({ data, items }: { data?: any, items?: any[] }) {
-  const displayItems = items && items.length > 0 
-    ? items.map(item => {
-        const isDbItem = 'title' in item;
-        return {
-          image: isDbItem ? (item.metadata?.image_url || item.image) : item.image,
-          label: isDbItem ? (item.metadata?.badge || item.label) : item.label,
-          subtitle: isDbItem ? item.title : item.subtitle,
-          description: isDbItem ? item.description : item.description,
-          features: isDbItem ? (item.metadata?.features || []) : item.features,
-        };
-      })
+  // Prefer direct JSON array from CMS if available, otherwise DB items, otherwise fallback
+  const customItems = data?.items && Array.isArray(data.items) && data.items.length > 0 ? data.items : null;
+  const dbItems = items && items.length > 0 ? items : null;
+  
+  const displayItems = customItems
+    ? customItems.map((item: any) => ({
+        image: item.image,
+        label: item.title,
+        subtitle: item.badge,
+        description: item.description,
+        features: item.features || [],
+      }))
+    : dbItems
+    ? dbItems.map((item: any) => ({
+        image: item.metadata?.image_url || item.image,
+        label: item.title,
+        subtitle: item.metadata?.badge || item.label,
+        description: item.description,
+        features: item.metadata?.features || [],
+      }))
     : CASOS_EXITO_ITEMS;
 
   const badgeText = data?.badge_text || "CASOS DE ÉXITO Y EXPERIENCIA";

@@ -64,7 +64,11 @@ export default async function NosotrosPage() {
       <NosotrosHistoria data={sections['nosotros_historia']} />
 
       {/* 3. Misión, Visión, Política & Valores Corporativos */}
-      <MissionVision data={sections['nosotros_mision_vision']} items={items['nosotros_valores']} />
+      <MissionVision 
+        data={sections['nosotros_mision_vision']} 
+        valoresData={sections['nosotros_valores']}
+        items={items['nosotros_valores']} 
+      />
 
       {/* 4. Casos de Éxito y Experiencia (Accordion Gallery + DotField) */}
       <CasosExitoSection data={sections['nosotros_casos']} items={items['nosotros_casos']} />
@@ -76,7 +80,7 @@ export default async function NosotrosPage() {
       <NormativaConceptualMap data={sections['nosotros_normativa']} items={items['nosotros_normativa']} />
 
       {/* 7. Sección de Protección Infantil (Ley 679 de 2001 & Canales de Denuncia) */}
-      <ProteccionInfantilSection data={sections['nosotros_infantil']} />
+      <ProteccionInfantilSection data={sections['nosotros_proteccion']} />
 
       {/* 8. Pre-Footer Glassmorphic Card */}
       <PreFooterBanner data={sections['inicio_prefooter']} />

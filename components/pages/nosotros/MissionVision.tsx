@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Target, Compass, ShieldCheck, Award, TrendingUp, Headphones, Lightbulb } from "lucide-react";
+import * as LucideIcons from "lucide-react";
 import { COMPANY_VISION } from "@/lib/data/nosotrosData";
 import { FadeContent } from "@/components/react-bits/fade-content";
 
@@ -11,47 +11,51 @@ const NEW_CORPORATE_VALUES = [
     title: "Calidad",
     description:
       "Mantenemos los más altos estándares técnicos y normativos en la ejecución de cada proyecto, garantizando durabilidad, precisión y excelencia en nuestros entregables.",
-    icon: <Award className="w-6 h-6 text-[#0052CC]" />,
+    icon: <LucideIcons.Award className="w-6 h-6 text-[#0052CC]" />,
   },
   {
     id: "competitividad",
     title: "Competitividad",
     description:
       "Optimizamos recursos e inversiones mediante modelos eficientes y costos altamente rentables que maximizan el retorno y valor para nuestros clientes.",
-    icon: <TrendingUp className="w-6 h-6 text-[#0052CC]" />,
+    icon: <LucideIcons.TrendingUp className="w-6 h-6 text-[#0052CC]" />,
   },
   {
     id: "servicio",
     title: "Servicio",
     description:
       "Ofrecemos acompañamiento integral, atención personalizada y soporte continuo, priorizando la satisfacción y las necesidades de cada organización.",
-    icon: <Headphones className="w-6 h-6 text-[#0052CC]" />,
+    icon: <LucideIcons.Headphones className="w-6 h-6 text-[#0052CC]" />,
   },
   {
     id: "innovacion",
     title: "Innovación",
     description:
       "Integramos tecnologías de vanguardia en telecomunicaciones y energías renovables para desarrollar soluciones eficientes, inteligentes y de futuro.",
-    icon: <Lightbulb className="w-6 h-6 text-[#16A34A]" />,
+    icon: <LucideIcons.Lightbulb className="w-6 h-6 text-[#16A34A]" />,
   },
 ];
 
-const ICON_MAP: Record<string, React.ElementType> = {
-  Award,
-  TrendingUp,
-  Headphones,
-  Lightbulb,
-};
-
-export function MissionVision({ data, items }: { data?: any, items?: any[] }) {
-  const displayValues = items && items.length > 0 ? items : NEW_CORPORATE_VALUES;
+export function MissionVision({ data, valoresData, items }: { data?: any, valoresData?: any, items?: any[] }) {
+  // Use CMS items if available, else DB items, else fallback
+  const customItems = valoresData?.items && Array.isArray(valoresData.items) && valoresData.items.length > 0 ? valoresData.items : null;
+  const dbItems = items && items.length > 0 ? items : null;
+  const displayValues = customItems || dbItems || NEW_CORPORATE_VALUES;
   
   const misionText = data?.mision || "Diseñar, fabricar e implementar soluciones de infraestructura tecnológica que integren conectividad, energía renovable, seguridad electrónica y servicios digitales, contribuyendo al desarrollo sostenible de las comunidades.";
+  const misionTag1 = data?.mision_tag1 || "Infraestructura Sostenible";
+  const misionTag2 = data?.mision_tag2 || "Desarrollo Comunitario";
+
   const visionText = data?.vision || COMPANY_VISION.content;
+  const visionTag1 = data?.vision_tag1 || "Meta Estratégica 2030";
+  const visionTag2 = data?.vision_tag2 || "Transición Energética";
+
   const politicaText = data?.politica || "Prestar y ofrecer servicios de diseño, construcción y mantenimiento en las áreas de Ingeniería, Telecomunicaciones y Energías Renovables, óptima en el cumplimiento del tiempo, normas vigentes, satisfaciendo eficazmente los requerimientos y necesidades de nuestros clientes garantizando la entrega de un servicio de calidad.";
+  const politicaTag1 = data?.politica_tag1 || "Calidad Certificada";
+  const politicaTag2 = data?.politica_tag2 || "Cumplimiento Garantizado";
   
-  const valoresTitle = data?.valores_title || "Valores que guían nuestra operación diaria";
-  const valoresSubtitle = data?.valores_subtitle || "Principios éticos, técnicos y ambientales que rigen nuestras relaciones contractuales con el Estado colombiano y el sector privado.";
+  const valoresTitle = valoresData?.valores_title || "Valores que guían nuestra operación diaria";
+  const valoresSubtitle = valoresData?.valores_subtitle || "Principios éticos, técnicos y ambientales que rigen nuestras relaciones contractuales con el Estado colombiano y el sector privado.";
 
   return (
     <section className="py-20 sm:py-24 bg-white relative overflow-hidden border-b border-slate-200/80">
@@ -64,7 +68,7 @@ export function MissionVision({ data, items }: { data?: any, items?: any[] }) {
               <div>
                 <div className="flex items-center justify-between mb-6">
                   <div className="w-12 h-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-[#0052CC]">
-                    <Target className="w-6 h-6" />
+                    <LucideIcons.Target className="w-6 h-6" />
                   </div>
                 </div>
 
@@ -78,8 +82,8 @@ export function MissionVision({ data, items }: { data?: any, items?: any[] }) {
               </div>
 
               <div className="mt-8 pt-4 border-t border-slate-100 flex items-center justify-between font-sans text-xs font-bold text-slate-500">
-                <span>Infraestructura Sostenible</span>
-                <span className="text-[#0052CC]">Desarrollo Comunitario</span>
+                <span>{misionTag1}</span>
+                <span className="text-[#0052CC]">{misionTag2}</span>
               </div>
             </div>
           </FadeContent>
@@ -90,7 +94,7 @@ export function MissionVision({ data, items }: { data?: any, items?: any[] }) {
               <div>
                 <div className="flex items-center justify-between mb-6">
                   <div className="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-[#16A34A]">
-                    <Compass className="w-6 h-6" />
+                    <LucideIcons.Compass className="w-6 h-6" />
                   </div>
                 </div>
 
@@ -104,8 +108,8 @@ export function MissionVision({ data, items }: { data?: any, items?: any[] }) {
               </div>
 
               <div className="mt-8 pt-4 border-t border-slate-100 flex items-center justify-between font-sans text-xs font-bold text-slate-500">
-                <span>Meta Estratégica 2030</span>
-                <span className="text-[#16A34A]">Transición Energética</span>
+                <span>{visionTag1}</span>
+                <span className="text-[#16A34A]">{visionTag2}</span>
               </div>
             </div>
           </FadeContent>
@@ -116,7 +120,7 @@ export function MissionVision({ data, items }: { data?: any, items?: any[] }) {
               <div>
                 <div className="flex items-center justify-between mb-6">
                   <div className="w-12 h-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-[#0052CC]">
-                    <ShieldCheck className="w-6 h-6" />
+                    <LucideIcons.ShieldCheck className="w-6 h-6" />
                   </div>
                 </div>
 
@@ -130,8 +134,8 @@ export function MissionVision({ data, items }: { data?: any, items?: any[] }) {
               </div>
 
               <div className="mt-8 pt-4 border-t border-slate-100 flex items-center justify-between font-sans text-xs font-bold text-slate-500">
-                <span>Calidad Certificada</span>
-                <span className="text-[#0052CC]">Cumplimiento Garantizado</span>
+                <span>{politicaTag1}</span>
+                <span className="text-[#0052CC]">{politicaTag2}</span>
               </div>
             </div>
           </FadeContent>
@@ -151,19 +155,31 @@ export function MissionVision({ data, items }: { data?: any, items?: any[] }) {
           </FadeContent>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {displayValues.map((val, idx) => {
-              const isDbItem = 'title' in val && !('icon' in val && typeof val.icon !== 'string');
-              const IconComp = isDbItem && val.metadata?.icon ? (ICON_MAP[val.metadata.icon] || Award) : null;
-              const titleText = isDbItem ? val.title : val.title;
-              const descText = isDbItem ? val.description : val.description;
+            {displayValues.map((val: any, idx: number) => {
+              const isJsonItem = !!val.icon && typeof val.icon === 'string';
+              const isDbItem = 'title' in val && !isJsonItem;
+              
+              const titleText = isJsonItem ? val.title : (isDbItem ? val.title : val.title);
+              const descText = isJsonItem ? val.description : (isDbItem ? val.description : val.description);
               const iconColor = titleText.toLowerCase().includes('innov') ? 'text-[#16A34A]' : 'text-[#0052CC]';
 
+              let FinalIcon = null;
+              if (isJsonItem) {
+                const IconComp = (LucideIcons as any)[val.icon] || LucideIcons.Award;
+                FinalIcon = <IconComp className={`w-6 h-6 ${iconColor}`} />;
+              } else if (isDbItem && val.metadata?.icon) {
+                const IconComp = (LucideIcons as any)[val.metadata.icon] || LucideIcons.Award;
+                FinalIcon = <IconComp className={`w-6 h-6 ${iconColor}`} />;
+              } else {
+                FinalIcon = val.icon;
+              }
+
               return (
-                <FadeContent key={val.id} delay={0.1 * idx} duration={0.6}>
+                <FadeContent key={val.id || idx} delay={0.1 * idx} duration={0.6}>
                   <div className="bg-slate-50/70 border border-slate-200/90 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between h-full group">
                     <div>
                       <div className="mb-4 p-3 rounded-xl bg-white border border-slate-200/80 w-fit">
-                        {isDbItem && IconComp ? <IconComp className={`w-6 h-6 ${iconColor}`} /> : val.icon}
+                        {FinalIcon}
                       </div>
                       <h3 className="text-lg font-extrabold text-slate-900 font-sans mb-2 group-hover:text-[#0052CC] transition-colors">
                         {titleText}
