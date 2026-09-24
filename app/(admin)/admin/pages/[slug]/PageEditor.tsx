@@ -3,10 +3,11 @@
 import React, { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
-import { Save, CheckCircle, AlertTriangle, FileText, Type, Image as ImageIcon, Video, AlignLeft, Phone, Clock, Mail, Zap, Shield, Globe, Cpu, Wifi, Battery, Server, Cloud, Activity, Award, Briefcase, Settings, Wrench, Lightbulb, Trash2, Plus, Sun, ShieldCheck, Monitor, Leaf, ArrowLeft, TrendingUp, ChevronDown, ChevronUp, Headphones, Target, Compass, Users, BookOpen, Radio, Gavel, Network, ClipboardList, Scale, Landmark, Receipt, MapPin, BarChart3, Gauge, Sliders, FileCode, FileCheck, Baby } from "lucide-react";
+import * as LucideIcons from "lucide-react";
+import { Save, CheckCircle, AlertTriangle, FileText, Type, Image as ImageIcon, Video, AlignLeft, Phone, Clock, Mail, Zap, Shield, Globe, Cpu, Wifi, Battery, Server, Cloud, Activity, Award, Briefcase, Settings, Wrench, Lightbulb, Trash2, Plus, Sun, ShieldCheck, Monitor, Leaf, ArrowLeft, TrendingUp, ChevronDown, ChevronUp, Headphones, Target, Compass, Users, BookOpen, Radio, Gavel, Network, ClipboardList, Scale, Landmark, Receipt, MapPin, BarChart3, Gauge, Sliders, FileCode, FileCheck, Baby, Info } from "lucide-react";
 import { CldUploadWidget } from 'next-cloudinary';
 
-const PAGE_SCHEMAS: Record<string, { key: string, label: string, fields: { key: string, label: string, type: 'text' | 'textarea' | 'image' | 'video' | 'capabilities' | 'qualities' | 'project_list' | 'advantages' | 'values_list' | 'divider' | 'casos_exito_list' | 'info' | 'normativas_list' | 'features_list' | 'canales_list', placeholder?: string, fullWidth?: boolean, allowedFormats?: string[] }[] }[]> = {
+const PAGE_SCHEMAS: Record<string, { key: string, label: string, fields: { key: string, label: string, type: 'text' | 'textarea' | 'image' | 'video' | 'capabilities' | 'qualities' | 'project_list' | 'advantages' | 'values_list' | 'divider' | 'casos_exito_list' | 'info' | 'normativas_list' | 'features_list' | 'canales_list' | 'services_list' | 'econecta_features_list' | 'econecta_models_list', placeholder?: string, fullWidth?: boolean, allowedFormats?: string[] }[] }[]> = {
   inicio: [
     {
       key: 'inicio_hero',
@@ -185,67 +186,117 @@ const PAGE_SCHEMAS: Record<string, { key: string, label: string, fields: { key: 
       ]
     }
   ],
-  econecta: [
+  servicios: [
     {
-      key: 'econecta_hero',
-      label: 'Hero Econecta',
+      key: 'servicios_hero',
+      label: 'Presentación',
       fields: [
-        { key: 'subtitle', label: 'Subtítulo (Admite HTML)', type: 'textarea', placeholder: 'Postes solares inteligentes para zonas rurales y urbanas.' },
-        { key: 'primary_button_text', label: 'Botón Principal', type: 'text', placeholder: 'VER MODELOS' },
-        { key: 'secondary_button_text', label: 'Botón Secundario', type: 'text', placeholder: 'CONTACTAR VENTAS' },
-        { key: 'video_url', label: 'Video Fondo', type: 'video' }
+        { key: 'title', label: 'Título', type: 'text', placeholder: 'Nuestras Soluciones Tecnológicas' },
+        { key: 'badge_text', label: 'Texto Brillante', type: 'text', placeholder: 'INNOVACIÓN' },
+        { key: 'image_url', label: 'Imagen de Fondo', type: 'image' }
       ]
     },
     {
-      key: 'econecta_descripcion',
-      label: 'Descripción (Problema/Solución)',
+      key: 'servicios_catalog',
+      label: 'Servicios',
       fields: [
-        { key: 'paragraph1', label: 'Párrafo 1', type: 'textarea', placeholder: 'La desconexión en zonas alejadas es un reto...' },
-        { key: 'paragraph2', label: 'Párrafo 2', type: 'textarea', placeholder: 'Econecta soluciona esto mediante autonomía solar...' }
+        { key: 'title', label: 'Título', type: 'text', placeholder: 'Catálogo de Servicios', fullWidth: true },
+        { key: 'subtitle', label: 'Descripción', type: 'textarea', placeholder: 'Conoce todo lo que podemos hacer por ti.' },
+        { key: 'services_list', label: 'Servicios (Máx 10)', type: 'services_list', fullWidth: true }
+      ]
+    }
+  ],
+  productos: [
+    {
+      key: 'productos_hero',
+      label: 'Presentación',
+      fields: [
+        { key: 'title', label: 'Título', type: 'text', placeholder: 'Catálogo de Equipos &' },
+        { key: 'badge_text', label: 'Texto Brillante', type: 'text', placeholder: 'Energía Solar Fotovoltaica' },
+        { key: 'description', label: 'Descripción', type: 'textarea', placeholder: 'Suministro de hardware especializado...', fullWidth: true },
+        { key: 'image_url', label: 'Imagen de Fondo', type: 'image' }
+      ]
+    },
+    {
+      key: 'productos_navbar',
+      label: 'Títulos del Menú Navbar',
+      fields: [
+        { key: 'menu_1', label: 'Menú 1 (Ej. Generación & Conversión)', type: 'text', fullWidth: true },
+        { key: 'menu_2', label: 'Menú 2 (Ej. Almacenamiento & Montaje)', type: 'text', fullWidth: true },
+        { key: 'menu_3', label: 'Menú 3 (Ej. Protección & Portátiles)', type: 'text', fullWidth: true }
+      ]
+    }
+  ],
+  econecta: [
+    {
+      key: 'econecta_hero',
+      label: 'Presentación',
+      fields: [
+        { key: 'logo_url', label: 'Logo (PNG/SVG)', type: 'image', allowedFormats: ['png', 'svg'] },
+        { key: 'description', label: 'Descripción', type: 'textarea', placeholder: 'La solución integral y autosostenible que fusiona energía solar, conectividad, videovigilancia y servicios digitales para comunidades y proyectos de alto impacto.', fullWidth: true },
+        { key: 'video_url', label: 'Video de Fondo', type: 'video' }
+      ]
+    },
+    {
+      key: 'econecta_caracteristicas',
+      label: 'Características',
+      fields: [
+        { key: 'features_list', label: 'Características (Máx 4)', type: 'econecta_features_list', fullWidth: true }
+      ]
+    },
+    {
+      key: 'econecta_historia',
+      label: 'Historia',
+      fields: [
+        { key: 'description', label: 'Descripción de la Historia', type: 'textarea', placeholder: 'La solución integral y autosostenible que fusiona energía solar, conectividad, videovigilancia y servicios digitales para comunidades y proyectos de alto impacto.', fullWidth: true }
       ]
     },
     {
       key: 'econecta_modelos',
       label: 'Modelos Disponibles',
       fields: [
-        { key: 'title', label: 'Título', type: 'text', placeholder: 'Modelos' },
-        { key: 'subtitle', label: 'Subtítulo', type: 'text', placeholder: 'Elige el poste inteligente ideal para tu proyecto.' }
+        { key: 'title', label: 'Título General', type: 'text', placeholder: 'Modelos' },
+        { key: 'badge_text', label: 'Texto Verde', type: 'text', placeholder: 'Elige el poste inteligente ideal' },
+        { key: 'description', label: 'Descripción General', type: 'textarea', fullWidth: true },
+        { key: 'models_list', label: 'Lista de Modelos (Máx 10)', type: 'econecta_models_list', fullWidth: true }
       ]
     },
     {
-      key: 'econecta_cierre',
-      label: 'Cierre',
+      key: 'econecta_detalle',
+      label: 'Detalle',
       fields: [
-        { key: 'paragraph', label: 'Párrafo de Cierre (Admite HTML)', type: 'textarea', placeholder: 'Únete a la revolución solar y mantente conectado.' },
-        { key: 'video_url', label: 'URL de Video (Fondo)', type: 'video' }
+        { key: 'description', label: 'Descripción', type: 'textarea', placeholder: 'Descripción del detalle...', fullWidth: true },
+        { key: 'video_url', label: 'Video de Fondo', type: 'video' }
       ]
     }
   ],
   contacto: [
     {
       key: 'contacto_hero',
-      label: 'Hero Contacto',
+      label: 'Presentación',
       fields: [
-        { key: 'title', label: 'Título (Admite HTML)', type: 'textarea', placeholder: 'Hablemos de tu próximo gran proyecto.' },
-        { key: 'image_url', label: 'URL de Imagen (Fondo)', type: 'image' }
+        { key: 'title', label: 'Título', type: 'text', placeholder: 'Conectemos tu Próximo Proyecto con el' },
+        { key: 'badge_text', label: 'Texto Brillante', type: 'text', placeholder: 'Futuro' },
+        { key: 'image_url', label: 'Imagen de Fondo', type: 'image' },
+        { key: 'features_list', label: 'Características (Máx 3)', type: 'contacto_features_list', fullWidth: true }
       ]
     },
     {
-      key: 'contacto_formulario',
-      label: 'Información de Contacto',
+      key: 'contacto_descripcion',
+      label: 'Descripción',
       fields: [
-        { key: 'whatsapp', label: 'WhatsApp', type: 'text', placeholder: '+57 300 000 0000' },
-        { key: 'pbx', label: 'Línea PBX', type: 'text', placeholder: '601 000 0000' },
-        { key: 'email', label: 'Correo Electrónico', type: 'text', placeholder: 'comercial@spectrump.com.co' },
-        { key: 'hours', label: 'Horario de Atención', type: 'text', placeholder: 'Lunes a Viernes, 8:00 AM a 5:00 PM' }
+        { key: 'title', label: 'Título', type: 'text', placeholder: 'Nuestra Propuesta' },
+        { key: 'description', label: 'Descripción', type: 'textarea', placeholder: 'Estamos aquí para ayudarte...', fullWidth: true }
       ]
     },
     {
-      key: 'contacto_faq',
-      label: 'Preguntas Frecuentes (FAQ)',
+      key: 'contacto_datos',
+      label: 'Datos de Contacto',
       fields: [
-        { key: 'title', label: 'Título', type: 'text', placeholder: 'Preguntas Frecuentes' },
-        { key: 'subtitle', label: 'Subtítulo', type: 'textarea', placeholder: 'Resolvemos tus dudas más comunes.' }
+        { key: 'whatsapp', label: 'WhatsApp Comercial (Solo número)', type: 'text', placeholder: '573209325989' },
+        { key: 'pbx', label: 'Línea PBX (Solo número)', type: 'text', placeholder: '6010000000' },
+        { key: 'correo', label: 'Correo Electrónico', type: 'text', placeholder: 'contacto@spectrump.com' },
+        { key: 'horario', label: 'Horario de Atención', type: 'text', placeholder: 'Lunes a Viernes de 8:00 AM a 5:00 PM', fullWidth: true }
       ]
     }
   ]
@@ -490,9 +541,13 @@ export function PageEditor({ pageId, initialSections, initialItems }: { pageId: 
                 const isNormativasList = field.type === 'normativas_list';
                 const isFeaturesList = field.type === 'features_list';
                 const isCanalesList = field.type === 'canales_list';
+                const isServicesList = field.type === 'services_list';
+                const isEconectaFeaturesList = field.type === 'econecta_features_list';
+                const isEconectaModelsList = field.type === 'econecta_models_list';
+                const isContactoFeaturesList = field.type === 'contacto_features_list';
                 const isDivider = field.type === 'divider';
                 const isInfo = field.type === 'info';
-                const colSpan = (isDivider || isInfo || isTextarea || isMedia || isCapabilities || isQualities || isProjectList || isAdvantages || isValuesList || isCasosExitoList || isNormativasList || isFeaturesList || isCanalesList || field.fullWidth) ? 'md:col-span-2' : 'md:col-span-1';
+                const colSpan = (isDivider || isInfo || isTextarea || isMedia || isCapabilities || isQualities || isProjectList || isAdvantages || isValuesList || isCasosExitoList || isNormativasList || isFeaturesList || isCanalesList || isServicesList || isEconectaFeaturesList || isEconectaModelsList || isContactoFeaturesList || field.fullWidth) ? 'md:col-span-2' : 'md:col-span-1';
                 
                 if (isDivider) {
                   return (
@@ -699,6 +754,381 @@ export function PageEditor({ pageId, initialSections, initialItems }: { pageId: 
                             className="w-full py-4 border-2 border-dashed border-slate-300 rounded-xl text-slate-500 font-semibold hover:border-blue-400 hover:bg-blue-50 hover:text-blue-600 transition-colors flex items-center justify-center gap-2"
                           >
                             <Plus className="w-5 h-5" /> Agregar normativa ({(currentContent[field.key]?.length || 0)}/7)
+                          </button>
+                        )}
+                      </div>
+                    ) : isServicesList ? (
+                      <div className="space-y-4">
+                        {Array.isArray(currentContent[field.key]) && currentContent[field.key].map((val: any, index: number) => {
+                          return (
+                            <div key={index} className="flex flex-col gap-4 p-4 bg-slate-50 border border-slate-200 rounded-xl relative group">
+                              <div className="flex gap-4 items-start mr-6">
+                                <div className="flex-shrink-0">
+                                  <label className="block text-xs font-semibold text-slate-500 mb-1">Ícono</label>
+                                  <IconPicker 
+                                    value={val.icon || 'Star'}
+                                    onChange={(iconName) => {
+                                      const newVals = [...currentContent[field.key]];
+                                      newVals[index].icon = iconName;
+                                      handleFieldChange(section.key, field.key, newVals as any);
+                                    }}
+                                  />
+                                </div>
+                                <div className="flex-1">
+                                  <label className="block text-xs font-semibold text-slate-500 mb-1">Etiqueta</label>
+                                  <input
+                                    type="text"
+                                    placeholder="Ej. BÁSICO"
+                                    value={val.badge || ''}
+                                    onChange={(e) => {
+                                      const newVals = [...currentContent[field.key]];
+                                      newVals[index].badge = e.target.value;
+                                      handleFieldChange(section.key, field.key, newVals as any);
+                                    }}
+                                    className="w-full h-[42px] bg-white border border-slate-200 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500"
+                                  />
+                                </div>
+                              </div>
+                              
+                              <div className="mr-6">
+                                <label className="block text-xs font-semibold text-slate-500 mb-1">Título</label>
+                                <input
+                                  type="text"
+                                  placeholder="Ej. Auditoría IT"
+                                  value={val.title || ''}
+                                  onChange={(e) => {
+                                    const newVals = [...currentContent[field.key]];
+                                    newVals[index].title = e.target.value;
+                                    handleFieldChange(section.key, field.key, newVals as any);
+                                  }}
+                                  className="w-full h-[42px] bg-white border border-slate-200 rounded-lg px-4 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500"
+                                />
+                              </div>
+
+                              <div className="mr-6">
+                                <label className="block text-xs font-semibold text-slate-500 mb-1">Descripción (Máx 94 car.)</label>
+                                <textarea
+                                  maxLength={94}
+                                  placeholder="Breve descripción..."
+                                  value={val.description || ''}
+                                  onChange={(e) => {
+                                    const newVals = [...currentContent[field.key]];
+                                    newVals[index].description = e.target.value;
+                                    handleFieldChange(section.key, field.key, newVals as any);
+                                  }}
+                                  rows={2}
+                                  className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 resize-none"
+                                />
+                                <span className="text-[10px] text-slate-400 mt-1 block">
+                                  {val.description?.length || 0}/94 caracteres
+                                </span>
+                              </div>
+
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const newVals = [...currentContent[field.key]];
+                                  newVals.splice(index, 1);
+                                  handleFieldChange(section.key, field.key, newVals as any);
+                                }}
+                                className="text-slate-400 hover:text-red-500 absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity"
+                              >
+                                <Trash2 className="w-5 h-5" />
+                              </button>
+                            </div>
+                          );
+                        })}
+                        {(!currentContent[field.key] || currentContent[field.key].length < 10) && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const newVals = Array.isArray(currentContent[field.key]) ? [...currentContent[field.key]] : [];
+                              newVals.push({ icon: 'Star', badge: '', title: '', description: '' });
+                              handleFieldChange(section.key, field.key, newVals as any);
+                            }}
+                            className="w-full py-4 border-2 border-dashed border-slate-300 rounded-xl text-slate-500 font-semibold hover:border-blue-400 hover:bg-blue-50 hover:text-blue-600 transition-colors flex items-center justify-center gap-2"
+                          >
+                            <Plus className="w-5 h-5" /> Agregar servicio ({currentContent[field.key]?.length || 0}/10)
+                          </button>
+                        )}
+                      </div>
+                    ) : isContactoFeaturesList ? (
+                      <div className="space-y-4">
+                        {Array.isArray(currentContent[field.key]) && currentContent[field.key].map((val: any, index: number) => {
+                          return (
+                            <div key={index} className="flex flex-col gap-4 p-5 bg-white border border-slate-200 shadow-sm rounded-xl relative group">
+                              <div className="flex gap-4 items-start mr-8">
+                                <div className="flex-shrink-0">
+                                  <label className="block text-xs font-semibold text-slate-500 mb-1">Ícono</label>
+                                  <IconPicker 
+                                    value={val.icon || 'Star'}
+                                    onChange={(iconName) => {
+                                      const newVals = [...currentContent[field.key]];
+                                      newVals[index].icon = iconName;
+                                      handleFieldChange(section.key, field.key, newVals as any);
+                                    }}
+                                  />
+                                </div>
+                                <div className="flex-1">
+                                  <label className="block text-xs font-semibold text-slate-500 mb-1">Título</label>
+                                  <input
+                                    type="text"
+                                    placeholder="Ej. Integración"
+                                    value={val.title || ''}
+                                    onChange={(e) => {
+                                      const newVals = [...currentContent[field.key]];
+                                      newVals[index].title = e.target.value;
+                                      handleFieldChange(section.key, field.key, newVals as any);
+                                    }}
+                                    className="w-full h-[42px] bg-slate-50 border border-slate-200 rounded-lg px-4 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500"
+                                  />
+                                </div>
+                              </div>
+                              <div className="mr-8">
+                                <label className="block text-xs font-semibold text-slate-500 mb-1">Descripción Corta (Máx 64 caracteres)</label>
+                                <input
+                                  type="text"
+                                  maxLength={64}
+                                  placeholder="Ej. Breve descripción..."
+                                  value={val.description || ''}
+                                  onChange={(e) => {
+                                    const newVals = [...currentContent[field.key]];
+                                    newVals[index].description = e.target.value;
+                                    handleFieldChange(section.key, field.key, newVals as any);
+                                  }}
+                                  className="w-full h-[42px] bg-slate-50 border border-slate-200 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500"
+                                />
+                                <div className="text-right text-[10px] text-slate-400 mt-1">
+                                  {val.description?.length || 0}/64
+                                </div>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const newVals = [...currentContent[field.key]];
+                                  newVals.splice(index, 1);
+                                  handleFieldChange(section.key, field.key, newVals as any);
+                                }}
+                                className="text-slate-400 hover:text-red-500 absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity"
+                              >
+                                <Trash2 className="w-5 h-5" />
+                              </button>
+                            </div>
+                          );
+                        })}
+                        {(!currentContent[field.key] || currentContent[field.key].length < 3) && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const newVals = Array.isArray(currentContent[field.key]) ? [...currentContent[field.key]] : [];
+                              newVals.push({ icon: 'Star', title: '', description: '' });
+                              handleFieldChange(section.key, field.key, newVals as any);
+                            }}
+                            className="w-full py-4 border-2 border-dashed border-slate-300 rounded-xl text-slate-500 font-semibold hover:border-blue-400 hover:bg-blue-50 hover:text-blue-600 transition-colors flex items-center justify-center gap-2"
+                          >
+                            <Plus className="w-5 h-5" /> Agregar característica ({currentContent[field.key]?.length || 0}/3)
+                          </button>
+                        )}
+                      </div>
+                    ) : isEconectaFeaturesList ? (
+                      <div className="space-y-4">
+                        {Array.isArray(currentContent[field.key]) && currentContent[field.key].map((val: any, index: number) => {
+                          return (
+                            <div key={index} className="flex gap-4 items-center p-4 bg-slate-50 border border-slate-200 rounded-xl relative group">
+                              <div className="flex-shrink-0">
+                                <label className="block text-xs font-semibold text-slate-500 mb-1">Ícono</label>
+                                <IconPicker 
+                                  value={val.icon || 'Star'}
+                                  onChange={(iconName) => {
+                                    const newVals = [...currentContent[field.key]];
+                                    newVals[index].icon = iconName;
+                                    handleFieldChange(section.key, field.key, newVals as any);
+                                  }}
+                                />
+                              </div>
+                              <div className="flex-1 mr-6">
+                                <label className="block text-xs font-semibold text-slate-500 mb-1">Título</label>
+                                <input
+                                  type="text"
+                                  placeholder="Ej. Autonomía 24/7"
+                                  value={val.title || ''}
+                                  onChange={(e) => {
+                                    const newVals = [...currentContent[field.key]];
+                                    newVals[index].title = e.target.value;
+                                    handleFieldChange(section.key, field.key, newVals as any);
+                                  }}
+                                  className="w-full h-[42px] bg-white border border-slate-200 rounded-lg px-4 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500"
+                                />
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const newVals = [...currentContent[field.key]];
+                                  newVals.splice(index, 1);
+                                  handleFieldChange(section.key, field.key, newVals as any);
+                                }}
+                                className="text-slate-400 hover:text-red-500 absolute top-1/2 -translate-y-1/2 right-4 opacity-0 group-hover:opacity-100 transition-opacity"
+                              >
+                                <Trash2 className="w-5 h-5" />
+                              </button>
+                            </div>
+                          );
+                        })}
+                        {(!currentContent[field.key] || currentContent[field.key].length < 4) && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const newVals = Array.isArray(currentContent[field.key]) ? [...currentContent[field.key]] : [];
+                              newVals.push({ icon: 'Star', title: '' });
+                              handleFieldChange(section.key, field.key, newVals as any);
+                            }}
+                            className="w-full py-4 border-2 border-dashed border-slate-300 rounded-xl text-slate-500 font-semibold hover:border-blue-400 hover:bg-blue-50 hover:text-blue-600 transition-colors flex items-center justify-center gap-2"
+                          >
+                            <Plus className="w-5 h-5" /> Agregar característica ({currentContent[field.key]?.length || 0}/4)
+                          </button>
+                        )}
+                      </div>
+                    ) : isEconectaModelsList ? (
+                      <div className="space-y-6">
+                        {Array.isArray(currentContent[field.key]) && currentContent[field.key].map((val: any, index: number) => {
+                          return (
+                            <div key={index} className="flex flex-col gap-4 p-5 bg-white border border-slate-200 shadow-sm rounded-xl relative group">
+                              <div className="flex gap-4 items-start mr-8">
+                                <div className="flex-shrink-0">
+                                  <label className="block text-xs font-semibold text-slate-500 mb-1">Ícono</label>
+                                  <IconPicker 
+                                    value={val.icon || 'Star'}
+                                    onChange={(iconName) => {
+                                      const newVals = [...currentContent[field.key]];
+                                      newVals[index].icon = iconName;
+                                      handleFieldChange(section.key, field.key, newVals as any);
+                                    }}
+                                  />
+                                </div>
+                                <div className="flex-1">
+                                  <label className="block text-xs font-semibold text-slate-500 mb-1">Etiqueta</label>
+                                  <input
+                                    type="text"
+                                    placeholder="Ej. BÁSICO"
+                                    value={val.badge || ''}
+                                    onChange={(e) => {
+                                      const newVals = [...currentContent[field.key]];
+                                      newVals[index].badge = e.target.value;
+                                      handleFieldChange(section.key, field.key, newVals as any);
+                                    }}
+                                    className="w-full h-[42px] bg-slate-50 border border-slate-200 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500"
+                                  />
+                                </div>
+                              </div>
+                              
+                              <div className="mr-8">
+                                <label className="block text-xs font-semibold text-slate-500 mb-1">Nombre del Modelo</label>
+                                <input
+                                  type="text"
+                                  placeholder="Ej. Econecta Mini"
+                                  value={val.title || ''}
+                                  onChange={(e) => {
+                                    const newVals = [...currentContent[field.key]];
+                                    newVals[index].title = e.target.value;
+                                    handleFieldChange(section.key, field.key, newVals as any);
+                                  }}
+                                  className="w-full h-[42px] bg-slate-50 border border-slate-200 rounded-lg px-4 py-2 text-sm font-bold focus:ring-2 focus:ring-blue-500"
+                                />
+                              </div>
+
+                              <div className="mr-8">
+                                <label className="block text-xs font-semibold text-slate-500 mb-1">Descripción</label>
+                                <textarea
+                                  placeholder="Breve descripción..."
+                                  value={val.description || ''}
+                                  onChange={(e) => {
+                                    const newVals = [...currentContent[field.key]];
+                                    newVals[index].description = e.target.value;
+                                    handleFieldChange(section.key, field.key, newVals as any);
+                                  }}
+                                  rows={2}
+                                  className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 resize-none"
+                                />
+                              </div>
+
+                              <div className="mr-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                {[1, 2, 3, 4].map(num => (
+                                  <div key={`feature_${num}`}>
+                                    <label className="block text-xs font-semibold text-slate-500 mb-1">Característica {num}</label>
+                                    <input
+                                      type="text"
+                                      placeholder={`Ej. Característica ${num}`}
+                                      value={val[`feature_${num}`] || ''}
+                                      onChange={(e) => {
+                                        const newVals = [...currentContent[field.key]];
+                                        newVals[index][`feature_${num}`] = e.target.value;
+                                        handleFieldChange(section.key, field.key, newVals as any);
+                                      }}
+                                      className="w-full h-[38px] bg-slate-50 border border-slate-200 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500"
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+
+                              <div className="mr-8 mt-2">
+                                <label className="block text-xs font-semibold text-slate-500 mb-2">Imagen del Modelo (PNG sin fondo)</label>
+                                <div className="flex gap-4 items-center">
+                                  <div className="flex-shrink-0 w-24 h-24 bg-slate-100 rounded-lg overflow-hidden border border-slate-300 flex items-center justify-center relative">
+                                    {val.image_url ? (
+                                      <img src={val.image_url} alt="preview" className="w-full h-full object-contain p-2" />
+                                    ) : (
+                                      <ImageIcon className="w-8 h-8 text-slate-400" />
+                                    )}
+                                  </div>
+                                  <CldUploadWidget
+                                    signatureEndpoint="/api/cloudinary/sign"
+                                    options={{ sources: ['local', 'url'], multiple: false, resourceType: 'image', clientAllowedFormats: ['png', 'webp'] }}
+                                    onSuccess={(result: any) => {
+                                      const url = result.info.secure_url;
+                                      const optimizedUrl = url.replace('/upload/', '/upload/q_auto,f_auto/');
+                                      const newVals = [...currentContent[field.key]];
+                                      newVals[index].image_url = optimizedUrl;
+                                      handleFieldChange(section.key, field.key, newVals as any);
+                                    }}
+                                  >
+                                    {({ open }) => (
+                                      <button
+                                        type="button"
+                                        onClick={() => open()}
+                                        className="px-4 py-2 border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 rounded-lg text-sm font-semibold transition-colors"
+                                      >
+                                        Subir / Cambiar Imagen
+                                      </button>
+                                    )}
+                                  </CldUploadWidget>
+                                </div>
+                              </div>
+
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const newVals = [...currentContent[field.key]];
+                                  newVals.splice(index, 1);
+                                  handleFieldChange(section.key, field.key, newVals as any);
+                                }}
+                                className="text-slate-400 hover:text-red-500 absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity"
+                              >
+                                <Trash2 className="w-5 h-5" />
+                              </button>
+                            </div>
+                          );
+                        })}
+                        {(!currentContent[field.key] || currentContent[field.key].length < 10) && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const newVals = Array.isArray(currentContent[field.key]) ? [...currentContent[field.key]] : [];
+                              newVals.push({ icon: 'Star', badge: '', title: '', description: '', feature_1: '', feature_2: '', feature_3: '', feature_4: '', image_url: '' });
+                              handleFieldChange(section.key, field.key, newVals as any);
+                            }}
+                            className="w-full py-4 border-2 border-dashed border-slate-300 rounded-xl text-slate-500 font-semibold hover:border-blue-400 hover:bg-blue-50 hover:text-blue-600 transition-colors flex items-center justify-center gap-2"
+                          >
+                            <Plus className="w-5 h-5" /> Agregar modelo ({currentContent[field.key]?.length || 0}/10)
                           </button>
                         )}
                       </div>
@@ -1343,6 +1773,18 @@ export function PageEditor({ pageId, initialSections, initialItems }: { pageId: 
           </div>
         );
       })}
+      
+      {pageId === 'productos' && (
+        <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 mt-8 flex items-start gap-4">
+          <Info className="w-6 h-6 text-blue-600 flex-shrink-0 mt-0.5" />
+          <div>
+            <h4 className="text-sm font-bold text-blue-900 mb-1">Gestión de Productos</h4>
+            <p className="text-sm text-blue-800 leading-relaxed">
+              Para agregar, editar o eliminar productos del catálogo, dirígete a la pestaña principal de <strong>"Productos"</strong> en el menú lateral del panel de administración.
+            </p>
+          </div>
+        </div>
+      )}
 
       {schema.length > 0 && (
         <div className="sticky bottom-8 z-10 flex justify-end">

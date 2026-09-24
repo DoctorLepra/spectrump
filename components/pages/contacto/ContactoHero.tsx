@@ -1,44 +1,24 @@
 "use client";
 
 import React from "react";
-import { Clock, Globe, ShieldCheck } from "lucide-react";
+import * as LucideIcons from "lucide-react";
 import { FadeContent } from "@/components/react-bits/fade-content";
+import { ShinyText } from "@/components/react-bits/shiny-text";
 
-const DEFAULT_CARDS = [
-  {
-    id: "1",
-    title: "Respuesta Ágil",
-    subtitle: "Atención en menos de 24h",
-    icon: <Clock className="w-4 h-4" />,
-    color: "blue"
-  },
-  {
-    id: "2",
-    title: "Cobertura Nacional",
-    subtitle: "Operaciones en toda Colombia",
-    icon: <Globe className="w-4 h-4" />,
-    color: "emerald"
-  },
-  {
-    id: "3",
-    title: "Licitaciones & RUP",
-    subtitle: "Cumplimiento normativo",
-    icon: <ShieldCheck className="w-4 h-4" />,
-    color: "blue"
-  }
+const FALLBACK_CARDS = [
+  { title: "Respuesta Ágil", description: "Atención en menos de 24h", icon: "Clock", color: "blue" },
+  { title: "Cobertura Nacional", description: "Operaciones en toda Colombia", icon: "Globe", color: "emerald" },
+  { title: "Licitaciones & RUP", description: "Cumplimiento normativo", icon: "ShieldCheck", color: "blue" }
 ];
 
-const ICON_MAP: Record<string, React.ElementType> = {
-  Clock,
-  Globe,
-  ShieldCheck,
-};
-
-export function ContactoHero({ data, items }: { data?: any, items?: any[] }) {
-  const titleHtml = data?.title || `Conectemos tu Próximo Proyecto con el <span class="text-[#38BDF8]">Futuro</span>`;
+export function ContactoHero({ data }: { data?: any }) {
+  const title = data?.title || "Conectemos tu Próximo Proyecto con el";
+  const badgeText = data?.badge_text || "Futuro";
   const backgroundImageUrl = data?.image_url || "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80";
 
-  let displayItems = items && items.length > 0 ? items : DEFAULT_CARDS;
+  let displayItems = data?.features_list && Array.isArray(data.features_list) && data.features_list.length > 0 
+    ? data.features_list 
+    : FALLBACK_CARDS;
   displayItems = displayItems.slice(0, 3);
 
   return (
@@ -62,28 +42,34 @@ export function ContactoHero({ data, items }: { data?: any, items?: any[] }) {
         <FadeContent delay={0.1} duration={0.8}>
           <div className="max-w-4xl mx-auto text-center space-y-8">
             {/* Original Heading */}
-            <h1 
-              className="text-3xl sm:text-5xl lg:text-6xl font-extrabold font-sans tracking-tight text-white leading-tight sm:leading-tight"
-              dangerouslySetInnerHTML={{ __html: titleHtml }}
-            />
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold font-sans tracking-tight text-white leading-tight sm:leading-tight">
+              {title}{" "}
+              <span className="inline-block py-1">
+                <ShinyText
+                  text={badgeText}
+                  color="#38BDF8"
+                  shineColor="#FFFFFF"
+                  speed={2.5}
+                  spread={120}
+                />
+              </span>
+            </h1>
 
             {/* Cards Preserved (No description paragraph, max 3) */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left max-w-3xl mx-auto">
-              {displayItems.map((item, idx) => {
-                const isDbItem = 'title' in item && !('icon' in item && typeof item.icon !== 'string');
-                const IconComp = isDbItem && item.metadata?.icon ? (ICON_MAP[item.metadata.icon] || Clock) : null;
-                const color = isDbItem ? (item.metadata?.color || 'blue') : item.color;
-                
+              {displayItems.map((item: any, idx: number) => {
+                const IconComp = (LucideIcons as any)[item.icon] || LucideIcons.Clock;
+                const color = idx % 2 === 0 ? 'blue' : 'emerald';
                 const bgClass = color === 'emerald' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-blue-500/20 text-blue-400';
 
                 return (
-                  <div key={item.id} className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+                  <div key={idx} className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
                     <div className={`p-2 rounded-xl ${bgClass}`}>
-                      {isDbItem && IconComp ? <IconComp className="w-4 h-4" /> : item.icon}
+                      <IconComp className="w-4 h-4" />
                     </div>
                     <div>
-                      <h4 className="text-xs font-bold text-white font-sans">{isDbItem ? item.title : item.title}</h4>
-                      <p className="text-[11px] text-slate-400 font-sans">{isDbItem ? item.description : item.subtitle}</p>
+                      <h4 className="text-xs font-bold text-white font-sans truncate">{item.title}</h4>
+                      <p className="text-[11px] text-slate-400 font-sans truncate" title={item.description}>{item.description}</p>
                     </div>
                   </div>
                 );

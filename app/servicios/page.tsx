@@ -7,23 +7,12 @@ import { createClient } from "@/lib/supabase/server";
 
 export const revalidate = 60;
 
-async function getServicesData() {
-  const supabase = createClient();
-  const { data } = await supabase
-    .from('services')
-    .select('*')
-    .eq('is_active', true)
-    .order('sort_order', { ascending: true });
-  
-  return data || [];
-}
-
-async function getSharedSectionsData() {
+async function getServiciosPageData() {
   const supabase = createClient();
   const { data: sections } = await supabase
     .from('page_sections')
     .select('section_key, content')
-    .in('section_key', ['inicio_econecta', 'inicio_prefooter']);
+    .in('section_key', ['servicios_hero', 'servicios_catalog', 'inicio_econecta', 'inicio_prefooter']);
 
   const { data: sectionItems } = await supabase
     .from('section_items')
@@ -43,26 +32,26 @@ async function getSharedSectionsData() {
     return acc;
   }, {});
 
-  return { sharedSections: sectionsMap, sharedItems: itemsMap };
+  return { sectionsMap, itemsMap };
 }
 
 export default async function ServiciosPage() {
-  const services = await getServicesData();
-  const { sharedSections, sharedItems } = await getSharedSectionsData();
+  // We no longer fetch from 'services' table, using 'page_sections' instead
+  const { sectionsMap, itemsMap } = await getServiciosPageData();
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-slate-900">
       {/* 1. Hero Section - Servicios */}
-      <ServiciosHero />
+      <ServiciosHero data={sectionsMap['servicios_hero']} />
 
       {/* 2. Catálogo Completo de Líneas de Servicio */}
-      <ServiciosCatalog services={services} />
+      <ServiciosCatalog data={sectionsMap['servicios_catalog']} />
 
       {/* 3. Estaciones Integradas ECONECTA® */}
-      <EconectaSection data={sharedSections['inicio_econecta']} items={sharedItems['inicio_econecta']} />
+      <EconectaSection data={sectionsMap['inicio_econecta']} items={itemsMap['inicio_econecta']} />
 
       {/* 4. Pre-Footer Glassmorphic Call to Action Banner */}
-      <PreFooterBanner data={sharedSections['inicio_prefooter']} />
+      <PreFooterBanner data={sectionsMap['inicio_prefooter']} />
     </div>
   );
 }

@@ -34,13 +34,16 @@ function WhatsAppIcon({ className = "w-5 h-5" }: { className?: string }) {
   );
 }
 
-export function ContactFormSection({ data }: { data?: any }) {
-  const whatsapp = data?.whatsapp || "+57 300 912 1798";
+export function ContactFormSection({ descripcionData, datosData }: { descripcionData?: any, datosData?: any }) {
+  const whatsapp = datosData?.whatsapp || "573009121798";
   const whatsappClean = whatsapp.replace(/\D/g, "");
-  const pbx = data?.pbx || "+57 (601) 745-8900";
+  const pbx = datosData?.pbx || "6017458900";
   const pbxLink = pbx.replace(/[^\d+]/g, "");
-  const email = data?.email || "contacto@spectrump.com.co";
-  const hours = data?.hours || "Lunes a Viernes: 8:00 AM - 5:30 PM";
+  const email = datosData?.correo || "contacto@spectrump.com.co";
+  const hours = datosData?.horario || "Lunes a Viernes de 8:00 AM a 5:00 PM";
+
+  const descTitle = descripcionData?.title || "Estamos a tu disposición para atender tus requerimientos técnicos";
+  const descText = descripcionData?.description || "Comunícate directamente con nuestro equipo de ingenieros y especialistas comerciales a través de cualquiera de nuestros canales oficiales.";
 
   const [formData, setFormData] = useState({
     nombre: "",
@@ -92,10 +95,10 @@ export function ContactFormSection({ data }: { data?: any }) {
             <FadeContent delay={0.1} duration={0.8}>
               <div className="space-y-4">
                 <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-sans tracking-tight leading-tight">
-                  Estamos a tu disposición para atender tus requerimientos técnicos
+                  {descTitle}
                 </h2>
-                <p className="text-slate-600 font-sans text-sm sm:text-base leading-relaxed">
-                  Comunícate directamente con nuestro equipo de ingenieros y especialistas comerciales a través de cualquiera de nuestros canales oficiales.
+                <p className="text-slate-600 font-sans text-sm sm:text-base leading-relaxed whitespace-pre-wrap">
+                  {descText}
                 </p>
               </div>
             </FadeContent>
