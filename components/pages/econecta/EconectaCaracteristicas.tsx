@@ -1,60 +1,38 @@
 "use client";
 
 import React from "react";
-import { SunMedium, Wifi, ShieldCheck, Monitor } from "lucide-react";
+import * as LucideIcons from "lucide-react";
 import { FadeContent } from "@/components/react-bits/fade-content";
 
-const CARACTERISTICAS = [
-  {
-    id: "energia-solar",
-    title: "Energía Solar",
-    icon: <SunMedium className="w-8 h-8 text-[#0052CC]" />,
-  },
-  {
-    id: "conectividad",
-    title: "Conectividad",
-    icon: <Wifi className="w-8 h-8 text-[#0052CC]" />,
-  },
-  {
-    id: "videovigilancia",
-    title: "Videovigilancia",
-    icon: <ShieldCheck className="w-8 h-8 text-[#0052CC]" />,
-  },
-  {
-    id: "servicios-digitales",
-    title: "Servicios Digitales",
-    icon: <Monitor className="w-8 h-8 text-[#0052CC]" />,
-  },
+const FALLBACK_FEATURES = [
+  { icon: "SunMedium", title: "Energía Solar" },
+  { icon: "Wifi", title: "Conectividad" },
+  { icon: "ShieldCheck", title: "Videovigilancia" },
+  { icon: "Monitor", title: "Servicios Digitales" },
 ];
 
-const ICON_MAP: Record<string, React.ElementType> = {
-  SunMedium,
-  Wifi,
-  ShieldCheck,
-  Monitor,
-};
-
-export function EconectaCaracteristicas({ data, items }: { data?: any, items?: any[] }) {
-  const displayItems = items && items.length > 0 ? items : CARACTERISTICAS;
+export function EconectaCaracteristicas({ data }: { data?: any }) {
+  const displayItems = data?.features_list && Array.isArray(data.features_list) && data.features_list.length > 0 
+    ? data.features_list 
+    : FALLBACK_FEATURES;
 
   return (
     <section id="caracteristicas" className="scroll-mt-24 py-12 sm:py-16 bg-white border-b border-slate-200/80 w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* 4 Column Grid with Vertical Dividers matching Style */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 divide-y sm:divide-y-0 sm:divide-x divide-slate-200/80">
-          {displayItems.map((item, idx) => {
-            const isDbItem = 'title' in item && !('icon' in item && typeof item.icon !== 'string');
-            const IconComp = isDbItem && item.metadata?.icon ? (ICON_MAP[item.metadata.icon] || Monitor) : null;
+        {/* Grid with Vertical Dividers matching Style */}
+        <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-${displayItems.length} gap-6 divide-y sm:divide-y-0 sm:divide-x divide-slate-200/80`}>
+          {displayItems.map((item: any, idx: number) => {
+            const IconComp = (LucideIcons as any)[item.icon] || LucideIcons.Monitor;
 
             return (
-              <FadeContent key={item.id} delay={0.08 * idx} duration={0.6}>
+              <FadeContent key={idx} delay={0.08 * idx} duration={0.6}>
                 <div className="pt-6 sm:pt-0 px-4 text-center flex flex-col items-center group cursor-pointer hover:-translate-y-1 transition-transform">
                   <div className="mb-4 p-4 rounded-2xl bg-blue-50/80 text-[#0052CC] group-hover:bg-blue-100/80 group-hover:scale-110 transition-all duration-300">
-                    {isDbItem && IconComp ? <IconComp className="w-8 h-8 text-[#0052CC]" /> : item.icon}
+                    <IconComp className="w-8 h-8 text-[#0052CC]" />
                   </div>
                   <h3 className="text-base sm:text-lg font-extrabold text-slate-900 font-sans group-hover:text-[#0052CC] transition-colors">
-                    {isDbItem ? item.title : item.title}
+                    {item.title}
                   </h3>
                 </div>
               </FadeContent>

@@ -54,21 +54,24 @@ async function getContactoPageData() {
 }
 
 export default async function ContactoPage() {
-  const { sections, items } = await getContactoPageData();
+  const { sections } = await getContactoPageData();
 
   return (
     <main className="min-h-screen flex flex-col bg-white text-slate-900">
       {/* 1. Hero Section de Contacto */}
-      <ContactoHero data={sections['contacto_hero']} items={items['contacto_hero']} />
+      <ContactoHero data={sections['contacto_hero']} />
 
       {/* 2. Canales Directos y Formulario Interactivo */}
-      <ContactFormSection data={sections['contacto_formulario']} />
+      <ContactFormSection 
+        descripcionData={sections['contacto_descripcion']} 
+        datosData={sections['contacto_datos']} 
+      />
 
       {/* 3. Mapa Interactivo de Oficinas y Coordenadas */}
       <OfficeLocationMap data={sections['nosotros_ubicacion']} />
 
-      {/* 4. Sección de Preguntas Frecuentes */}
-      <ContactoFAQSection data={sections['contacto_faq']} items={items['contacto_faq']} />
+      {/* 4. Sección de Preguntas Frecuentes (Removed from schema but kept in UI if needed, else removed) */}
+      {/* <ContactoFAQSection data={sections['contacto_faq']} items={items['contacto_faq']} /> */}
     </main>
   );
 }

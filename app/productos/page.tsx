@@ -33,6 +33,17 @@ async function getProductsData() {
     .order('sort_order', { ascending: true })
     .order('created_at', { ascending: false });
 
+  // Fetch page sections
+  const { data: sectionsData } = await supabase
+    .from('page_sections')
+    .select('section_key, content')
+    .in('section_key', ['productos_hero', 'inicio_prefooter']);
+
+  const sectionsMap = (sectionsData || []).reduce((acc: any, curr: any) => {
+    acc[curr.section_key] = curr.content;
+    return acc;
+  }, {});
+
   const categories = categoriesData || [];
   
   const products = (productsData || []).map((p: any) => ({
@@ -46,16 +57,16 @@ async function getProductsData() {
     whatsappMsg: `Hola SPECTRUMP, quisiera cotizar el producto: ${p.name}`
   }));
 
-  return { categories, products };
+  return { categories, products, sectionsMap };
 }
 
 export default async function ProductosPage() {
-  const { categories, products } = await getProductsData();
+  const { categories, products, sectionsMap } = await getProductsData();
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-slate-900">
       {/* 1. Symmetrical Hero Section */}
-      <ProductsHero />
+      <ProductsHero data={sectionsMap['productos_hero']} />
 
       {/* 2. Interactive Solar Products Catalog (Sidebar Filters + Products Grid) */}
       <Suspense fallback={<div className="py-20 text-center font-mono text-sm text-slate-400">Cargando catálogo de productos...</div>}>
@@ -63,7 +74,7 @@ export default async function ProductosPage() {
       </Suspense>
 
       {/* 3. Pre-Footer Call to Action Banner */}
-      <PreFooterBanner />
+      <PreFooterBanner data={sectionsMap['inicio_prefooter']} />
     </div>
   );
 }

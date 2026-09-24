@@ -64,16 +64,16 @@ export default async function EconectaPage() {
       <EconectaHero data={sections['econecta_hero']} />
 
       {/* 2. Sección de Características en Fila (4 Pilares) */}
-      <EconectaCaracteristicas data={sections['econecta_caracteristicas']} items={items['econecta_caracteristicas']} />
+      <EconectaCaracteristicas data={sections['econecta_caracteristicas']} />
 
       {/* 3. Sección de Descripción Institucional (Fondo Slate-50) */}
-      <EconectaDescripcion data={sections['econecta_descripcion']} />
+      <EconectaDescripcion data={sections['econecta_historia']} />
 
       {/* 4. Sección de Modelos de ECONECTA® */}
-      <EconectaModelos data={sections['econecta_modelos']} items={items['econecta_modelos']} />
+      <EconectaModelos data={sections['econecta_modelos']} />
 
       {/* 5. Segunda Sección de Descripción (Fondo Slate-50) */}
-      <EconectaCierreDescripcion data={sections['econecta_cierre']} />
+      <EconectaCierreDescripcion data={sections['econecta_detalle']} />
 
       {/* 6. Card CTA de Contacto */}
       <PreFooterBanner data={sections['inicio_prefooter']} />

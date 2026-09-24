@@ -1,21 +1,21 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import { ChunkErrorHandler } from "@/components/shared/ChunkErrorHandler";
 import { ClientLayout } from "@/components/layout/ClientLayout";
 import "./globals.css";
 
-const fontSans = Inter({
-  subsets: ["latin"],
+const fontSans = localFont({
+  src: "../public/fonts/inter-latin-wght-normal.woff2",
   variable: "--font-sans",
   display: "swap",
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: "100 900",
 });
 
-const fontMono = Inter({
-  subsets: ["latin"],
+const fontMono = localFont({
+  src: "../public/fonts/jetbrains-mono-latin-wght-normal.woff2",
   variable: "--font-mono",
   display: "swap",
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: "100 800",
 });
 
 export const metadata: Metadata = {
@@ -37,11 +37,20 @@ export const metadata: Metadata = {
   authors: [{ name: "SPECTRUMP COLOMBIA S.A.S." }],
 };
 
-export default function RootLayout({
+import { createClient } from "@/lib/supabase/server";
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabase = createClient();
+  const { data: navbarData } = await supabase
+    .from('page_sections')
+    .select('content')
+    .eq('section_key', 'productos_navbar')
+    .single();
+
   return (
     <html
       lang="es"
@@ -50,7 +59,7 @@ export default function RootLayout({
     >
       <body className="bg-white text-slate-900 antialiased min-h-screen font-sans flex flex-col">
         <ChunkErrorHandler />
-        <ClientLayout>
+        <ClientLayout navbarData={navbarData?.content}>
           {children}
         </ClientLayout>
       </body>

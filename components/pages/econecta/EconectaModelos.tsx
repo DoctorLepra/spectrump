@@ -2,7 +2,8 @@
 
 import React from "react";
 import Image from "next/image";
-import { Zap, Cpu, Radio, Sparkles, CheckCircle2, ArrowRight } from "lucide-react";
+import * as LucideIcons from "lucide-react";
+import { Zap, CheckCircle2, ArrowRight } from "lucide-react";
 import { FadeContent } from "@/components/react-bits/fade-content";
 
 function WhatsAppIcon({ className = "w-4 h-4" }: { className?: string }) {
@@ -18,78 +19,61 @@ function WhatsAppIcon({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
-const MODELOS = [
+const FALLBACK_MODELOS = [
   {
-    id: "essential",
-    name: "ECONECTA® ESSENTIAL",
+    title: "ECONECTA® ESSENTIAL",
     badge: "Estructura Solar + Conectividad Base",
-    image: "/images/essential.jpg",
+    image_url: "/images/essential.jpg",
     description: "La configuración base esencial de infraestructura inteligente para espacios que requieren energía solar y conectividad de alta confiabilidad.",
-    icon: <Zap className="w-5 h-5 text-[#16A34A]" />,
-    highlights: [
-      "Paneles solares, baterías e inversor",
-      "Router MikroTik y Access Point WiFi",
-      "Iluminación LED, tomas AC y USB-C",
-      "Bancas y mesas · instalación y garantía",
-    ],
+    icon: "Zap",
+    feature_1: "Paneles solares, baterías e inversor",
+    feature_2: "Router MikroTik y Access Point WiFi",
+    feature_3: "Iluminación LED, tomas AC y USB-C",
+    feature_4: "Bancas y mesas · instalación y garantía",
   },
   {
-    id: "smart",
-    name: "ECONECTA® SMART",
+    title: "ECONECTA® SMART",
     badge: "Conectividad + Gestión Inteligente",
-    image: "/images/smart.jpg",
+    image_url: "/images/smart.jpg",
     description: "Evoluciona la conectividad base integrando videovigilancia remota, pantallas digitales y herramientas avanzadas de administración.",
-    icon: <Cpu className="w-5 h-5 text-[#0052CC]" />,
-    highlights: [
-      "Todo lo del ESSENTIAL, y además:",
-      "Cámaras IP y monitoreo remoto",
-      "Pantalla informativa y gabinete inteligente",
-      "Portal cautivo y sistema de administración",
-      "Analítica básica e integración con la nube",
-    ],
+    icon: "Cpu",
+    feature_1: "Todo lo del ESSENTIAL, y además:",
+    feature_2: "Cámaras IP y monitoreo remoto",
+    feature_3: "Pantalla informativa y gabinete inteligente",
+    feature_4: "Portal cautivo y sistema de administración",
   },
   {
-    id: "city-1",
-    name: "ECONECTA® CITY 1",
+    title: "ECONECTA® CITY 1",
     badge: "Smart City & Territorios Inteligentes",
-    image: "/images/city-1.jpg",
+    image_url: "/images/city-1.jpg",
     description: "Equipamiento urbano de última generación con Inteligencia Artificial, sensores de entorno y gestión centralizada multiestación.",
-    icon: <Radio className="w-5 h-5 text-[#0088FF]" />,
-    highlights: [
-      "Todo lo del SMART, y además:",
-      "Inteligencia Artificial y analítica avanzada",
-      "Sensores ambientales y botón SOS",
-      "Megafonía IP y dashboard nacional",
-      "Gestión multiestación · listo para Smart City",
-    ],
+    icon: "Radio",
+    feature_1: "Todo lo del SMART, y además:",
+    feature_2: "Inteligencia Artificial y analítica avanzada",
+    feature_3: "Sensores ambientales y botón SOS",
+    feature_4: "Megafonía IP y dashboard nacional",
   },
   {
-    id: "urban-pro",
-    name: "ECONECTA® URBAN PRO",
+    title: "ECONECTA® URBAN PRO",
     badge: "Máximo Rendimiento & Plataforma Integral",
-    image: "/images/urban-pro.jpg",
+    image_url: "/images/urban-pro.jpg",
     description: "Integra conectividad, energía solar, videovigilancia, información digital e inteligencia artificial en una única plataforma diseñada para impulsar ciudades y territorios más seguros, sostenibles y conectados.",
-    icon: <Sparkles className="w-5 h-5 text-[#D97706]" />,
-    highlights: [
-      "Plataforma tecnológica de máxima capacidad territorial",
-      "Energía solar de alta potencia y banco de respaldo continuo",
-      "Videovigilancia 360° con Inteligencia Artificial aplicada",
-      "Información digital interactiva y analítica de datos en tiempo real",
-    ],
+    icon: "Sparkles",
+    feature_1: "Plataforma tecnológica de máxima capacidad territorial",
+    feature_2: "Energía solar de alta potencia y banco de respaldo continuo",
+    feature_3: "Videovigilancia 360° con Inteligencia Artificial aplicada",
+    feature_4: "Información digital interactiva y analítica de datos en tiempo real",
   },
 ];
 
-const ICON_MAP: Record<string, React.ElementType> = {
-  Zap,
-  Cpu,
-  Radio,
-  Sparkles,
-};
-
-export function EconectaModelos({ data, items }: { data?: any, items?: any[] }) {
-  const displayItems = items && items.length > 0 ? items : MODELOS;
-  const titleHtml = data?.title || `Conoce nuestros modelos de <span class="text-[#16A34A]">ECONECTA®</span>`;
-  const subtitle = data?.subtitle || "Modelos para todo tipo de entornos y circunstancias";
+export function EconectaModelos({ data }: { data?: any }) {
+  const displayItems = data?.models_list && Array.isArray(data.models_list) && data.models_list.length > 0 
+    ? data.models_list 
+    : FALLBACK_MODELOS;
+  
+  const title = data?.title || `Modelos`;
+  const badgeText = data?.badge_text || `Elige el poste inteligente ideal`;
+  const description = data?.description || "Modelos para todo tipo de entornos y circunstancias";
   
   return (
     <section id="modelos" className="scroll-mt-24 py-20 sm:py-28 bg-white border-b border-slate-200/80 w-full">
@@ -98,39 +82,33 @@ export function EconectaModelos({ data, items }: { data?: any, items?: any[] }) 
         {/* Section Header */}
         <FadeContent delay={0.1} duration={0.6}>
           <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-18 space-y-3">
-            <h2 
-              className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 font-sans tracking-tight"
-              dangerouslySetInnerHTML={{ __html: titleHtml }}
-            />
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 font-sans tracking-tight">
+              {title} <span className="text-[#16A34A]">{badgeText}</span>
+            </h2>
             <div className="w-16 h-1.5 bg-[#16A34A] mx-auto rounded-full" />
             <p className="text-base sm:text-lg text-slate-600 font-sans pt-2">
-              {subtitle}
+              {description}
             </p>
           </div>
         </FadeContent>
 
         {/* Models Cards Grid (2 Columns Desktop, 1 Column Mobile) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {displayItems.map((modelo, idx) => {
-            const isDbItem = 'title' in modelo && !('icon' in modelo && typeof modelo.icon !== 'string');
-            const modelName = isDbItem ? modelo.title : modelo.name;
-            const modelImage = isDbItem && modelo.metadata?.image_url ? modelo.metadata.image_url : modelo.image;
-            const modelBadge = isDbItem ? modelo.metadata?.badge : modelo.badge;
-            const modelDesc = isDbItem ? modelo.description : modelo.description;
-            const modelHighlights = isDbItem ? (modelo.metadata?.features || []) : modelo.highlights;
-            const IconComp = isDbItem && modelo.metadata?.icon ? (ICON_MAP[modelo.metadata.icon] || Zap) : null;
+          {displayItems.map((modelo: any, idx: number) => {
+            const modelName = modelo.title;
+            const modelImage = modelo.image_url || "/images/essential.jpg";
+            const modelBadge = modelo.badge;
+            const modelDesc = modelo.description;
+            const IconComp = (LucideIcons as any)[modelo.icon] || Zap;
 
-            let iconColor = "text-[#16A34A]";
-            if (isDbItem && modelo.metadata?.icon === 'Cpu') iconColor = "text-[#0052CC]";
-            if (isDbItem && modelo.metadata?.icon === 'Radio') iconColor = "text-[#0088FF]";
-            if (isDbItem && modelo.metadata?.icon === 'Sparkles') iconColor = "text-[#D97706]";
+            const highlights = [modelo.feature_1, modelo.feature_2, modelo.feature_3, modelo.feature_4].filter(Boolean);
 
             const whatsappUrl = `https://wa.me/573209325989?text=${encodeURIComponent(
               `Hola SPECTRUMP, quisiera solicitar información técnica y cotización del modelo ${modelName}.`
             )}`;
 
             return (
-              <FadeContent key={modelo.id} delay={0.1 * idx} duration={0.6}>
+              <FadeContent key={idx} delay={0.1 * idx} duration={0.6}>
                 <div className="bg-slate-50/70 border border-slate-200/90 rounded-3xl overflow-hidden flex flex-col sm:flex-row items-stretch justify-between h-full hover:border-[#16A34A]/50 hover:shadow-xl hover:bg-white transition-all duration-300 group">
                   
                   {/* Left Column: Image (25% Width, Full Height Flush to Left Border) */}
@@ -152,7 +130,7 @@ export function EconectaModelos({ data, items }: { data?: any, items?: any[] }) 
                       {/* Top: Icon & Badge */}
                       <div className="flex items-center justify-between gap-2">
                         <div className="p-2.5 rounded-xl bg-white border border-slate-200 shadow-xs group-hover:scale-105 transition-transform shrink-0">
-                          {isDbItem && IconComp ? <IconComp className={`w-5 h-5 ${iconColor}`} /> : modelo.icon}
+                          <IconComp className="w-5 h-5 text-[#16A34A]" />
                         </div>
                         <span className="text-[10px] sm:text-[11px] font-mono font-bold text-slate-600 bg-white border border-slate-200/80 px-2.5 py-1 rounded-full uppercase tracking-wider text-right truncate">
                           {modelBadge}
@@ -171,7 +149,7 @@ export function EconectaModelos({ data, items }: { data?: any, items?: any[] }) 
 
                       {/* Features List */}
                       <ul className="space-y-2 pt-2 border-t border-slate-200/80">
-                        {modelHighlights.map((item: string, hIdx: number) => (
+                        {highlights.map((item: string, hIdx: number) => (
                           <li key={hIdx} className="flex items-start gap-2 text-xs text-slate-700 font-sans">
                             <CheckCircle2 className="w-3.5 h-3.5 text-[#16A34A] shrink-0 mt-0.5" />
                             <span>{item}</span>

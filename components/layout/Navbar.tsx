@@ -22,44 +22,47 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Econecta", href: "/econecta", isGreen: true },
 ];
 
-const PRODUCT_CARDS = [
-  {
-    title: "01. Generación & Conversión",
-    route: "/productos?cat=paneles-solares",
-    bgColor: "#061325",
-    textColor: "#FFFFFF",
-    icon: Sun,
-    links: [
-      { label: "Paneles solares", href: "/productos?cat=paneles-solares" },
-      { label: "Inversores", href: "/productos?cat=inversores" },
-      { label: "Controladores", href: "/productos?cat=controladores" },
-    ],
-  },
-  {
-    title: "02. Almacenamiento & Montaje",
-    route: "/productos?cat=baterias",
-    bgColor: "#091E42",
-    textColor: "#FFFFFF",
-    icon: Zap,
-    links: [
-      { label: "Baterías", href: "/productos?cat=baterias" },
-      { label: "Estructuras", href: "/productos?cat=estructuras" },
-    ],
-  },
-  {
-    title: "03. Protección & Portátiles",
-    route: "/productos?cat=proteccion-y-accesorios",
-    bgColor: "#0F172A",
-    textColor: "#FFFFFF",
-    icon: ShieldCheck,
-    links: [
-      { label: "Protección y accesorios", href: "/productos?cat=proteccion-y-accesorios" },
-      { label: "Equipos portátiles", href: "/productos?cat=equipos-portatiles" },
-    ],
-  },
-];
+export function Navbar({ data }: { data?: any }) {
+  const menu1 = data?.menu_1 || "01. Generación & Conversión";
+  const menu2 = data?.menu_2 || "02. Almacenamiento & Montaje";
+  const menu3 = data?.menu_3 || "03. Protección & Portátiles";
 
-export function Navbar() {
+  const PRODUCT_CARDS = [
+    {
+      title: menu1,
+      route: "/productos?cat=paneles-solares",
+      bgColor: "#061325",
+      textColor: "#FFFFFF",
+      icon: Sun,
+      links: [
+        { label: "Paneles solares", href: "/productos?cat=paneles-solares" },
+        { label: "Inversores", href: "/productos?cat=inversores" },
+        { label: "Controladores", href: "/productos?cat=controladores" },
+      ],
+    },
+    {
+      title: menu2,
+      route: "/productos?cat=baterias",
+      bgColor: "#091E42",
+      textColor: "#FFFFFF",
+      icon: Zap,
+      links: [
+        { label: "Baterías", href: "/productos?cat=baterias" },
+        { label: "Estructuras", href: "/productos?cat=estructuras" },
+      ],
+    },
+    {
+      title: menu3,
+      route: "/productos?cat=proteccion-y-accesorios",
+      bgColor: "#0F172A",
+      textColor: "#FFFFFF",
+      icon: ShieldCheck,
+      links: [
+        { label: "Protección y accesorios", href: "/productos?cat=proteccion-y-accesorios" },
+        { label: "Equipos portátiles", href: "/productos?cat=equipos-portatiles" },
+      ],
+    },
+  ];
   const pathname = usePathname();
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [isScrolled, setIsScrolled] = React.useState<boolean>(false);

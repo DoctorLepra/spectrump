@@ -6,13 +6,17 @@ import Link from "next/link";
 import { FadeContent } from "@/components/react-bits/fade-content";
 import { ShinyText } from "@/components/react-bits/shiny-text";
 
-export function ServiciosHero() {
+export function ServiciosHero({ data }: { data?: any }) {
+  const title = data?.title || "Servicios de Conectividad &";
+  const badgeText = data?.badge_text || "Energía Solar Corporativa";
+  const imageUrl = data?.image_url || "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format&fit=crop";
+
   return (
     <section className="relative min-h-[50vh] sm:min-h-[60vh] flex items-center justify-center pt-28 sm:pt-36 pb-16 sm:pb-20 overflow-hidden bg-slate-950 text-white">
       {/* High-Resolution Infrastructure Background Image */}
       <div 
         className="absolute inset-0 z-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format&fit=crop')" }}
+        style={{ backgroundImage: `url('${imageUrl}')` }}
       />
       {/* Dark Overlay for Maximum Contrast */}
       <div className="absolute inset-0 bg-slate-950/80 z-0" />
@@ -25,16 +29,18 @@ export function ServiciosHero() {
         <FadeContent delay={0.1} duration={0.8}>
           {/* Main Title (No Badge, No Subtitle Paragraph) */}
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white font-sans leading-normal sm:leading-tight lg:leading-[1.25] mb-10 pb-2">
-            Servicios de Conectividad &{" "}
-            <span className="inline-block py-1">
-              <ShinyText
-                text="Energía Solar Corporativa"
-                color="#0088FF"
-                shineColor="#FFFFFF"
-                speed={2.5}
-                spread={120}
-              />
-            </span>
+            {title}{" "}
+            {badgeText && (
+              <span className="inline-block py-1">
+                <ShinyText
+                  text={badgeText}
+                  color="#0088FF"
+                  shineColor="#FFFFFF"
+                  speed={2.5}
+                  spread={120}
+                />
+              </span>
+            )}
           </h1>
 
           {/* Action Buttons */}
