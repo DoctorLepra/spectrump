@@ -1,7 +1,6 @@
 import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Linkedin, Facebook, Instagram } from "lucide-react";
 
 export function Footer() {
   return (
@@ -107,8 +106,8 @@ export function Footer() {
             </h4>
             <ul className="space-y-2 text-xs font-sans text-slate-400">
               <li>
-                <Link href="/contacto" className="hover:text-white transition-colors text-[#38BDF8]">
-                  Formulario de Atención →
+                <Link href="/contacto" className="hover:text-white transition-colors">
+                  Formulario de Atención
                 </Link>
               </li>
               <li>
@@ -126,40 +125,19 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom Bar: Copyright & Social Icons */}
+        {/* Bottom Bar: Copyright & Admin CMS Link */}
         <div className="pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans text-slate-400">
           <div>
             © {new Date().getFullYear()} SPECTRUMP COLOMBIA SAS. Todos los derechos reservados.
           </div>
 
-          <div className="flex items-center gap-4">
-            <a
-              href="https://linkedin.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-slate-400 hover:text-white transition-colors"
-              aria-label="LinkedIn de SPECTRUMP COLOMBIA SAS"
+          <div>
+            <Link
+              href="/admin"
+              className="text-slate-500 hover:text-slate-300 transition-colors"
             >
-              <Linkedin className="w-4 h-4" />
-            </a>
-            <a
-              href="https://facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-slate-400 hover:text-white transition-colors"
-              aria-label="Facebook de SPECTRUMP COLOMBIA SAS"
-            >
-              <Facebook className="w-4 h-4" />
-            </a>
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-slate-400 hover:text-white transition-colors"
-              aria-label="Instagram de SPECTRUMP COLOMBIA SAS"
-            >
-              <Instagram className="w-4 h-4" />
-            </a>
+              Administrador
+            </Link>
           </div>
         </div>
       </div>

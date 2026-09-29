@@ -4,7 +4,7 @@ import { ProductsCatalogView } from "@/components/pages/productos/ProductsCatalo
 import { PreFooterBanner } from "@/components/pages/home/PreFooterBanner";
 import { createClient } from "@/lib/supabase/server";
 
-export const revalidate = 60; // Revalidate cache every 60 seconds
+export const dynamic = 'force-dynamic';
 
 async function getProductsData() {
   const supabase = createClient();

@@ -17,9 +17,13 @@ import {
   Package,
   Layers,
   Sparkles,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { FadeContent } from "@/components/react-bits/fade-content";
 import { cn } from "@/lib/utils";
+
+const ITEMS_PER_PAGE = 20;
 
 const CATEGORY_ICONS: Record<string, React.ElementType> = {
   "todos": Layers,
@@ -63,6 +67,7 @@ export function ProductsCatalogView({ categories, products }: ProductsCatalogVie
 
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCat);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState<boolean>(false);
 
   // Sync state if URL searchParams change
@@ -75,9 +80,15 @@ export function ProductsCatalogView({ categories, products }: ProductsCatalogVie
     }
   }, [searchParams]);
 
+  // Reset to first page when category or search query changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory, searchQuery]);
+
   const handleCategorySelect = (catSlug: string) => {
     setSelectedCategory(catSlug);
     setIsMobileFilterOpen(false);
+    setCurrentPage(1);
     if (catSlug === "todos") {
       router.push("/productos", { scroll: false });
     } else {
@@ -88,6 +99,7 @@ export function ProductsCatalogView({ categories, products }: ProductsCatalogVie
   const handleClearFilters = () => {
     setSelectedCategory("todos");
     setSearchQuery("");
+    setCurrentPage(1);
     router.push("/productos", { scroll: false });
   };
 
@@ -105,7 +117,7 @@ export function ProductsCatalogView({ categories, products }: ProductsCatalogVie
 
       return matchesCategory && matchesSearch;
     });
-  }, [selectedCategory, searchQuery]);
+  }, [selectedCategory, searchQuery, products]);
 
   // Compute product count per category
   const categoryCounts = useMemo(() => {
@@ -114,7 +126,46 @@ export function ProductsCatalogView({ categories, products }: ProductsCatalogVie
       counts[cat.slug] = products.filter((p) => p.categorySlug === cat.slug).length;
     });
     return counts;
-  }, []);
+  }, [products, categories]);
+
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE) || 1;
+  const safeCurrentPage = Math.min(Math.max(1, currentPage), totalPages);
+
+  const startIndex = (safeCurrentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, filteredProducts.length);
+
+  const paginatedProducts = useMemo(() => {
+    return filteredProducts.slice(startIndex, endIndex);
+  }, [filteredProducts, startIndex, endIndex]);
+
+  const handlePageChange = (page: number) => {
+    if (page < 1 || page > totalPages || page === safeCurrentPage) return;
+    setCurrentPage(page);
+    const element = document.getElementById("catalogo-grid");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  // Windowing for page numbers list
+  const getPageNumbers = () => {
+    const pages: (number | string)[] = [];
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      if (safeCurrentPage <= 4) {
+        pages.push(1, 2, 3, 4, 5, "...", totalPages);
+      } else if (safeCurrentPage >= totalPages - 3) {
+        pages.push(1, "...", totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+      } else {
+        pages.push(1, "...", safeCurrentPage - 1, safeCurrentPage, safeCurrentPage + 1, "...", totalPages);
+      }
+    }
+    return pages;
+  };
 
   return (
     <section className="py-12 sm:py-16 bg-slate-50 border-b border-slate-200" id="catalogo-grid">
@@ -136,7 +187,7 @@ export function ProductsCatalogView({ categories, products }: ProductsCatalogVie
               <button
                 type="button"
                 onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5 rounded-full"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5 rounded-full cursor-pointer"
                 aria-label="Borrar búsqueda"
               >
                 <X className="w-3.5 h-3.5" />
@@ -147,14 +198,26 @@ export function ProductsCatalogView({ categories, products }: ProductsCatalogVie
           {/* Product Count & Mobile Filter Trigger */}
           <div className="flex items-center justify-between sm:justify-end gap-3">
             <span className="text-xs font-mono text-slate-500 font-medium">
-              Mostrando <strong className="text-slate-900 font-bold">{filteredProducts.length}</strong> de {products.length} productos
+              {filteredProducts.length === 0 ? (
+                "0 productos"
+              ) : (
+                <>
+                  Mostrando <strong className="text-slate-900 font-bold">{startIndex + 1} - {endIndex}</strong> de{" "}
+                  <strong className="text-slate-900 font-bold">{filteredProducts.length}</strong> productos
+                  {totalPages > 1 && (
+                    <span className="ml-1 text-slate-400">
+                      (Pág. {safeCurrentPage}/{totalPages})
+                    </span>
+                  )}
+                </>
+              )}
             </span>
 
             {/* Mobile Filter Trigger Button */}
             <button
               type="button"
               onClick={() => setIsMobileFilterOpen(true)}
-              className="lg:hidden flex items-center gap-1.5 bg-[#0052CC] text-white px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider shadow-sm active:scale-95 transition-all"
+              className="lg:hidden flex items-center gap-1.5 bg-[#0052CC] text-white px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider shadow-sm active:scale-95 transition-all cursor-pointer"
             >
               <Filter className="w-3.5 h-3.5" />
               <span>Filtros</span>
@@ -191,7 +254,7 @@ export function ProductsCatalogView({ categories, products }: ProductsCatalogVie
                   type="button"
                   onClick={() => handleCategorySelect("todos")}
                   className={cn(
-                    "w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-sans transition-all text-left group",
+                    "w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-sans transition-all text-left group cursor-pointer",
                     selectedCategory === "todos"
                       ? "bg-[#0052CC] text-white font-bold shadow-xs"
                       : "text-slate-700 hover:bg-slate-100/80 font-medium"
@@ -216,7 +279,7 @@ export function ProductsCatalogView({ categories, products }: ProductsCatalogVie
                       type="button"
                       onClick={() => handleCategorySelect(cat.slug)}
                       className={cn(
-                        "w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-sans transition-all text-left group",
+                        "w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-sans transition-all text-left group cursor-pointer",
                         isSelected
                           ? "bg-[#0052CC] text-white font-bold shadow-xs"
                           : "text-slate-700 hover:bg-slate-100/80 font-medium"
@@ -274,66 +337,141 @@ export function ProductsCatalogView({ categories, products }: ProductsCatalogVie
                 <button
                   type="button"
                   onClick={handleClearFilters}
-                  className="bg-[#0052CC] hover:bg-[#0040A8] text-white text-xs font-bold uppercase tracking-wider py-3 px-6 rounded-xl transition-all shadow-sm"
+                  className="bg-[#0052CC] hover:bg-[#0040A8] text-white text-xs font-bold uppercase tracking-wider py-3 px-6 rounded-xl transition-all shadow-sm cursor-pointer"
                 >
                   Restablecer Filtros
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                {filteredProducts.map((product, idx) => {
-                  const whatsappUrl = `https://wa.me/573209325989?text=${encodeURIComponent(product.whatsappMsg)}`;
-                  return (
-                    <FadeContent key={product.id} delay={Math.min(0.05 * (idx % 9), 0.3)} duration={0.5}>
-                      <div className="bg-white border border-slate-200/90 rounded-2xl p-4 flex flex-col justify-between h-full hover:border-[#0052CC]/60 hover:shadow-xl transition-all duration-300 group">
-                        
-                        {/* Image Container */}
-                        <div className="space-y-3">
-                          <div className="relative w-full h-48 sm:h-52 rounded-xl overflow-hidden bg-white border border-slate-100 flex items-center justify-center">
-                            <Image
-                              src={product.imageUrl}
-                              alt={product.title}
-                              fill
-                              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                              className="object-contain p-2 group-hover:scale-105 transition-transform duration-500"
-                            />
-                          </div>
-
-                          {/* Product Details */}
-                          <div className="space-y-1.5 pt-1">
-                            <div className="flex items-center justify-between">
-                              <span className="text-[11px] font-mono font-bold text-[#0052CC] uppercase tracking-wider truncate">
-                                {product.category}
-                              </span>
-                              <span className="text-[10px] font-mono text-slate-400">
-                                {product.brand}
-                              </span>
+              <div className="space-y-8">
+                {/* 20 Products Grid for the Active Page */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {paginatedProducts.map((product, idx) => {
+                    const whatsappUrl = `https://wa.me/573209325989?text=${encodeURIComponent(product.whatsappMsg)}`;
+                    return (
+                      <FadeContent key={product.id} delay={Math.min(0.04 * (idx % 6), 0.25)} duration={0.4}>
+                        <div className="bg-white border border-slate-200/90 rounded-2xl p-4 flex flex-col justify-between h-full hover:border-[#0052CC]/60 hover:shadow-xl transition-all duration-300 group">
+                          
+                          {/* Image Container */}
+                          <div className="space-y-3">
+                            <div className="relative w-full h-48 sm:h-52 rounded-xl overflow-hidden bg-white border border-slate-100 flex items-center justify-center">
+                              <Image
+                                src={product.imageUrl}
+                                alt={product.title}
+                                fill
+                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                className="object-contain p-2 group-hover:scale-105 transition-transform duration-500"
+                              />
                             </div>
 
-                            <h3 className="text-sm font-extrabold text-slate-900 font-sans leading-snug line-clamp-2 group-hover:text-[#0052CC] transition-colors" title={product.title}>
-                              {product.title}
-                            </h3>
+                            {/* Product Details */}
+                            <div className="space-y-1.5 pt-1">
+                              <div className="flex items-center justify-between">
+                                <span className="text-[11px] font-mono font-bold text-[#0052CC] uppercase tracking-wider truncate">
+                                  {product.category}
+                                </span>
+                                <span className="text-[10px] font-mono text-slate-400">
+                                  {product.brand}
+                                </span>
+                              </div>
+
+                              <h3 className="text-sm font-extrabold text-slate-900 font-sans leading-snug line-clamp-2 group-hover:text-[#0052CC] transition-colors" title={product.title}>
+                                {product.title}
+                              </h3>
+                            </div>
                           </div>
-                        </div>
 
-                        {/* Card Bottom CTA Button */}
-                        <div className="pt-4 mt-4 border-t border-slate-100">
-                          <a
-                            href={whatsappUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-full bg-[#0052CC] hover:bg-[#0040A8] text-white font-sans text-xs font-bold uppercase tracking-wider py-2.5 px-4 rounded-xl flex items-center justify-center gap-1.5 transition-all shadow-xs hover:shadow-md active:scale-95"
-                          >
-                            <MessageSquareQuote className="w-3.5 h-3.5" />
-                            <span>Cotizar Producto</span>
-                            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                          </a>
-                        </div>
+                          {/* Card Bottom CTA Button */}
+                          <div className="pt-4 mt-4 border-t border-slate-100">
+                            <a
+                              href={whatsappUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="w-full bg-[#0052CC] hover:bg-[#0040A8] text-white font-sans text-xs font-bold uppercase tracking-wider py-2.5 px-4 rounded-xl flex items-center justify-center gap-1.5 transition-all shadow-xs hover:shadow-md active:scale-95"
+                            >
+                              <MessageSquareQuote className="w-3.5 h-3.5" />
+                              <span>Cotizar Producto</span>
+                              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                            </a>
+                          </div>
 
+                        </div>
+                      </FadeContent>
+                    );
+                  })}
+                </div>
+
+                {/* Pagination Controls */}
+                {totalPages > 1 && (
+                  <div className="pt-8 border-t border-slate-200/90 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="text-xs font-mono text-slate-500 order-2 sm:order-1 text-center sm:text-left">
+                      Página <strong className="text-slate-900 font-bold">{safeCurrentPage}</strong> de{" "}
+                      <strong className="text-slate-900 font-bold">{totalPages}</strong> · Mostrando {paginatedProducts.length} de {filteredProducts.length} productos
+                    </div>
+
+                    <nav aria-label="Paginación del catálogo" className="flex items-center gap-1.5 order-1 sm:order-2 flex-wrap justify-center">
+                      {/* Previous Page Button */}
+                      <button
+                        type="button"
+                        onClick={() => handlePageChange(safeCurrentPage - 1)}
+                        disabled={safeCurrentPage === 1}
+                        className="px-3 py-2 rounded-xl border border-slate-200 bg-white text-slate-700 text-xs font-bold font-sans hover:bg-slate-50 hover:border-slate-300 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center gap-1 shadow-2xs cursor-pointer"
+                        aria-label="Página anterior"
+                      >
+                        <ChevronLeft className="w-4 h-4" />
+                        <span className="hidden sm:inline">Anterior</span>
+                      </button>
+
+                      {/* Numbered Page Buttons */}
+                      <div className="flex items-center gap-1">
+                        {getPageNumbers().map((p, pIdx) => {
+                          if (p === "...") {
+                            return (
+                              <span
+                                key={`ellipsis-${pIdx}`}
+                                className="px-2 py-1 text-xs text-slate-400 font-mono select-none"
+                              >
+                                ...
+                              </span>
+                            );
+                          }
+
+                          const pageNum = Number(p);
+                          const isActive = pageNum === safeCurrentPage;
+
+                          return (
+                            <button
+                              key={pageNum}
+                              type="button"
+                              onClick={() => handlePageChange(pageNum)}
+                              aria-current={isActive ? "page" : undefined}
+                              className={cn(
+                                "min-w-[36px] h-9 px-2.5 rounded-xl text-xs font-bold font-sans transition-all flex items-center justify-center cursor-pointer",
+                                isActive
+                                  ? "bg-[#0052CC] text-white shadow-sm ring-2 ring-[#0052CC]/30 font-extrabold"
+                                  : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-2xs"
+                              )}
+                            >
+                              {pageNum}
+                            </button>
+                          );
+                        })}
                       </div>
-                    </FadeContent>
-                  );
-                })}
+
+                      {/* Next Page Button */}
+                      <button
+                        type="button"
+                        onClick={() => handlePageChange(safeCurrentPage + 1)}
+                        disabled={safeCurrentPage === totalPages}
+                        className="px-3 py-2 rounded-xl border border-slate-200 bg-white text-slate-700 text-xs font-bold font-sans hover:bg-slate-50 hover:border-slate-300 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center gap-1 shadow-2xs cursor-pointer"
+                        aria-label="Página siguiente"
+                      >
+                        <span className="hidden sm:inline">Siguiente</span>
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </nav>
+                  </div>
+                )}
               </div>
             )}
           </main>
@@ -361,7 +499,7 @@ export function ProductsCatalogView({ categories, products }: ProductsCatalogVie
                 <button
                   type="button"
                   onClick={() => setIsMobileFilterOpen(false)}
-                  className="p-1 rounded-lg text-slate-400 hover:text-slate-600"
+                  className="p-1 rounded-lg text-slate-400 hover:text-slate-600 cursor-pointer"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -373,7 +511,7 @@ export function ProductsCatalogView({ categories, products }: ProductsCatalogVie
                   type="button"
                   onClick={() => handleCategorySelect("todos")}
                   className={cn(
-                    "w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-sans transition-all text-left",
+                    "w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-sans transition-all text-left cursor-pointer",
                     selectedCategory === "todos"
                       ? "bg-[#0052CC] text-white font-bold"
                       : "text-slate-700 hover:bg-slate-100"
@@ -391,7 +529,7 @@ export function ProductsCatalogView({ categories, products }: ProductsCatalogVie
                       type="button"
                       onClick={() => handleCategorySelect(cat.slug)}
                       className={cn(
-                        "w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-sans transition-all text-left",
+                        "w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-sans transition-all text-left cursor-pointer",
                         isSelected
                           ? "bg-[#0052CC] text-white font-bold"
                           : "text-slate-700 hover:bg-slate-100"
@@ -409,14 +547,14 @@ export function ProductsCatalogView({ categories, products }: ProductsCatalogVie
               <button
                 type="button"
                 onClick={handleClearFilters}
-                className="w-full py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl"
+                className="w-full py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl cursor-pointer"
               >
                 Limpiar Filtros
               </button>
               <button
                 type="button"
                 onClick={() => setIsMobileFilterOpen(false)}
-                className="w-full bg-[#0052CC] text-white py-3 text-xs font-bold uppercase tracking-wider rounded-xl shadow-sm"
+                className="w-full bg-[#0052CC] text-white py-3 text-xs font-bold uppercase tracking-wider rounded-xl shadow-sm cursor-pointer"
               >
                 Ver {filteredProducts.length} Resultados
               </button>

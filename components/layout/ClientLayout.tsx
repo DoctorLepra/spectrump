@@ -7,13 +7,13 @@ import { Footer } from "@/components/layout/Footer";
 
 export function ClientLayout({ children, navbarData }: { children: React.ReactNode, navbarData?: any }) {
   const pathname = usePathname();
-  const isAdmin = pathname?.startsWith("/admin");
+  const isCmsRoute = pathname?.startsWith("/admin") || pathname?.startsWith("/login");
 
   return (
     <>
-      {!isAdmin && <Navbar data={navbarData} />}
+      {!isCmsRoute && <Navbar data={navbarData} />}
       <main className="flex-1 flex flex-col">{children}</main>
-      {!isAdmin && <Footer />}
+      {!isCmsRoute && <Footer />}
     </>
   );
 }

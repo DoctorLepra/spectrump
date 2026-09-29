@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
+import { ArrowLeft } from 'lucide-react'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -32,10 +34,25 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
-      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-slate-100">
-        <div className="mb-8 text-center">
-          <h1 className="text-2xl font-bold text-slate-900">SPECTRUMP CMS</h1>
-          <p className="text-slate-500 mt-2">Inicia sesión para gestionar el contenido</p>
+      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-slate-100 relative">
+        <button 
+          onClick={() => router.push('/')}
+          className="absolute top-6 left-6 text-slate-400 hover:text-slate-600 transition-colors flex items-center gap-2 text-sm font-medium"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>Volver al sitio</span>
+        </button>
+
+        <div className="mb-8 text-center flex flex-col items-center mt-6">
+          <div className="relative h-20 w-72 mb-4">
+            <Image 
+              src="/logo.png" 
+              alt="SPECTRUMP CMS" 
+              fill
+              priority
+              className="object-contain object-center"
+            />
+          </div>
         </div>
         
         <form onSubmit={handleLogin} className="space-y-4">
@@ -50,7 +67,10 @@ export default function LoginPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Contraseña</label>
+            <div className="flex justify-between items-center mb-1">
+              <label className="block text-sm font-medium text-slate-700">Contraseña</label>
+              <a href="/login/olvide-password" className="text-sm text-blue-600 hover:underline">¿Olvidaste tu contraseña?</a>
+            </div>
             <input 
               type="password" 
               required
