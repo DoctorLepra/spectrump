@@ -35,7 +35,7 @@ export default function ActualizarPasswordPage() {
     } else {
       setMessage({ type: 'success', text: 'Contraseña actualizada correctamente. Redirigiendo...' })
       setTimeout(() => {
-        router.push('/admin')
+        window.location.href = '/admin'
       }, 2000)
     }
   }
