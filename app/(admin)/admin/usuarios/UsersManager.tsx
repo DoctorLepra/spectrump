@@ -50,21 +50,30 @@ export function UsersManager({ initialUsers }: { initialUsers: UserData[] }) {
 
     try {
       if (editingId === 'new') {
-        await inviteUser({
+        const result = await inviteUser({
           email: formData.email,
           nombre: formData.nombre,
           celular: formData.celular,
           role: formData.role
         })
+        if (!result.success) {
+          showToast('error', result.error || 'Error al invitar usuario')
+          setSaving(false)
+          return
+        }
         showToast('success', 'Usuario invitado correctamente. Revisa el correo.')
-        // Note: For full realism, we'd refetch from server, but refreshing the page is fine, server action revalidates.
-        window.location.reload()
+        setTimeout(() => window.location.reload(), 1500)
       } else {
-        await updateUser(editingId!, {
+        const result = await updateUser(editingId!, {
           nombre: formData.nombre,
           celular: formData.celular,
           role: formData.role
         })
+        if (!result.success) {
+          showToast('error', result.error || 'Error al actualizar usuario')
+          setSaving(false)
+          return
+        }
         showToast('success', 'Usuario actualizado correctamente.')
         setUsers(users.map(u => u.id === editingId ? { ...u, ...formData } : u))
         setEditingId(null)
@@ -79,7 +88,11 @@ export function UsersManager({ initialUsers }: { initialUsers: UserData[] }) {
   const handleDelete = async (id: string) => {
     if (!confirm('¿Estás seguro de eliminar este usuario del sistema?')) return
     try {
-      await deleteUser(id)
+      const result = await deleteUser(id)
+      if (!result.success) {
+        showToast('error', result.error || 'Error al eliminar usuario')
+        return
+      }
       setUsers(users.filter(u => u.id !== id))
       showToast('success', 'Usuario eliminado.')
     } catch (err: any) {
