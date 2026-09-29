@@ -3,7 +3,7 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
 import { resend, DEFAULT_FROM_EMAIL, getAppUrl } from '@/lib/resend'
-import { userInvitationTemplate } from '@/lib/email/templates'
+import { userInvitationTemplate, userInvitationText } from '@/lib/email/templates'
 
 export async function inviteUser(data: { email: string, nombre: string, celular: string, role: string }) {
   try {
@@ -33,7 +33,10 @@ export async function inviteUser(data: { email: string, nombre: string, celular:
     }
 
     const userId = linkData?.user?.id
-    const inviteUrl = linkData?.properties?.action_link
+    const tokenHash = linkData?.properties?.hashed_token
+    const directInviteUrl = tokenHash
+      ? `${getAppUrl()}/auth/confirm?token_hash=${tokenHash}&type=invite&next=/login/actualizar-password`
+      : (linkData?.properties?.action_link || `${getAppUrl()}/login`)
 
     // 2. Asegurar datos en el perfil
     if (userId) {
@@ -52,12 +55,19 @@ export async function inviteUser(data: { email: string, nombre: string, celular:
     }
 
     // 3. Enviar correo corporativo con Resend
-    if (inviteUrl) {
+    if (directInviteUrl) {
       const emailHtml = userInvitationTemplate({
         nombre: data.nombre,
         email: cleanEmail,
         role: data.role,
-        inviteUrl: inviteUrl,
+        inviteUrl: directInviteUrl,
+      })
+
+      const emailText = userInvitationText({
+        nombre: data.nombre,
+        email: cleanEmail,
+        role: data.role,
+        inviteUrl: directInviteUrl,
       })
 
       const { error: resendError } = await resend.emails.send({
@@ -65,6 +75,7 @@ export async function inviteUser(data: { email: string, nombre: string, celular:
         to: cleanEmail,
         subject: 'Invitación a colaborar en SPECTRUMP CMS',
         html: emailHtml,
+        text: emailText,
       })
 
       if (resendError) {

@@ -2,7 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server';
 import { resend, DEFAULT_FROM_EMAIL, DEFAULT_CONTACT_DESTINATION } from '@/lib/resend';
-import { contactNotificationTemplate } from '@/lib/email/templates';
+import { contactNotificationTemplate, contactNotificationText } from '@/lib/email/templates';
 
 export interface ContactFormData {
   nombre: string;
@@ -46,7 +46,7 @@ export async function submitContactForm(data: ContactFormData) {
     }
 
     // 3. Enviar correo de notificación a la administración con Resend
-    const htmlContent = contactNotificationTemplate({
+    const contactParams = {
       nombre: data.nombre.trim(),
       email: data.email.trim(),
       telefono: data.telefono?.trim(),
@@ -54,7 +54,10 @@ export async function submitContactForm(data: ContactFormData) {
       tipoEntidad: data.tipoEntidad,
       servicio: data.servicio,
       mensaje: data.mensaje.trim(),
-    });
+    };
+
+    const htmlContent = contactNotificationTemplate(contactParams);
+    const textContent = contactNotificationText(contactParams);
 
     const subject = `[Contacto Web] ${data.nombre.trim()} - ${data.servicio || 'General'}`;
 
@@ -64,6 +67,7 @@ export async function submitContactForm(data: ContactFormData) {
       replyTo: data.email.trim(),
       subject: subject,
       html: htmlContent,
+      text: textContent,
     });
 
     if (resendError) {

@@ -1,0 +1,23 @@
+# SPECTRUMP COLOMBIA S.A.S.
+> Soluciones de Ingeniería, Conectividad Rural, Telecomunicaciones y Energía Solar Fotovoltaica en Colombia.
+
+## Resumen Ejecutivo
+SPECTRUMP COLOMBIA S.A.S. es una compañía de ingeniería colombiana especializada en el diseño, despliegue, optimización y mantenimiento de infraestructura tecnológica crítica. Integramos telecomunicaciones de alta disponibilidad, sistemas de energía renovable solar fotovoltaica e infraestructura urbana/rural autosostenible.
+
+## Líneas de Negocio y Soluciones Principales
+
+- [Solución ECONECTA®](https://spectrumpcolombia.com/econecta): Infraestructura inteligente y autosostenible que integra generación solar fotovoltaica, conectividad comunitaria de alta velocidad, videovigilancia con inteligencia artificial perimetral, iluminación LED y estaciones de carga pública para zonas rurales y municipios de Colombia.
+- [Servicios de Ingeniería y Telecomunicaciones](https://spectrumpcolombia.com/servicios):
+  - Diseño e instalación de torres y mástiles de telecomunicaciones.
+  - Enlaces de microondas punto a punto y punto-multipunto.
+  - Redes de fibra óptica e infraestructura de transporte de datos.
+  - Sistemas de energía solar fotovoltaica (On-Grid, Off-Grid e Híbridos).
+  - Mantenimiento predictivo, preventivo y correctivo de infraestructura crítica.
+- [Catálogo de Productos](https://spectrumpcolombia.com/productos): Equipos de radiocomunicación, paneles solares monocristalinos, inversores cargadores, baterías de ciclo profundo / litio, gabinetes para intemperie y accesorios de telecomunicaciones.
+- [Nosotros y Trayectoria](https://spectrumpcolombia.com/nosotros): Cumplimiento normativo, experiencia en licitaciones públicas y privadas, compromiso ético y políticas de protección infantil y desarrollo social en Colombia.
+- [Contacto Técnico y Comercial](https://spectrumpcolombia.com/contacto): Canales directos para consultoría de proyectos, cotizaciones y pliegos de licitación en territorio colombiano.
+
+## Información de Contacto Oficial
+- Sitio Web Oficial: https://spectrumpcolombia.com
+- Correo Electrónico: contacto@spectrump.com.co
+- Ubicación: Bogotá D.C., Colombia

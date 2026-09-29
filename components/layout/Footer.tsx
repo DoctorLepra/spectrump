@@ -9,7 +9,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 mb-12">
           {/* Column 1: Brand Logo & Short Intro */}
           <div className="lg:col-span-4 space-y-4">
-            <Link href="/" className="inline-block focus:outline-none">
+            <Link href="/" className="inline-block focus:outline-none" aria-label="SPECTRUMP COLOMBIA SAS - Inicio">
               <div className="relative h-[60px] sm:h-[72px] w-[240px] sm:w-[300px]">
                 <Image
                   src="/logo.png"
@@ -134,6 +134,7 @@ export function Footer() {
           <div>
             <Link
               href="/admin"
+              rel="nofollow"
               className="text-slate-500 hover:text-slate-300 transition-colors"
             >
               Administrador

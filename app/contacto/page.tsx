@@ -6,10 +6,28 @@ import { OfficeLocationMap } from "@/components/pages/nosotros/OfficeLocationMap
 import { ContactoFAQSection } from "@/components/pages/contacto/ContactoFAQSection";
 import { createClient } from "@/lib/supabase/server";
 
+import { JsonLd, generateBreadcrumbSchema } from "@/components/seo/JsonLd";
+
 export const metadata: Metadata = {
-  title: "Contacto | Asesoría en Telecomunicaciones y Energía Solar - SPECTRUMP",
+  title: "Contacto | Atención Comercial y Soporte de Ingeniería",
   description:
-    "Ponte en contacto con SPECTRUMP COLOMBIA SAS. Asesoría técnica en licitaciones, energía solar fotovoltaica, soluciones ECONECTA® e infraestructura de conectividad.",
+    "Comunícate con SPECTRUMP COLOMBIA S.A.S.: asesoría técnica en licitaciones, energía solar fotovoltaica, estaciones ECONECTA® e infraestructura de telecomunicaciones en Colombia.",
+  alternates: {
+    canonical: "/contacto",
+  },
+  openGraph: {
+    title: "Contacto | SPECTRUMP COLOMBIA S.A.S.",
+    description:
+      "Canales directos de atención para proyectos de ingeniería, conectividad rural, telecomunicaciones y energía solar en Colombia.",
+    url: "/contacto",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contacto | SPECTRUMP COLOMBIA S.A.S.",
+    description:
+      "Canales directos de atención para proyectos de ingeniería, conectividad rural, telecomunicaciones y energía solar en Colombia.",
+  },
 };
 
 export const revalidate = 60;
@@ -58,6 +76,12 @@ export default async function ContactoPage() {
 
   return (
     <main className="min-h-screen flex flex-col bg-white text-slate-900">
+      <JsonLd
+        data={generateBreadcrumbSchema([
+          { name: "Inicio", item: "/" },
+          { name: "Contacto", item: "/contacto" },
+        ])}
+      />
       {/* 1. Hero Section de Contacto */}
       <ContactoHero data={sections['contacto_hero']} />
 

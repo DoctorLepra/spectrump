@@ -42,7 +42,7 @@ export default async function HomePage() {
   const { sections, items } = await getHomePageData();
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-slate-900">
+    <main className="min-h-screen flex flex-col bg-white text-slate-900">
       {/* 1. Hero Section with Video Background */}
       <HeroSection data={sections['inicio_hero']} />
 
@@ -63,6 +63,6 @@ export default async function HomePage() {
 
       {/* 7. Pre-Footer Dark Navy Banner */}
       <PreFooterBanner data={sections['inicio_prefooter']} />
-    </div>
+    </main>
   );
 }

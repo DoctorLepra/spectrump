@@ -1,7 +1,22 @@
 import React from 'react'
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { AdminSidebar } from './AdminSidebar'
 import { redirect } from 'next/navigation'
+
+export const metadata: Metadata = {
+  title: "Panel Administrativo",
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+    },
+  },
+};
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const supabase = createClient()

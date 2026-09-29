@@ -1,9 +1,34 @@
 import React from "react";
+import type { Metadata } from "next";
 import { ServiciosHero } from "@/components/pages/servicios/ServiciosHero";
 import { ServiciosCatalog } from "@/components/pages/servicios/ServiciosCatalog";
 import { EconectaSection } from "@/components/pages/home/EconectaSection";
 import { PreFooterBanner } from "@/components/pages/home/PreFooterBanner";
 import { createClient } from "@/lib/supabase/server";
+
+import { JsonLd, generateBreadcrumbSchema } from "@/components/seo/JsonLd";
+
+export const metadata: Metadata = {
+  title: "Servicios de Ingeniería, Telecomunicaciones y Energía Solar",
+  description:
+    "Servicios especializados de SPECTRUMP: instalación de torres de telecomunicaciones, redes de fibra óptica, energía solar fotovoltaica y mantenimiento de infraestructura crítica en Colombia.",
+  alternates: {
+    canonical: "/servicios",
+  },
+  openGraph: {
+    title: "Servicios de Ingeniería, Telecomunicaciones y Energía Solar | SPECTRUMP Colombia",
+    description:
+      "Diseño, despliegue y mantenimiento de redes de conectividad de alta capacidad, estaciones solares e infraestructura de telecomunicaciones en Colombia.",
+    url: "/servicios",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Servicios de Ingeniería, Telecomunicaciones y Energía Solar | SPECTRUMP Colombia",
+    description:
+      "Diseño, despliegue y mantenimiento de redes de conectividad de alta capacidad, estaciones solares e infraestructura de telecomunicaciones en Colombia.",
+  },
+};
 
 export const revalidate = 60;
 
@@ -40,7 +65,13 @@ export default async function ServiciosPage() {
   const { sectionsMap, itemsMap } = await getServiciosPageData();
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-slate-900">
+    <main className="min-h-screen flex flex-col bg-white text-slate-900">
+      <JsonLd
+        data={generateBreadcrumbSchema([
+          { name: "Inicio", item: "/" },
+          { name: "Servicios", item: "/servicios" },
+        ])}
+      />
       {/* 1. Hero Section - Servicios */}
       <ServiciosHero data={sectionsMap['servicios_hero']} />
 
@@ -52,6 +83,6 @@ export default async function ServiciosPage() {
 
       {/* 4. Pre-Footer Glassmorphic Call to Action Banner */}
       <PreFooterBanner data={sectionsMap['inicio_prefooter']} />
-    </div>
+    </main>
   );
 }

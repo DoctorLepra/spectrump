@@ -1,4 +1,5 @@
 import React from "react";
+import type { Metadata } from "next";
 import { NosotrosHero } from "@/components/pages/nosotros/NosotrosHero";
 import { NosotrosHistoria } from "@/components/pages/nosotros/NosotrosHistoria";
 import { MissionVision } from "@/components/pages/nosotros/MissionVision";
@@ -8,6 +9,30 @@ import { NormativaConceptualMap } from "@/components/pages/nosotros/NormativaCon
 import { ProteccionInfantilSection } from "@/components/pages/nosotros/ProteccionInfantilSection";
 import { PreFooterBanner } from "@/components/pages/home/PreFooterBanner";
 import { createClient } from "@/lib/supabase/server";
+
+import { JsonLd, generateBreadcrumbSchema } from "@/components/seo/JsonLd";
+
+export const metadata: Metadata = {
+  title: "Sobre Nosotros | Ingeniería, Experiencia y Soluciones Sostenibles",
+  description:
+    "Conoce a SPECTRUMP COLOMBIA S.A.S.: trayectoria, misión, visión, cumplimiento normativo y compromiso con el desarrollo tecnológico y energético sostenible en Colombia.",
+  alternates: {
+    canonical: "/nosotros",
+  },
+  openGraph: {
+    title: "Sobre Nosotros | SPECTRUMP COLOMBIA S.A.S.",
+    description:
+      "Trayectoria, capacidad técnica y compromiso social y ambiental en proyectos de infraestructura, telecomunicaciones y energía en Colombia.",
+    url: "/nosotros",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sobre Nosotros | SPECTRUMP COLOMBIA S.A.S.",
+    description:
+      "Trayectoria, capacidad técnica y compromiso social y ambiental en proyectos de infraestructura, telecomunicaciones y energía en Colombia.",
+  },
+};
 
 export const revalidate = 60;
 
@@ -56,7 +81,13 @@ export default async function NosotrosPage() {
   const { sections, items } = await getNosotrosPageData();
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-slate-900">
+    <main className="min-h-screen flex flex-col bg-white text-slate-900">
+      <JsonLd
+        data={generateBreadcrumbSchema([
+          { name: "Inicio", item: "/" },
+          { name: "Nosotros", item: "/nosotros" },
+        ])}
+      />
       {/* 1. Hero Section - Sobre Nosotros */}
       <NosotrosHero data={sections['nosotros_hero']} />
 
@@ -84,6 +115,6 @@ export default async function NosotrosPage() {
 
       {/* 8. Pre-Footer Glassmorphic Card */}
       <PreFooterBanner data={sections['inicio_prefooter']} />
-    </div>
+    </main>
   );
 }

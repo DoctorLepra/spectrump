@@ -2,7 +2,7 @@
 
 import { createAdminClient } from '@/lib/supabase/admin';
 import { resend, DEFAULT_FROM_EMAIL, getAppUrl } from '@/lib/resend';
-import { passwordResetTemplate } from '@/lib/email/templates';
+import { passwordResetTemplate, passwordResetText } from '@/lib/email/templates';
 
 export async function sendPasswordResetEmail(email: string) {
   try {
@@ -33,19 +33,20 @@ export async function sendPasswordResetEmail(email: string) {
       };
     }
 
-    const resetUrl = linkData?.properties?.action_link;
-
-    if (!resetUrl) {
-      return {
-        success: true,
-        message: 'Si el correo electrónico está registrado, recibirás un enlace de recuperación en breve.',
-      };
-    }
+    const tokenHash = linkData?.properties?.hashed_token;
+    const directResetUrl = tokenHash
+      ? `${getAppUrl()}/auth/confirm?token_hash=${tokenHash}&type=recovery&next=/login/actualizar-password`
+      : (linkData?.properties?.action_link || `${getAppUrl()}/login`);
 
     // 2. Enviar correo corporativo con Resend
     const emailHtml = passwordResetTemplate({
       email: cleanEmail,
-      resetUrl: resetUrl,
+      resetUrl: directResetUrl,
+    });
+
+    const emailText = passwordResetText({
+      email: cleanEmail,
+      resetUrl: directResetUrl,
     });
 
     const { error: resendError } = await resend.emails.send({
@@ -53,6 +54,7 @@ export async function sendPasswordResetEmail(email: string) {
       to: cleanEmail,
       subject: 'Restablecer contraseña - SPECTRUMP CMS',
       html: emailHtml,
+      text: emailText,
     });
 
     if (resendError) {

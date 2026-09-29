@@ -1,0 +1,42 @@
+# SPECTRUMP COLOMBIA S.A.S. - Knowledge Graph & Technical Specification
+
+## Entidad Principal
+- Nombre Legal: SPECTRUMP COLOMBIA S.A.S.
+- Tipo de Organización: Empresa de Ingeniería, Telecomunicaciones y Energía Renovable.
+- País: Colombia (CO)
+- Sede Central: Bogotá D.C., Colombia
+- Sitio Web: https://spectrumpcolombia.com
+- Contacto: contacto@spectrump.com.co
+
+## Propósito y Misión
+Transformar y conectar territorios en Colombia mediante el despliegue de soluciones tecnológicas e infraestructuras sostenibles que reduzcan la brecha digital y energética en zonas urbanas y rurales.
+
+## Catálogo Detallado de Soluciones
+
+### 1. ECONECTA® (Infraestructura Inteligente Autosostenible)
+- Descripción: Estación modular y autónoma diseñada para municipios, parques, instituciones educativas rurales y corredores viales.
+- Componentes Clave:
+  - Generación Solar: Paneles solares de alta eficiencia con estructura anticorrosiva para intemperie.
+  - Almacenamiento: Banco de baterías de Litio LiFePO4 de larga vida útil y gestión térmica inteligente.
+  - Conectividad: Hotspot Wi-Fi comunitario con portal cautivo, filtrado de contenidos y soporte para cientos de usuarios concurrentes.
+  - Seguridad y Vigilancia: Cámaras IP con visión nocturna infrarroja, analítica de video y botón de asistencia/pánico.
+  - Iluminación y Servicios: Alumbrado LED solar inteligente, puertos de carga rápida USB para dispositivos móviles y sensores ambientales.
+
+### 2. Servicios de Ingeniería y Conectividad
+- Obras Civiles para Telecomunicaciones: Cimentaciones, montaje de torres autosoportadas, venteadas y monopolos.
+- Radioenlaces de Alta Capacidad: Frecuencias licenciadas y no licenciadas para transporte de datos en topografías complejas.
+- Fibra Óptica (FTTH / Backhaul): Tendido aéreo y canalizado, empalmes por fusión, certificación OTDR y diseño de redes GPON.
+- Energía Solar Fotovoltaica Industrial y Rural: Dimensionamiento técnico según irradiación solar IDEAM, instalación de inversores híbridos y tableros de protección AC/DC según norma RETIE.
+- Operación y Mantenimiento (O&M): Monitoreo remoto 24/7, planes de contingencia y cuadrillas técnicas en campo.
+
+### 3. Suministro Tecnológico Homologado
+- Módulos fotovoltaicos monocristalinos y policristalinos con certificaciones internacionales (IEC / RETIE).
+- Inversores y controladores MPPT.
+- Baterías de ciclo profundo GEL, AGM y Litio LiFePO4.
+- Racks, gabinetes exteriores con protección IP65 / NEMA 4X y climatización pasiva.
+- Antenas, transceptores y switches industriales.
+
+## Cumplimiento Normativo y Gobernanza
+- Cumplimiento estricto del Reglamento Técnico de Instalaciones Eléctricas (RETIE).
+- Cumplimiento de la reglamentación de la Comisión de Regulación de Comunicaciones (CRC) y el Ministerio TIC (MinTIC).
+- Políticas corporativas de protección a la infancia y adolescencia en entornos digitales según la Ley 679 de 2001 y normativas concordantes.

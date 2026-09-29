@@ -1,8 +1,33 @@
 import React, { Suspense } from "react";
+import type { Metadata } from "next";
 import { ProductsHero } from "@/components/pages/productos/ProductsHero";
 import { ProductsCatalogView } from "@/components/pages/productos/ProductsCatalogView";
 import { PreFooterBanner } from "@/components/pages/home/PreFooterBanner";
 import { createClient } from "@/lib/supabase/server";
+
+import { JsonLd, generateBreadcrumbSchema } from "@/components/seo/JsonLd";
+
+export const metadata: Metadata = {
+  title: "Catálogo de Productos y Suministros Tecnológicos",
+  description:
+    "Catálogo de suministros tecnológicos y energéticos de SPECTRUMP: módulos solares fotovoltaicos, baterías de litio, inversores, antenas y componentes de telecomunicaciones en Colombia.",
+  alternates: {
+    canonical: "/productos",
+  },
+  openGraph: {
+    title: "Catálogo de Productos y Suministros Tecnológicos | SPECTRUMP Colombia",
+    description:
+      "Equipos homologados y suministros de alta fiabilidad para proyectos de energía solar, telecomunicaciones y conectividad en Colombia.",
+    url: "/productos",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Catálogo de Productos y Suministros Tecnológicos | SPECTRUMP Colombia",
+    description:
+      "Equipos homologados y suministros de alta fiabilidad para proyectos de energía solar, telecomunicaciones y conectividad en Colombia.",
+  },
+};
 
 export const dynamic = 'force-dynamic';
 
@@ -64,7 +89,13 @@ export default async function ProductosPage() {
   const { categories, products, sectionsMap } = await getProductsData();
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-slate-900">
+    <main className="min-h-screen flex flex-col bg-white text-slate-900">
+      <JsonLd
+        data={generateBreadcrumbSchema([
+          { name: "Inicio", item: "/" },
+          { name: "Productos", item: "/productos" },
+        ])}
+      />
       {/* 1. Symmetrical Hero Section */}
       <ProductsHero data={sectionsMap['productos_hero']} />
 
@@ -75,6 +106,6 @@ export default async function ProductosPage() {
 
       {/* 3. Pre-Footer Call to Action Banner */}
       <PreFooterBanner data={sectionsMap['inicio_prefooter']} />
-    </div>
+    </main>
   );
 }

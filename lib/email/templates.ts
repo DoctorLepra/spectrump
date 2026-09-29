@@ -41,7 +41,7 @@ export function contactNotificationTemplate(data: ContactNotificationParams): st
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nuevo Requerimiento de Contacto</title>
+  <title>Nuevo requerimiento de contacto</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #0f172a;">
   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f1f5f9; padding: 40px 16px;">
@@ -50,12 +50,10 @@ export function contactNotificationTemplate(data: ContactNotificationParams): st
         <table role="presentation" width="100%" style="max-width: 600px; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0;">
           <!-- Header -->
           <tr>
-            <td style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 32px 36px; text-align: center;">
-              <h1 style="margin: 0; color: #ffffff; font-size: 20px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;">
-                SPECTRUMP COLOMBIA
-              </h1>
-              <p style="margin: 8px 0 0 0; color: #94a3b8; font-size: 13px; font-weight: 500;">
-                Portal Web Oficial &bull; Nuevo Requerimiento de Contacto
+            <td style="background-color: #ffffff; padding: 36px 36px 24px 36px; text-align: center; border-bottom: 1px solid #e2e8f0;">
+              <img src="https://spectrumpcolombia.com/logo.png" alt="SPECTRUMP COLOMBIA" width="280" style="display: block; margin: 0 auto; width: 280px; max-width: 100%; height: auto; border: 0;" />
+              <p style="margin: 12px 0 0 0; color: #64748b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;">
+                Portal Web Oficial &bull; Requerimiento de Contacto
               </p>
             </td>
           </tr>
@@ -172,12 +170,10 @@ export function userInvitationTemplate(data: UserInvitationParams): string {
         <table role="presentation" width="100%" style="max-width: 600px; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0;">
           <!-- Header -->
           <tr>
-            <td style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 36px 36px 32px 36px; text-align: center;">
-              <h1 style="margin: 0; color: #ffffff; font-size: 22px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;">
-                SPECTRUMP CMS
-              </h1>
-              <p style="margin: 8px 0 0 0; color: #94a3b8; font-size: 13px;">
-                Gestión de Contenido &bull; SPECTRUMP COLOMBIA S.A.S.
+            <td style="background-color: #ffffff; padding: 36px 36px 24px 36px; text-align: center; border-bottom: 1px solid #e2e8f0;">
+              <img src="https://spectrumpcolombia.com/logo.png" alt="SPECTRUMP COLOMBIA" width="280" style="display: block; margin: 0 auto; width: 280px; max-width: 100%; height: auto; border: 0;" />
+              <p style="margin: 12px 0 0 0; color: #64748b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;">
+                Gestión de Contenido &bull; SPECTRUMP CMS
               </p>
             </td>
           </tr>
@@ -266,11 +262,9 @@ export function passwordResetTemplate(data: PasswordResetParams): string {
         <table role="presentation" width="100%" style="max-width: 600px; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0;">
           <!-- Header -->
           <tr>
-            <td style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 36px 36px 32px 36px; text-align: center;">
-              <h1 style="margin: 0; color: #ffffff; font-size: 22px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;">
-                SPECTRUMP CMS
-              </h1>
-              <p style="margin: 8px 0 0 0; color: #94a3b8; font-size: 13px;">
+            <td style="background-color: #ffffff; padding: 36px 36px 24px 36px; text-align: center; border-bottom: 1px solid #e2e8f0;">
+              <img src="https://spectrumpcolombia.com/logo.png" alt="SPECTRUMP COLOMBIA" width="280" style="display: block; margin: 0 auto; width: 280px; max-width: 100%; height: auto; border: 0;" />
+              <p style="margin: 12px 0 0 0; color: #64748b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;">
                 Seguridad &bull; Restablecimiento de Credenciales
               </p>
             </td>
@@ -328,3 +322,56 @@ export function passwordResetTemplate(data: PasswordResetParams): string {
 </html>
   `.trim();
 }
+
+export function contactNotificationText(data: ContactNotificationParams): string {
+  return `
+SPECTRUMP COLOMBIA - NUEVO REQUERIMIENTO DE CONTACTO
+====================================================
+Has recibido un nuevo mensaje desde el formulario web de contacto:
+
+- Nombre: ${data.nombre}
+- Correo: ${data.email}
+- Teléfono: ${data.telefono || 'No registrado'}
+- Organización: ${data.organizacion || 'No registrada'}
+- Tipo de Entidad: ${data.tipoEntidad || 'No especificada'}
+- Servicio: ${data.servicio || 'General'}
+
+MENSAJE:
+${data.mensaje}
+----------------------------------------------------
+Para responder a este mensaje, escribe directamente a ${data.email}
+  `.trim();
+}
+
+export function userInvitationText(data: UserInvitationParams): string {
+  return `
+SPECTRUMP CMS - INVITACIÓN DE EQUIPO
+====================================
+Hola ${data.nombre || 'Colaborador'},
+
+Has sido invitado a colaborar en la plataforma de gestión de contenidos SPECTRUMP CMS con el rol: ${data.role}.
+
+Para activar tu cuenta y establecer tu contraseña de acceso, ingresa al siguiente enlace seguro:
+${data.inviteUrl}
+
+(Este enlace es personal y de un solo uso).
+
+SPECTRUMP COLOMBIA S.A.S.
+  `.trim();
+}
+
+export function passwordResetText(data: PasswordResetParams): string {
+  return `
+SPECTRUMP CMS - RECUPERACIÓN DE CONTRASEÑA
+==========================================
+Hemos recibido una solicitud para restablecer la contraseña de tu cuenta (${data.email}) en SPECTRUMP CMS.
+
+Para establecer una nueva contraseña, ingresa al siguiente enlace seguro:
+${data.resetUrl}
+
+(Por seguridad, este enlace expirará en breve. Si tú no solicitaste este cambio, puedes ignorar este mensaje).
+
+SPECTRUMP COLOMBIA S.A.S.
+  `.trim();
+}
+

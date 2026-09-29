@@ -23,6 +23,8 @@ export function HeroSection({ data }: { data?: any }) {
           loop
           muted
           playsInline
+          preload="metadata"
+          poster={data?.poster_url || "/images/city-1.jpg"}
           className="w-full h-full object-cover object-center scale-[1.02]"
         >
           <source src={videoUrl} type="video/mp4" />

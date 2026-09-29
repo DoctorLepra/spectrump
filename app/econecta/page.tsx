@@ -8,10 +8,37 @@ import { EconectaCierreDescripcion } from "@/components/pages/econecta/EconectaC
 import { PreFooterBanner } from "@/components/pages/home/PreFooterBanner";
 import { createClient } from "@/lib/supabase/server";
 
+import { JsonLd, generateBreadcrumbSchema } from "@/components/seo/JsonLd";
+
 export const metadata: Metadata = {
-  title: "ECONECTA® | Estructuras Inteligentes de Energía y Conectividad - SPECTRUMP",
+  title: "ECONECTA® | Estaciones Inteligentes y Autosostenibles",
   description:
-    "Descubre ECONECTA®, la infraestructura inteligente y autosostenible de SPECTRUMP que integra energía solar, conectividad, videovigilancia y servicios digitales.",
+    "Descubre ECONECTA® de SPECTRUMP: solución integral de infraestructura inteligente que combina energía solar, conectividad comunitaria Wi-Fi, videovigilancia con IA y carga digital.",
+  alternates: {
+    canonical: "/econecta",
+  },
+  openGraph: {
+    title: "ECONECTA® | Estaciones Inteligentes Autosostenibles - SPECTRUMP",
+    description:
+      "Infraestructura modular con energía solar fotovoltaica, conectividad de alta velocidad y seguridad para municipios y proyectos en Colombia.",
+    url: "/econecta",
+    type: "website",
+    images: [
+      {
+        url: "/econecta.png",
+        width: 1200,
+        height: 630,
+        alt: "Estación Inteligente ECONECTA®",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ECONECTA® | Estaciones Inteligentes Autosostenibles - SPECTRUMP",
+    description:
+      "Infraestructura modular con energía solar fotovoltaica, conectividad de alta velocidad y seguridad para municipios y proyectos en Colombia.",
+    images: ["/econecta.png"],
+  },
 };
 
 export const revalidate = 60;
@@ -58,8 +85,41 @@ async function getEconectaPageData() {
 export default async function EconectaPage() {
   const { sections, items } = await getEconectaPageData();
 
+  const econectaProductSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: "ECONECTA® - Estación Inteligente Autosostenible",
+    image: "https://spectrumpcolombia.com/econecta.png",
+    description:
+      "Infraestructura modular inteligente que integra energía solar fotovoltaica, conectividad Wi-Fi comunitaria de alta capacidad, videovigilancia y puertos de carga.",
+    brand: {
+      "@type": "Brand",
+      name: "ECONECTA® by SPECTRUMP",
+    },
+    manufacturer: {
+      "@type": "Organization",
+      name: "SPECTRUMP COLOMBIA S.A.S.",
+    },
+    category: "Infraestructura Inteligente y Energía Solar",
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "COP",
+      availability: "https://schema.org/InStock",
+      url: "https://spectrumpcolombia.com/econecta",
+    },
+  };
+
   return (
     <main className="min-h-screen flex flex-col bg-white text-slate-900">
+      <JsonLd
+        data={[
+          generateBreadcrumbSchema([
+            { name: "Inicio", item: "/" },
+            { name: "ECONECTA®", item: "/econecta" },
+          ]),
+          econectaProductSchema,
+        ]}
+      />
       {/* 1. Hero Section con Video e Impacto Visual */}
       <EconectaHero data={sections['econecta_hero']} />
 
