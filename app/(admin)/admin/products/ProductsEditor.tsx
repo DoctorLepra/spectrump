@@ -148,25 +148,25 @@ export function ProductsEditor({ initialProducts, categories }: { initialProduct
       )}
 
       {editingId !== null ? (
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm animate-in fade-in">
+        <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-sm animate-in fade-in">
           <div className="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
-            <h2 className="text-xl font-bold text-slate-800">
+            <h2 className="text-lg sm:text-xl font-bold text-slate-800">
               {editingId === "new" ? 'Nuevo Producto' : 'Editar Producto'}
             </h2>
-            <button onClick={cancelEdit} className="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-50">
+            <button onClick={cancelEdit} className="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-50 min-w-[40px] min-h-[40px] flex items-center justify-center">
               <X className="w-5 h-5" />
             </button>
           </div>
 
           <form onSubmit={handleSave} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
               <div className="space-y-2">
                 <label className="block text-sm font-bold text-slate-700">Nombre del Producto</label>
-                <input required type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5" />
+                <input required type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-base sm:text-sm" />
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-bold text-slate-700">Categoría</label>
-                <select required value={formData.category_id} onChange={e => setFormData({...formData, category_id: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5">
+                <select required value={formData.category_id} onChange={e => setFormData({...formData, category_id: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-base sm:text-sm">
                   {categories.map(c => (
                     <option key={c.id} value={c.id}>{c.name}</option>
                   ))}
@@ -174,7 +174,7 @@ export function ProductsEditor({ initialProducts, categories }: { initialProduct
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-bold text-slate-700">Estado</label>
-                <select required value={formData.is_active ? "true" : "false"} onChange={e => setFormData({...formData, is_active: e.target.value === "true"})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5">
+                <select required value={formData.is_active ? "true" : "false"} onChange={e => setFormData({...formData, is_active: e.target.value === "true"})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-base sm:text-sm">
                   <option value="true">Activo</option>
                   <option value="false">Inactivo</option>
                 </select>
@@ -182,7 +182,7 @@ export function ProductsEditor({ initialProducts, categories }: { initialProduct
               <div className="space-y-2 md:col-span-2">
                 <label className="block text-sm font-bold text-slate-700">Imagen del producto</label>
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <input type="text" value={formData.image_url} onChange={e => setFormData({...formData, image_url: e.target.value})} className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5" placeholder="https://..." />
+                  <input type="text" value={formData.image_url} onChange={e => setFormData({...formData, image_url: e.target.value})} className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-base sm:text-sm" placeholder="https://..." />
                   <CldUploadWidget 
                     signatureEndpoint="/api/cloudinary/sign"
                     options={{ sources: ['local', 'url'], multiple: false, resourceType: 'image' }}
@@ -196,7 +196,7 @@ export function ProductsEditor({ initialProducts, categories }: { initialProduct
                       <button
                         type="button"
                         onClick={() => open()}
-                        className="bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-blue-600 border border-slate-200 hover:border-blue-200 px-4 py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-2 whitespace-nowrap"
+                        className="bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-blue-600 border border-slate-200 hover:border-blue-200 px-5 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 whitespace-nowrap min-h-[44px]"
                       >
                         <ImageIcon className="w-4 h-4" />
                         Subir Imagen
@@ -206,17 +206,17 @@ export function ProductsEditor({ initialProducts, categories }: { initialProduct
                 </div>
                 <p className="text-xs text-slate-500 mt-1">Recomendaciones: Tamaño sugerido 800x800px. Formato PNG con fondo transparente o fondo blanco puro para mejor visualización en el catálogo.</p>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 md:col-span-2">
                 <label className="block text-sm font-bold text-slate-700">Marca</label>
-                <input type="text" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5" placeholder="Ej. Hoymiles" />
+                <input type="text" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-base sm:text-sm" placeholder="Ej. Hoymiles" />
               </div>
             </div>
             
-            <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
-              <button type="button" onClick={cancelEdit} className="px-5 py-2.5 rounded-xl font-bold text-slate-600 hover:bg-slate-100 transition-colors">
+            <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-4 border-t border-slate-100">
+              <button type="button" onClick={cancelEdit} className="w-full sm:w-auto px-6 py-3 rounded-xl font-bold text-slate-600 hover:bg-slate-100 transition-colors text-center min-h-[44px]">
                 Cancelar
               </button>
-              <button disabled={saving} type="submit" className="px-5 py-2.5 rounded-xl font-bold bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-50">
+              <button disabled={saving} type="submit" className="w-full sm:w-auto px-7 py-3 rounded-xl font-bold bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-50 text-center min-h-[44px]">
                 {saving ? 'Guardando...' : 'Guardar Producto'}
               </button>
             </div>
@@ -226,31 +226,31 @@ export function ProductsEditor({ initialProducts, categories }: { initialProduct
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
           
           {/* Header & Action bar */}
-          <div className="p-4 sm:p-6 border-b border-slate-200 bg-slate-50 space-y-4 sm:space-y-0 sm:flex sm:items-center sm:justify-between">
-            <h2 className="font-bold text-slate-800 text-lg">Catálogo de Productos ({filteredProducts.length})</h2>
-            <button onClick={startNew} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-bold flex items-center gap-2 text-sm transition-colors w-full sm:w-auto justify-center">
+          <div className="p-4 sm:p-6 border-b border-slate-200 bg-slate-50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <h2 className="font-bold text-slate-800 text-base sm:text-lg">Catálogo de Productos ({filteredProducts.length})</h2>
+            <button onClick={startNew} className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl font-bold flex items-center justify-center gap-2 text-sm transition-colors w-full sm:w-auto shrink-0 shadow-sm min-h-[44px]">
               <Plus className="w-4 h-4" />
               Nuevo Producto
             </button>
           </div>
 
           {/* Filters bar */}
-          <div className="p-4 border-b border-slate-100 bg-white grid grid-cols-1 sm:grid-cols-12 gap-4">
+          <div className="p-4 border-b border-slate-100 bg-white grid grid-cols-1 sm:grid-cols-12 gap-3">
             <div className="sm:col-span-6 relative">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 placeholder="Buscar por nombre..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full pl-10 pr-4 py-2.5 sm:py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px]"
               />
             </div>
             <div className="sm:col-span-3">
               <select 
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px]"
               >
                 <option value="all">Todas las Categorías</option>
                 {categories.map(c => (
@@ -262,7 +262,7 @@ export function ProductsEditor({ initialProducts, categories }: { initialProduct
               <select 
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px]"
               >
                 <option value="all">Todos los Estados</option>
                 <option value="active">Activos</option>
@@ -274,38 +274,55 @@ export function ProductsEditor({ initialProducts, categories }: { initialProduct
           {/* List */}
           <div className="divide-y divide-slate-100">
             {currentItems.map(product => (
-              <div key={product.id} className="p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-6 hover:bg-slate-50/50 transition-colors">
-                <div className="flex items-center gap-4 w-full sm:w-auto">
-                  <div className="w-16 h-16 rounded-xl bg-slate-200 overflow-hidden shrink-0 border border-slate-200">
+              <div key={product.id} className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-slate-50/50 transition-colors">
+                <div className="flex items-start sm:items-center gap-3.5 flex-1 min-w-0">
+                  <div className="w-16 h-16 rounded-xl bg-slate-100 overflow-hidden shrink-0 border border-slate-200 relative">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     {product.image_url ? (
                       <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-slate-400 text-xs text-center p-2 leading-tight bg-slate-100">Sin img</div>
+                      <div className="w-full h-full flex items-center justify-center text-slate-400 text-xs text-center p-1 leading-tight">Sin img</div>
                     )}
                   </div>
-                  <div>
-                    <h3 className="font-bold text-slate-900 leading-snug">{product.name}</h3>
-                    <p className="text-sm text-slate-500">{categories.find(c => c.id === product.category_id)?.name || "Categoría desconocida"}</p>
-                    <div className="mt-1.5 flex gap-2">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-bold text-slate-900 leading-snug text-sm sm:text-base line-clamp-2">{product.name}</h3>
+                    <p className="text-xs sm:text-sm text-slate-500 truncate mt-0.5">{categories.find(c => c.id === product.category_id)?.name || "Categoría desconocida"}</p>
+                    <div className="mt-1.5 flex items-center gap-2">
                       <span className={`inline-flex items-center text-[10px] uppercase font-bold px-2 py-0.5 rounded ${product.is_active ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'}`}>
                         {product.is_active ? 'Activo' : 'Inactivo'}
                       </span>
+                      {product.description && (
+                        <span className="text-[11px] text-slate-400 truncate max-w-[140px]">
+                          {product.description}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
-                  <button onClick={() => startEdit(product)} className="p-2 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors border border-transparent hover:border-blue-200" title="Editar">
-                    <Edit2 className="w-5 h-5" />
+
+                {/* Action buttons */}
+                <div className="flex items-center justify-end gap-2 pt-2 sm:pt-0 border-t border-slate-100 sm:border-0 shrink-0">
+                  <button 
+                    onClick={() => startEdit(product)} 
+                    className="flex-1 sm:flex-none px-3.5 py-2 sm:p-2.5 text-blue-600 bg-blue-50 sm:bg-transparent hover:bg-blue-100 rounded-xl transition-colors flex items-center justify-center gap-1.5 text-xs sm:text-sm font-semibold min-h-[40px]" 
+                    title="Editar producto"
+                  >
+                    <Edit2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <span className="sm:hidden">Editar</span>
                   </button>
-                  <button onClick={() => handleDelete(product.id)} className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors border border-transparent hover:border-red-200" title="Eliminar">
-                    <Trash2 className="w-5 h-5" />
+                  <button 
+                    onClick={() => handleDelete(product.id)} 
+                    className="flex-1 sm:flex-none px-3.5 py-2 sm:p-2.5 text-red-600 bg-red-50 sm:bg-transparent hover:bg-red-100 rounded-xl transition-colors flex items-center justify-center gap-1.5 text-xs sm:text-sm font-semibold min-h-[40px]" 
+                    title="Eliminar producto"
+                  >
+                    <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <span className="sm:hidden">Eliminar</span>
                   </button>
                 </div>
               </div>
             ))}
             {currentItems.length === 0 && (
-              <div className="p-16 text-center text-slate-500">
+              <div className="p-12 sm:p-16 text-center text-slate-500 text-sm">
                 No se encontraron productos que coincidan con la búsqueda.
               </div>
             )}
@@ -313,25 +330,25 @@ export function ProductsEditor({ initialProducts, categories }: { initialProduct
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="p-4 border-t border-slate-200 bg-slate-50 flex items-center justify-between">
-              <span className="text-sm text-slate-500">
+            <div className="p-4 border-t border-slate-200 bg-slate-50 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <span className="text-xs sm:text-sm text-slate-500 text-center sm:text-left">
                 Mostrando {((currentPage - 1) * itemsPerPage) + 1} a {Math.min(currentPage * itemsPerPage, filteredProducts.length)} de {filteredProducts.length} productos
               </span>
               <div className="flex items-center gap-1">
                 <button 
                   onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                   disabled={currentPage === 1}
-                  className="p-2 rounded-lg hover:bg-slate-200 disabled:opacity-50 disabled:hover:bg-transparent text-slate-700 transition-colors"
+                  className="p-2.5 rounded-xl hover:bg-slate-200 disabled:opacity-50 disabled:hover:bg-transparent text-slate-700 transition-colors min-w-[40px] min-h-[40px] flex items-center justify-center"
                 >
                   <ChevronLeft className="w-5 h-5" />
                 </button>
-                <span className="text-sm font-medium px-4">
+                <span className="text-xs sm:text-sm font-medium px-3">
                   {currentPage} / {totalPages}
                 </span>
                 <button 
                   onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                   disabled={currentPage === totalPages}
-                  className="p-2 rounded-lg hover:bg-slate-200 disabled:opacity-50 disabled:hover:bg-transparent text-slate-700 transition-colors"
+                  className="p-2.5 rounded-xl hover:bg-slate-200 disabled:opacity-50 disabled:hover:bg-transparent text-slate-700 transition-colors min-w-[40px] min-h-[40px] flex items-center justify-center"
                 >
                   <ChevronRight className="w-5 h-5" />
                 </button>

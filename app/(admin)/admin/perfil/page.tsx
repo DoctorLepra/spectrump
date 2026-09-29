@@ -24,10 +24,10 @@ export default async function PerfilPage() {
   }
 
   return (
-    <div className="p-8 max-w-3xl mx-auto space-y-8 animate-in fade-in">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-3xl mx-auto space-y-6 sm:space-y-8 animate-in fade-in">
       <div>
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Mi Perfil</h1>
-        <p className="text-slate-500 mt-2">Actualiza tu información personal.</p>
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Mi Perfil</h1>
+        <p className="text-sm sm:text-base text-slate-500 mt-1">Actualiza tu información personal.</p>
       </div>
 
       <ProfileEditor initialData={userData} />

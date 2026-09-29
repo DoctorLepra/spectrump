@@ -39,10 +39,10 @@ export default async function UsuariosPage() {
   }) || []
     
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8 animate-in fade-in">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6 sm:space-y-8 animate-in fade-in">
       <div>
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Gestión de Usuarios</h1>
-        <p className="text-slate-500 mt-2">Administra los roles y el acceso de tu equipo al CMS.</p>
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Gestión de Usuarios</h1>
+        <p className="text-sm sm:text-base text-slate-500 mt-1">Administra los roles y el acceso de tu equipo al CMS.</p>
       </div>
 
       <UsersManager initialUsers={combinedUsers} />

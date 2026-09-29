@@ -20,24 +20,24 @@ export default async function PagesIndexPage() {
   ];
 
   return (
-    <div className="p-8 space-y-8">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Páginas del Sitio</h1>
-        <p className="text-slate-600 mt-2">Selecciona una página para editar su contenido (textos, imágenes, videos).</p>
+        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Páginas del Sitio</h1>
+        <p className="text-sm sm:text-base text-slate-600 mt-1">Selecciona una página para editar su contenido (textos, imágenes, videos).</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {pages.map((page) => {
           const Icon = page.icon;
           return (
             <Link 
               key={page.id} 
               href={`/admin/pages/${page.id}`}
-              className="relative overflow-hidden bg-[#0B2545] p-8 rounded-3xl border border-slate-700/60 shadow-xl hover:shadow-2xl hover:border-[#0052CC]/50 transition-all flex flex-col justify-between min-h-[200px] group"
+              className="relative overflow-hidden bg-[#0B2545] p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-700/60 shadow-xl hover:shadow-2xl hover:border-[#0052CC]/50 transition-all flex flex-col justify-between min-h-[160px] sm:min-h-[200px] group"
             >
               {/* Large Faded Icon Aligned to the Left Background */}
-              <div className="absolute -left-8 top-1/2 -translate-y-1/2 pointer-events-none opacity-[0.07] group-hover:opacity-10 transition-opacity text-white select-none">
-                <Icon className="w-56 h-56" strokeWidth={1.5} />
+              <div className="absolute -left-6 sm:-left-8 top-1/2 -translate-y-1/2 pointer-events-none opacity-[0.07] group-hover:opacity-10 transition-opacity text-white select-none">
+                <Icon className="w-44 h-44 sm:w-56 sm:h-56" strokeWidth={1.5} />
               </div>
 
               {/* Subtle Gradient Glow in Card Background */}

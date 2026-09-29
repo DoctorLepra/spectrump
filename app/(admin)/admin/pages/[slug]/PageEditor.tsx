@@ -479,17 +479,18 @@ export function PageEditor({ pageId, initialSections, initialItems }: { pageId: 
   return (
     <>
       {/* Header and Back Button */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
+        <div className="flex items-center gap-3 sm:gap-4">
           <button 
             onClick={handleBack}
-            className="p-3 bg-white border border-slate-200 rounded-xl text-slate-500 hover:text-[#0052CC] hover:border-[#0052CC] hover:shadow-md transition-all group cursor-pointer"
+            className="p-2.5 sm:p-3 bg-white border border-slate-200 rounded-xl text-slate-500 hover:text-[#0052CC] hover:border-[#0052CC] hover:shadow-md transition-all group cursor-pointer shrink-0 min-w-[44px] min-h-[44px] flex items-center justify-center"
+            title="Volver"
           >
             <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
           </button>
           <div>
-            <h1 className="text-3xl font-bold text-slate-900 capitalize">Editar Página: {pageId}</h1>
-            <p className="text-slate-600 mt-2">Modifica los textos, imágenes y videos de cada sección.</p>
+            <h1 className="text-xl sm:text-3xl font-bold text-slate-900 capitalize leading-tight">Editar Página: {pageId}</h1>
+            <p className="text-xs sm:text-sm text-slate-600 mt-1">Modifica los textos, imágenes y videos de cada sección.</p>
           </div>
         </div>
       </div>
@@ -1787,14 +1788,14 @@ export function PageEditor({ pageId, initialSections, initialItems }: { pageId: 
       )}
 
       {schema.length > 0 && (
-        <div className="sticky bottom-8 z-10 flex justify-end">
+        <div className="sticky bottom-4 sm:bottom-8 z-20 flex justify-end pb-safe">
           <button 
             onClick={handleSaveSections}
             disabled={saving}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-bold shadow-xl hover:shadow-2xl transition-all flex items-center gap-3 disabled:opacity-50"
+            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl font-bold shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-3 disabled:opacity-50 min-h-[48px] text-sm sm:text-base cursor-pointer"
           >
-            <Save className="w-5 h-5" />
-            {saving ? 'Guardando...' : 'Guardar Todos los Cambios'}
+            <Save className="w-5 h-5 shrink-0" />
+            <span>{saving ? 'Guardando...' : 'Guardar Todos los Cambios'}</span>
           </button>
         </div>
       )}

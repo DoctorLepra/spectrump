@@ -59,12 +59,12 @@ export function ProfileEditor({ initialData }: { initialData: any }) {
   }
 
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 relative">
+    <div className="bg-white p-4 sm:p-6 lg:p-8 rounded-2xl shadow-sm border border-slate-200 relative">
       {message && (
-        <div className="fixed top-8 left-1/2 -translate-x-1/2 z-[100]">
-          <div className={`animate-in slide-in-from-top-12 fade-in duration-300 px-6 py-4 rounded-full shadow-2xl flex items-center gap-3 font-semibold ${message.type === 'success' ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white'}`}>
-            {message.type === 'success' ? <CheckCircle className="w-5 h-5" /> : <AlertTriangle className="w-5 h-5" />}
-            <span>{message.text}</span>
+        <div className="fixed top-8 left-1/2 -translate-x-1/2 z-[100] w-[90%] sm:w-auto">
+          <div className={`animate-in slide-in-from-top-12 fade-in duration-300 px-6 py-4 rounded-2xl sm:rounded-full shadow-2xl flex items-center justify-center gap-3 font-semibold text-sm ${message.type === 'success' ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white'}`}>
+            {message.type === 'success' ? <CheckCircle className="w-5 h-5 shrink-0" /> : <AlertTriangle className="w-5 h-5 shrink-0" />}
+            <span className="text-center">{message.text}</span>
           </div>
         </div>
       )}
@@ -72,17 +72,17 @@ export function ProfileEditor({ initialData }: { initialData: any }) {
       <form onSubmit={handleSave} className="space-y-6">
         <div className="space-y-2">
           <label className="block text-sm font-bold text-slate-700">Correo Electrónico</label>
-          <input type="email" disabled value={initialData.email} className="w-full bg-slate-100 border border-slate-200 rounded-xl px-4 py-2.5 text-slate-500 cursor-not-allowed" />
+          <input type="email" disabled value={initialData.email} className="w-full bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 text-base sm:text-sm text-slate-500 cursor-not-allowed" />
           <p className="text-xs text-slate-400">El correo electrónico y el rol no pueden ser modificados.</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
           <div className="space-y-2">
             <label className="block text-sm font-bold text-slate-700">Nombre Completo</label>
-            <input required type="text" value={formData.nombre} onChange={e => setFormData({...formData, nombre: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5" />
+            <input required type="text" value={formData.nombre} onChange={e => setFormData({...formData, nombre: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-base sm:text-sm" />
           </div>
           <div className="space-y-2">
             <label className="block text-sm font-bold text-slate-700">Celular</label>
-            <input type="text" value={formData.celular} onChange={e => setFormData({...formData, celular: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5" />
+            <input type="text" value={formData.celular} onChange={e => setFormData({...formData, celular: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-base sm:text-sm" />
           </div>
         </div>
         
@@ -91,12 +91,12 @@ export function ProfileEditor({ initialData }: { initialData: any }) {
           <p className="text-sm text-slate-500 mb-4">Si deseas cambiar tu contraseña, escríbela a continuación. Debe tener mínimo 6 caracteres, una mayúscula y un carácter especial.</p>
           <div className="space-y-2 max-w-sm">
             <label className="block text-sm font-bold text-slate-700">Nueva Contraseña</label>
-            <input type="password" minLength={6} placeholder="Dejar en blanco para no cambiar" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5" />
+            <input type="password" minLength={6} placeholder="Dejar en blanco para no cambiar" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-base sm:text-sm" />
           </div>
         </div>
 
         <div className="flex justify-end pt-4">
-          <button disabled={saving} type="submit" className="px-6 py-3 rounded-xl font-bold bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-50">
+          <button disabled={saving} type="submit" className="w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-50 min-h-[44px] text-center">
             {saving ? 'Guardando...' : 'Guardar Cambios'}
           </button>
         </div>

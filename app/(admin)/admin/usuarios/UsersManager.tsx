@@ -112,36 +112,36 @@ export function UsersManager({ initialUsers }: { initialUsers: UserData[] }) {
       )}
 
       {editingId !== null ? (
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm animate-in fade-in">
+        <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-sm animate-in fade-in">
           <div className="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
-            <h2 className="text-xl font-bold text-slate-800">
+            <h2 className="text-lg sm:text-xl font-bold text-slate-800">
               {editingId === 'new' ? 'Invitar Nuevo Usuario' : 'Editar Usuario'}
             </h2>
-            <button onClick={() => setEditingId(null)} className="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-50">
+            <button onClick={() => setEditingId(null)} className="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-50 min-w-[40px] min-h-[40px] flex items-center justify-center">
               <X className="w-5 h-5" />
             </button>
           </div>
 
           <form onSubmit={handleSave} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
               {editingId === 'new' && (
                 <div className="space-y-2 md:col-span-2">
                   <label className="block text-sm font-bold text-slate-700">Correo Electrónico</label>
-                  <input required type="email" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5" />
-                  <p className="text-xs text-slate-500">Se le enviará un correo con un enlace para establecer su contraseña.</p>
+                  <input required type="email" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-base sm:text-sm" />
+                  <p className="text-xs text-slate-500">Se le enviará un correo institucional con un enlace seguro para establecer su contraseña.</p>
                 </div>
               )}
               <div className="space-y-2">
                 <label className="block text-sm font-bold text-slate-700">Nombre Completo</label>
-                <input required type="text" value={formData.nombre} onChange={e => setFormData({...formData, nombre: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5" />
+                <input required type="text" value={formData.nombre} onChange={e => setFormData({...formData, nombre: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-base sm:text-sm" />
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-bold text-slate-700">Celular</label>
-                <input type="text" value={formData.celular} onChange={e => setFormData({...formData, celular: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5" />
+                <input type="text" value={formData.celular} onChange={e => setFormData({...formData, celular: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-base sm:text-sm" />
               </div>
               <div className="space-y-2 md:col-span-2">
                 <label className="block text-sm font-bold text-slate-700">Rol</label>
-                <select required value={formData.role} onChange={e => setFormData({...formData, role: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5">
+                <select required value={formData.role} onChange={e => setFormData({...formData, role: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-base sm:text-sm">
                   <option value="admin">Administrador (Acceso total)</option>
                   <option value="editor">Editor (Solo Páginas)</option>
                   <option value="almacenista">Almacenista (Solo Productos)</option>
@@ -150,11 +150,11 @@ export function UsersManager({ initialUsers }: { initialUsers: UserData[] }) {
               </div>
             </div>
             
-            <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
-              <button type="button" onClick={() => setEditingId(null)} className="px-5 py-2.5 rounded-xl font-bold text-slate-600 hover:bg-slate-100 transition-colors">
+            <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-4 border-t border-slate-100">
+              <button type="button" onClick={() => setEditingId(null)} className="w-full sm:w-auto px-5 py-3 rounded-xl font-bold text-slate-600 hover:bg-slate-100 transition-colors text-center min-h-[44px]">
                 Cancelar
               </button>
-              <button disabled={saving} type="submit" className="px-5 py-2.5 rounded-xl font-bold bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-50">
+              <button disabled={saving} type="submit" className="w-full sm:w-auto px-6 py-3 rounded-xl font-bold bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-50 text-center min-h-[44px]">
                 {saving ? 'Guardando...' : editingId === 'new' ? 'Enviar Invitación' : 'Guardar Cambios'}
               </button>
             </div>
@@ -162,15 +162,67 @@ export function UsersManager({ initialUsers }: { initialUsers: UserData[] }) {
         </div>
       ) : (
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-          <div className="p-4 sm:p-6 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
-            <h2 className="font-bold text-slate-800 text-lg">Directorio ({users.length})</h2>
-            <button onClick={startNew} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-bold flex items-center gap-2 text-sm transition-colors">
+          <div className="p-4 sm:p-6 border-b border-slate-200 bg-slate-50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <h2 className="font-bold text-slate-800 text-base sm:text-lg">Directorio ({users.length})</h2>
+            <button onClick={startNew} className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl font-bold flex items-center justify-center gap-2 text-sm transition-colors w-full sm:w-auto min-h-[44px] shadow-sm">
               <Plus className="w-4 h-4" />
               Invitar Usuario
             </button>
           </div>
 
-          <div className="overflow-x-auto">
+          {/* Vista Móvil en Tarjetas (Pantallas < 768px) */}
+          <div className="block md:hidden divide-y divide-slate-100">
+            {users.map(u => (
+              <div key={u.id} className="p-4 space-y-3 hover:bg-slate-50/50 transition-colors">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center text-sm shrink-0">
+                      {(u.nombre || u.email || 'U').charAt(0).toUpperCase()}
+                    </div>
+                    <div className="min-w-0">
+                      <div className="font-bold text-slate-900 text-sm truncate">{u.nombre || 'Sin nombre'}</div>
+                      <div className="text-xs text-slate-500 truncate">{u.email}</div>
+                    </div>
+                  </div>
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-800 uppercase tracking-wide shrink-0">
+                    {u.role}
+                  </span>
+                </div>
+
+                {u.celular && (
+                  <div className="text-xs text-slate-600 pl-13 flex items-center gap-1.5">
+                    <span className="text-slate-400">Tel:</span>
+                    <a href={`tel:${u.celular}`} className="text-blue-600 font-medium hover:underline">{u.celular}</a>
+                  </div>
+                )}
+
+                <div className="flex items-center gap-2 pt-2 border-t border-slate-100">
+                  <button
+                    onClick={() => startEdit(u)}
+                    className="flex-1 py-2 px-3 text-xs font-semibold text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors flex items-center justify-center gap-1.5 min-h-[40px]"
+                  >
+                    <Edit2 className="w-3.5 h-3.5" />
+                    <span>Editar</span>
+                  </button>
+                  <button
+                    onClick={() => handleDelete(u.id)}
+                    className="flex-1 py-2 px-3 text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded-xl transition-colors flex items-center justify-center gap-1.5 min-h-[40px]"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Eliminar</span>
+                  </button>
+                </div>
+              </div>
+            ))}
+            {users.length === 0 && (
+              <div className="p-8 text-center text-slate-500 text-sm">
+                No hay usuarios registrados.
+              </div>
+            )}
+          </div>
+
+          {/* Vista Escritorio en Tabla (Pantallas >= 768px) */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-200 text-sm font-semibold text-slate-600">
@@ -195,10 +247,10 @@ export function UsersManager({ initialUsers }: { initialUsers: UserData[] }) {
                     </td>
                     <td className="p-4 text-right">
                       <div className="flex justify-end gap-2">
-                        <button onClick={() => startEdit(u)} className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                        <button onClick={() => startEdit(u)} className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors min-w-[36px] min-h-[36px] flex items-center justify-center" title="Editar">
                           <Edit2 className="w-4 h-4" />
                         </button>
-                        <button onClick={() => handleDelete(u.id)} className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                        <button onClick={() => handleDelete(u.id)} className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors min-w-[36px] min-h-[36px] flex items-center justify-center" title="Eliminar">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
