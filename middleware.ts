@@ -97,8 +97,8 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // If user is logged in and tries to access /login, redirect to /admin
-  if (user && pathname.startsWith('/login')) {
+  // If user is logged in and tries to access /login, redirect to /admin (except /login/actualizar-password)
+  if (user && pathname.startsWith('/login') && !pathname.startsWith('/login/actualizar-password')) {
     return NextResponse.redirect(new URL('/admin', request.url))
   }
 

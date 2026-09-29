@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import { FadeContent } from "@/components/react-bits/fade-content";
 
+import { submitContactForm } from "@/app/contacto/actions";
+
 // WhatsApp Official SVG Icon
 function WhatsAppIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
@@ -57,16 +59,25 @@ export function ContactFormSection({ descripcionData, datosData }: { descripcion
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setErrorMessage(null);
 
-    // Simulate submission delay
-    setTimeout(() => {
+    try {
+      const result = await submitContactForm(formData);
+      if (result.success) {
+        setIsSubmitted(true);
+      } else {
+        setErrorMessage(result.error || "Ocurrió un error al enviar el formulario.");
+      }
+    } catch (err: any) {
+      setErrorMessage(err.message || "Error inesperado al conectar con el servidor.");
+    } finally {
       setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 1200);
+    }
   };
 
   const handleChange = (
@@ -233,6 +244,12 @@ export function ContactFormSection({ descripcionData, datosData }: { descripcion
                         Diligencia el formulario y te responderemos a la mayor brevedad.
                       </p>
                     </div>
+
+                    {errorMessage && (
+                      <div className="p-4 bg-red-50 border border-red-200 text-red-700 text-xs sm:text-sm rounded-xl font-medium">
+                        {errorMessage}
+                      </div>
+                    )}
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       {/* Full Name */}

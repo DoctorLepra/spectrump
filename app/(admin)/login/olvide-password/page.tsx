@@ -1,36 +1,34 @@
 'use client'
 
 import { useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
+import { sendPasswordResetEmail } from './actions'
 
 export default function OlvidePasswordPage() {
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState<{type: 'success' | 'error', text: string} | null>(null)
   const [loading, setLoading] = useState(false)
   const router = useRouter()
-  const supabase = createClient()
 
   const handleReset = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setMessage(null)
     
-    // Asumimos que la URL actual es localhost:3000 o el dominio de producción
-    const redirectUrl = `${window.location.origin}/login/actualizar-password`
-
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: redirectUrl,
-    })
-
-    if (error) {
-      setMessage({ type: 'error', text: error.message })
-    } else {
-      setMessage({ type: 'success', text: 'Se ha enviado un enlace de recuperación a tu correo electrónico.' })
+    try {
+      const result = await sendPasswordResetEmail(email)
+      if (result.success) {
+        setMessage({ type: 'success', text: result.message || 'Se ha enviado un enlace de recuperación a tu correo electrónico.' })
+      } else {
+        setMessage({ type: 'error', text: result.error || 'Ocurrió un error al enviar el enlace de recuperación.' })
+      }
+    } catch (err: any) {
+      setMessage({ type: 'error', text: err.message || 'Error inesperado al conectar con el servidor.' })
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   return (
