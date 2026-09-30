@@ -51,6 +51,8 @@ export function EconectaSection({ data, items }: { data?: any, items?: any[] }) 
           loop
           muted
           playsInline
+          preload="none"
+          poster={data?.poster_url ? data.poster_url : undefined}
           className="w-full h-full object-cover object-center scale-[1.02]"
         >
           <source src={videoUrl} type="video/mp4" />

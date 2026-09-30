@@ -16,6 +16,7 @@ export function EconectaCierreDescripcion({ data }: { data?: any }) {
           loop
           muted
           playsInline
+          preload="none"
           className="w-full h-full object-cover object-center scale-[1.02]"
         >
           <source src={videoUrl} type="video/mp4" />

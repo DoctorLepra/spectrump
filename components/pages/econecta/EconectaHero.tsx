@@ -37,6 +37,8 @@ export function EconectaHero({ data }: { data?: any }) {
           loop
           muted
           playsInline
+          preload="metadata"
+          poster={data?.poster_url ? data.poster_url : undefined}
           className="w-full h-full object-cover object-center scale-[1.02]"
         >
           <source src={videoUrl} type="video/mp4" />
